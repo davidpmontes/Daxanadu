@@ -8,11 +8,6 @@ public class Conversation : MonoBehaviour
     [SerializeField] private GameObject portraitDialogueBox;
     [SerializeField] private GameObject landscapeDialogueBox;
 
-    [SerializeField] private GameObject[] alphabetLower;
-    [SerializeField] private GameObject[] alphabetUpper;
-    [SerializeField] private GameObject[] digits;
-    [SerializeField] private GameObject[] specialCharacters;
-
     [SerializeField] private GameObject cursorStart;
     [SerializeField] private GameObject cursor;
 
@@ -55,26 +50,26 @@ public class Conversation : MonoBehaviour
             for (int i = 0; i < line.Length; i++)
             {
                 string symbol = line.Substring(i, 1);
-                if ("abcdefghijklmnopqrstuvwxyz".Contains(symbol))
+                if ("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789',\"!-.?_".Contains(symbol))
                 {
-                    var letter = Instantiate(alphabetLower["abcdefghijklmnopqrstuvwxyz".IndexOf(symbol)]);
+                    switch(symbol)
+                    {
+                        case "'": symbol = "apostrophe"; break;
+                        case ",": symbol = "comma"; break;
+                        case "\"": symbol = "doubleQuotes"; break;
+                        case "!": symbol = "exclamationPoint"; break;
+                        case "-": symbol = "hyphen"; break;
+                        case ".": symbol = "period"; break;
+                        case "?": symbol = "questionMark"; break;
+                        case "_": symbol = "underscore"; break;
+                    }
+
+                    AlphabetPool.Pools parsed_enum = (AlphabetPool.Pools)System.Enum.Parse(typeof(AlphabetPool.Pools), "_" + symbol);
+                    var letter = AlphabetPool.Instance.GetFromPoolInactive(parsed_enum);
                     letter.transform.position = cursor.transform.position;
+                    letter.SetActive(true);
                 }
-                else if ("ABCDEFGHIJKLMNOPQRSTUVWXYZ".Contains(symbol))
-                {
-                    var letter = Instantiate(alphabetUpper["ABCDEFGHIJKLMNOPQRSTUVWXYZ".IndexOf(symbol)]);
-                    letter.transform.position = cursor.transform.position;
-                }
-                else if ("0123456789".Contains(symbol))
-                {
-                    var letter = Instantiate(digits["0123456789".IndexOf(symbol)]);
-                    letter.transform.position = cursor.transform.position;
-                }
-                else if ("',\"!-.?_".Contains(symbol))
-                {
-                    var letter = Instantiate(specialCharacters["',\"!-.?_".IndexOf(symbol)]);
-                    letter.transform.position = cursor.transform.position;
-                }
+
                 cursor.transform.position += new Vector3(0.5f, 0, 0);
                 yield return new WaitForSeconds(0.1f);
             }
