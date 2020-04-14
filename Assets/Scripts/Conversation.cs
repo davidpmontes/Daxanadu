@@ -24,6 +24,9 @@ public class Conversation : MonoBehaviour
     private List<GameObject> letters = new List<GameObject>();
     private IEnumerator caretBlinkCoroutine;
 
+    public delegate void ConversationHandler();
+    public event ConversationHandler Ended;
+
     //20 characters max per line, excluding > and ^
     private string[] convo = new string[] {
         "Glad you could",
@@ -60,7 +63,7 @@ public class Conversation : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (InputController.Instance.isJumpStart)
         {
             switch(state)
             {
@@ -72,15 +75,14 @@ public class Conversation : MonoBehaviour
                     state = STATES.NORMAL;
                     break;
                 case STATES.FINISH:
-                    StopCoroutine(caretBlinkCoroutine);
-                    caretFinished.SetActive(false);
-                    caretNext.SetActive(false);
-                    Player.Instance.GetComponent<Player>().Unpause();
-                    portraitDialogueBox.SetActive(false);
-                    landscapeDialogueBox.SetActive(false);
-                    RecycleLetters();
+                    HideConversation();
                     break;
             }
+        }
+
+        if (InputController.Instance.isCancel)
+        {
+            HideConversation();
         }
     }
 
@@ -101,8 +103,14 @@ public class Conversation : MonoBehaviour
 
     public void HideConversation()
     {
+        StopAllCoroutines();
+        caretFinished.SetActive(false);
+        caretNext.SetActive(false);
+        Player.Instance.GetComponent<Player>().Unpause();
         portraitDialogueBox.SetActive(false);
         landscapeDialogueBox.SetActive(false);
+        RecycleLetters();
+        Ended.Invoke();
     }
 
     IEnumerator DrawConversation()

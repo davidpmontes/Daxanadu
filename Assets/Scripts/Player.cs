@@ -76,7 +76,6 @@ public class Player : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     private Animator animator;
     private Vector2 velocity;
-    private Vector2 directionalInput;
     private float timeToWallUnstick;
     private float gravity;
     private float maxJumpVelocity;
@@ -85,9 +84,7 @@ public class Player : MonoBehaviour
     private float velocityYSmoothing;
     private bool wallSliding;
     private int wallDirX;
-
-    public float horizontal;
-    public float vertical;
+    private Vector2 directionalInput;
 
     private void Awake()
     {
@@ -122,11 +119,17 @@ public class Player : MonoBehaviour
         }
     }
 
+    private void GetInput()
+    {
+        directionalInput = InputController.Instance.DirectionalInput;
+        if (InputController.Instance.isJumpStart) OnJumpInputDown();
+        if (InputController.Instance.isJumpStop) OnJumpInputUp();
+    }
+
     private void CalculateVelocity()
     {
         float targetVelocityX = directionalInput.x * moveSpeed;
         float targetVelocityY = directionalInput.y * moveSpeed;
-
 
         if (AirControlEnabled)
         {
@@ -204,30 +207,13 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void GetInput()
-    {
-        horizontal = Input.GetAxisRaw("Horizontal");
-        vertical = Input.GetAxisRaw("Vertical");
-        directionalInput = new Vector2(horizontal, vertical);
-
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            OnJumpInputDown();
-        }
-
-        if (Input.GetKeyUp(KeyCode.Space))
-        {
-            OnJumpInputUp();
-        }
-    }
-
     private void UpdateAnimations()
     {
-        if (horizontal > 0)
+        if (directionalInput.x > 0)
         {
             spriteRenderer.flipX = false;
         }
-        else if (horizontal < 0)
+        else if (directionalInput.x < 0)
         {
             spriteRenderer.flipX = true;
         }
@@ -267,7 +253,9 @@ public class Player : MonoBehaviour
                     velocity.y = maxJumpVelocity * controller.collisions.slopeNormal.y;
                     velocity.x = maxJumpVelocity * controller.collisions.slopeNormal.x;
                 }
-            } else {
+            }
+            else
+            {
                 velocity.y = maxJumpVelocity;
             }
         }

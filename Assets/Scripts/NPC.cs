@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 
 [RequireComponent(typeof(SpriteRenderer))]
+[RequireComponent(typeof(BoxCollider2D))]
+[RequireComponent(typeof(Animator))]
 public class NPC : MonoBehaviour
 {
     [SerializeField]
@@ -26,15 +28,18 @@ public class NPC : MonoBehaviour
     private Vector2[] globalWaypoints;
     private Vector2 velocity;
     private SpriteRenderer spriteRenderer;
+    private Animator animator;
 
     public void Awake()
     {
+        animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         globalWaypoints = new Vector2[localWaypoints.Length];
         for (int i = 0; i < localWaypoints.Length; i++)
         {
             globalWaypoints[i] = localWaypoints[i] + new Vector2(transform.position.x, transform.position.y);
         }
+        Conversation.Instance.Ended += OnConversationEnded;
     }
 
     private void Update()
@@ -42,6 +47,22 @@ public class NPC : MonoBehaviour
         velocity = CalculatePlatformMovement();
         transform.Translate(velocity);
         FlipSprite();
+    }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (InputController.Instance.DirectionalInput.y > 0.5f)
+        {
+            Conversation.Instance.ShowConversation();
+            animator.enabled = false;
+            enabled = false;
+        }
+    }
+
+    private void OnConversationEnded()
+    {
+        enabled = true;
+        animator.enabled = true;
     }
 
     private void FlipSprite()

@@ -121,6 +121,53 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &85085174
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 85085176}
+  - component: {fileID: 85085175}
+  m_Layer: 0
+  m_Name: Input
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &85085175
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 85085174}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 498839c5e971844e48ec516bc7123fcc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DirectionalInput: {x: 0, y: 0}
+  isJumpStart: 0
+  isJumpStop: 0
+  isCancel: 0
+--- !u!4 &85085176
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 85085174}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &191072777
 GameObject:
   m_ObjectHideFlags: 0
@@ -16981,8 +17028,6 @@ MonoBehaviour:
   wallLeap: {x: 18, y: 17}
   wallSlideSpeedMax: 3
   wallStickTime: 0.25
-  horizontal: 0
-  vertical: 0
 --- !u!114 &1926752109
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17277,7 +17322,7 @@ GameObject:
   - component: {fileID: 2022380258}
   - component: {fileID: 2022380257}
   - component: {fileID: 2022380261}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: NPC1
   m_TagString: Player
   m_Icon: {fileID: 0}
