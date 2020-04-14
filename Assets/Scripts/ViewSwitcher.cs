@@ -12,7 +12,7 @@ public class ViewSwitcher : MonoBehaviour
     private float transitionPercent;
     private Vector3 oldPosition;
 
-    private int BOUNDS_WIDTH = 17;
+    private int BOUNDS_WIDTH = 16;
     private int BOUNDS_HEIGHT = 15;
 
     private void Awake()
@@ -28,7 +28,7 @@ public class ViewSwitcher : MonoBehaviour
         {
             if (!bounds.Contains(player.transform.position))
             {
-                player.GetComponent<Player>().PauseForTransitions();
+                player.GetComponent<Player>().Pause();
                 if (player.transform.position.x > bounds.max.x)
                 {
                     direction = new Vector2(1, 0);
@@ -58,7 +58,7 @@ public class ViewSwitcher : MonoBehaviour
             transform.position = newPosition;
             if (transitionPercent > 1)
             {
-                player.GetComponent<Player>().UnpauseForTransitions();
+                player.GetComponent<Player>().Unpause();
                 bounds.center = transform.position;
                 state = "playing";
             }
@@ -67,11 +67,11 @@ public class ViewSwitcher : MonoBehaviour
 
     public void Teleporting(Vector2 playerDestination, Vector2 cameraDestination)
     {
-        player.GetComponent<Player>().PauseForTransitions();
+        player.GetComponent<Player>().Pause();
         transform.position = cameraDestination + new Vector2(0, 2);
         bounds.center = cameraDestination + new Vector2(0, 2);
         Player.Instance.transform.position = playerDestination;
-        player.GetComponent<Player>().UnpauseForTransitions();
+        player.GetComponent<Player>().Unpause();
     }
 
     private void OnDrawGizmos()

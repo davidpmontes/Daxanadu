@@ -12,7 +12,7 @@ public class AlphabetPool : MonoBehaviour
         _Q, _R, _S, _T, _U, _V, _W, _X, _Y, _Z,
         _0, _1, _2, _3, _4, _5, _6, _7, _8, _9,
         _apostrophe, _comma, _doubleQuotes, _exclamationPoint, _hyphen,
-        _period, _questionMark, _underscore
+        _period, _questionMark, _underscore, _caret
     };
 
     public GameObject[] prefabs;
@@ -36,8 +36,7 @@ public class AlphabetPool : MonoBehaviour
 
         foreach (Pools item in Enum.GetValues(typeof(Pools)))
         {
-            int amount = 5;
-            GrowPool(item, amount);
+            GrowPool(item, 3);
         }
     }
 

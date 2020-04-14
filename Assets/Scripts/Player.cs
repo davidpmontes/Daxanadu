@@ -278,13 +278,13 @@ public class Player : MonoBehaviour
         velocity.y = Mathf.Min(velocity.y, minJumpVelocity);
     }
 
-    public void PauseForTransitions()
+    public void Pause()
     {
         enabled = false;
         animator.enabled = false;
     }
 
-    public void UnpauseForTransitions()
+    public void Unpause()
     {
         enabled = true;
         animator.enabled = true;
