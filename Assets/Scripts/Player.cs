@@ -1,8 +1,10 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
-[RequireComponent (typeof (Controller2D))]
 [RequireComponent (typeof (SpriteRenderer))]
 [RequireComponent (typeof (Animator))]
+[RequireComponent (typeof (BoxCollider2D))]
 public class Player : MonoBehaviour
 {
     public static Player Instance { get; private set; }
@@ -85,6 +87,7 @@ public class Player : MonoBehaviour
     private bool wallSliding;
     private int wallDirX;
     private Vector2 directionalInput;
+    private bool isInvincible;
 
     private void Awake()
     {
@@ -95,6 +98,7 @@ public class Player : MonoBehaviour
         gravity = -2 * maxJumpHeight / Mathf.Pow(timeToJumpApex, 2);
         minJumpVelocity = Mathf.Sqrt(2 * Mathf.Abs(gravity) * minJumpHeight);
         maxJumpVelocity = Mathf.Abs(gravity) * timeToJumpApex;
+        isInvincible = false;
     }
 
     private void Update()
@@ -276,5 +280,27 @@ public class Player : MonoBehaviour
     {
         enabled = true;
         animator.enabled = true;
+    }
+
+    public void OnEnemyCollided(Vector2 enemyPosition)
+    {
+        if (isInvincible)
+            return;
+
+        velocity.x = Mathf.Sign(transform.position.x - enemyPosition.x) * 15;
+        StartCoroutine(TemporaryInvincible());
+    }
+
+    IEnumerator TemporaryInvincible()
+    {
+        float startTime = Time.time + 1;
+        isInvincible = true;
+        while(Time.time < startTime)
+        {
+            spriteRenderer.enabled = !spriteRenderer.enabled;
+            yield return new WaitForSeconds(0.1f);
+        }
+        isInvincible = false;
+        spriteRenderer.enabled = true;
     }
 }

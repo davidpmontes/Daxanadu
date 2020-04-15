@@ -11,6 +11,7 @@ public class InputController : MonoBehaviour
     public bool isJumpStart;
     public bool isJumpStop;
     public bool isCancel;
+    public bool isSpaceDown;
 
     private void Awake()
     {
@@ -28,6 +29,7 @@ public class InputController : MonoBehaviour
         vertical = Input.GetAxisRaw("Vertical");
         DirectionalInput = new Vector2(horizontal, vertical);
 
+        isSpaceDown = Input.GetKey(KeyCode.Space);
         isJumpStart = Input.GetKeyDown(KeyCode.Space);
         isJumpStop = Input.GetKeyUp(KeyCode.Space);
         isCancel = Input.GetKey(KeyCode.Backspace);

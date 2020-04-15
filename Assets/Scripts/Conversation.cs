@@ -24,6 +24,10 @@ public class Conversation : MonoBehaviour
     private List<GameObject> letters = new List<GameObject>();
     private IEnumerator caretBlinkCoroutine;
 
+    private readonly float SLOW_SPEED = 0.1f;
+    private readonly float FAST_SPEED = 0.03f;
+    private float speed;
+
     public delegate void ConversationHandler();
     public event ConversationHandler Ended;
 
@@ -59,6 +63,7 @@ public class Conversation : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+        speed = SLOW_SPEED;
     }
 
     private void Update()
@@ -78,6 +83,15 @@ public class Conversation : MonoBehaviour
                     HideConversation();
                     break;
             }
+        }
+
+        if (InputController.Instance.isSpaceDown)
+        {
+            speed = FAST_SPEED;
+        }
+        else
+        {
+            speed = SLOW_SPEED;
         }
 
         if (InputController.Instance.isCancel)
@@ -163,7 +177,7 @@ public class Conversation : MonoBehaviour
                 }
 
                 cursor.transform.position += new Vector3(0.5f, 0, 0);
-                yield return new WaitForSeconds(0.1f);
+                yield return new WaitForSeconds(speed);
             }
 
             if (state != STATES.FINISH)
