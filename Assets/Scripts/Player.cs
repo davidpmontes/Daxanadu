@@ -128,6 +128,7 @@ public class Player : MonoBehaviour
         directionalInput = InputController.Instance.DirectionalInput;
         if (InputController.Instance.isJumpStart) OnJumpInputDown();
         if (InputController.Instance.isJumpStop) OnJumpInputUp();
+        if (InputController.Instance.isAttackStart) OnAttack();
     }
 
     private void CalculateVelocity()
@@ -268,6 +269,11 @@ public class Player : MonoBehaviour
     public void OnJumpInputUp()
     {
         velocity.y = Mathf.Min(velocity.y, minJumpVelocity);
+    }
+
+    private void OnAttack()
+    {
+        animator.SetTrigger("attack");
     }
 
     public void Pause()
