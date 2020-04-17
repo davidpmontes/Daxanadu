@@ -74,8 +74,11 @@ public class Player : MonoBehaviour
         "trying to move away.")]
     private  float wallStickTime = 0.25f;
 
+    [SerializeField]
+    private GameObject Weapon;
+
     private Controller2D controller;
-    private SpriteRenderer spriteRenderer;
+    public SpriteRenderer spriteRenderer;
     private Animator animator;
     private Vector2 velocity;
     private float timeToWallUnstick;
@@ -274,6 +277,16 @@ public class Player : MonoBehaviour
     private void OnAttack()
     {
         animator.SetTrigger("attack");
+    }
+
+    private void OnWeaponAttackingStart()
+    {
+        Weapon.SetActive(true);
+    }
+
+    private void OnWeaponAttackingEnd()
+    {
+        Weapon.SetActive(false);
     }
 
     public void Pause()
