@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(BoxCollider2D))]
@@ -84,6 +83,7 @@ public class GreenSlime : MonoBehaviour
     private int wallDirX;
     private Vector2 directionalInput;
     private float NextActionTime;
+    private bool isInvincible;
 
     private void Awake()
     {
@@ -121,7 +121,6 @@ public class GreenSlime : MonoBehaviour
     {
         if (NextActionTime < Time.time)
         {
-            Debug.Log("new action");
             directionalInput = new Vector2(Player.Instance.transform.position.x > transform.position.x ? 1 : -1, 0);
             OnJumpInputDown();
             NextActionTime = Time.time + 2;
@@ -274,11 +273,29 @@ public class GreenSlime : MonoBehaviour
     {
         if (collision.gameObject.name == "Player")
         {
-            Player.Instance.OnEnemyCollided(transform.position);
+            Player.Instance.OnReceiveDamage(transform.position);
         }
-        else if (collision.gameObject.name == "Weapon")
+    }
+
+    public void OnReceiveDamage(Vector2 enemyPosition)
+    {
+        //if (isInvincible)
+        //    return;
+
+        velocity.x = Mathf.Sign(transform.position.x - enemyPosition.x) * 5;
+        //StartCoroutine(TemporaryInvincible());
+    }
+
+    IEnumerator TemporaryInvincible()
+    {
+        float startTime = Time.time + 1;
+        isInvincible = true;
+        while (Time.time < startTime)
         {
-            Debug.Log("Hit enemy");
+            spriteRenderer.enabled = !spriteRenderer.enabled;
+            yield return new WaitForSeconds(0.1f);
         }
+        isInvincible = false;
+        spriteRenderer.enabled = true;
     }
 }
