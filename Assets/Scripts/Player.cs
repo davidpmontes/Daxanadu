@@ -1,8 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-[RequireComponent (typeof (SpriteRenderer))]
-[RequireComponent (typeof (Animator))]
+[RequireComponent (typeof (CharacterAnimator))]
 [RequireComponent (typeof (BoxCollider2D))]
 public class Player : MonoBehaviour
 {
@@ -76,9 +75,8 @@ public class Player : MonoBehaviour
     [SerializeField]
     private GameObject Weapon;
 
+    private CharacterAnimator characterAnimator;
     private Controller2D controller;
-    public SpriteRenderer spriteRenderer;
-    private Animator animator;
     private Vector2 velocity;
     private float timeToWallUnstick;
     private float gravity;
@@ -94,9 +92,8 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+        characterAnimator = GetComponent<CharacterAnimator>();
         controller = GetComponent<Controller2D>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
-        animator = GetComponent<Animator>();
         gravity = -2 * maxJumpHeight / Mathf.Pow(timeToJumpApex, 2);
         minJumpVelocity = Mathf.Sqrt(2 * Mathf.Abs(gravity) * minJumpHeight);
         maxJumpVelocity = Mathf.Abs(gravity) * timeToJumpApex;
@@ -106,7 +103,7 @@ public class Player : MonoBehaviour
     private void Update()
     {
         GetInput();
-        UpdateAnimations();
+        characterAnimator.UpdateAnimations(directionalInput);
         CalculateVelocity();
         if (wallJumpsEnabled) HandleWallSliding();
 
@@ -214,18 +211,6 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void UpdateAnimations()
-    {
-        if (directionalInput.x > 0)
-        {
-            spriteRenderer.flipX = false;
-        }
-        else if (directionalInput.x < 0)
-        {
-            spriteRenderer.flipX = true;
-        }
-    }
-
     public void OnJumpInputDown()
     {
         if (wallSliding)
@@ -275,7 +260,8 @@ public class Player : MonoBehaviour
 
     private void OnAttack()
     {
-        animator.SetTrigger("attack");
+        //animator.SetTrigger("attack");
+        characterAnimator.OnAttack();
     }
 
     private void OnWeaponAttackingStart()
@@ -291,13 +277,13 @@ public class Player : MonoBehaviour
     public void Pause()
     {
         enabled = false;
-        animator.enabled = false;
+        //animator.enabled = false;
     }
 
     public void Unpause()
     {
         enabled = true;
-        animator.enabled = true;
+        //animator.enabled = true;
     }
 
     public void OnReceiveDamage(Vector2 enemyPosition)
@@ -315,10 +301,12 @@ public class Player : MonoBehaviour
         isInvincible = true;
         while(Time.time < startTime)
         {
-            spriteRenderer.enabled = !spriteRenderer.enabled;
+            //spriteRenderer.enabled = !spriteRenderer.enabled;
+            characterAnimator.ToggleSpriteRendererVisibility();
             yield return new WaitForSeconds(0.1f);
         }
         isInvincible = false;
-        spriteRenderer.enabled = true;
+        //spriteRenderer.enabled = true;
+        characterAnimator.SetSpriteRendererVisibility(true);
     }
 }

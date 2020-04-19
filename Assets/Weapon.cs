@@ -6,7 +6,7 @@ public class Weapon : MonoBehaviour
     private void Update()
     {
         transform.position = Player.Instance.transform.position;
-        transform.localScale = new Vector3(Player.Instance.spriteRenderer.flipX ? -1 : 1, 1, 1);
+        //transform.localScale = new Vector3(Player.Instance.spriteRenderer.flipX ? -1 : 1, 1, 1);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
