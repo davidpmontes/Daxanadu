@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 
 [RequireComponent (typeof (CharacterAnimator))]
 [RequireComponent (typeof (BoxCollider2D))]
@@ -88,6 +89,11 @@ public class Player : MonoBehaviour
     private int wallDirX;
     private Vector2 directionalInput;
     private bool isInvincible;
+    private float maxLife = 100;
+    private float currLife = 100;
+
+    public UnityEvent OnAttackEvent;
+    public UnityEvent OnDamageReceiveEvent;
 
     private void Awake()
     {
@@ -260,30 +266,22 @@ public class Player : MonoBehaviour
 
     private void OnAttack()
     {
-        //animator.SetTrigger("attack");
-        characterAnimator.OnAttack();
-    }
-
-    private void OnWeaponAttackingStart()
-    {
-        Weapon.SetActive(true);
-    }
-
-    private void OnWeaponAttackingEnd()
-    {
-        Weapon.SetActive(false);
+        OnAttackEvent.Invoke();
     }
 
     public void Pause()
     {
         enabled = false;
-        //animator.enabled = false;
     }
 
     public void Unpause()
     {
         enabled = true;
-        //animator.enabled = true;
+    }
+
+    public float GetLifePercentage()
+    {
+        return currLife / maxLife;
     }
 
     public void OnReceiveDamage(Vector2 enemyPosition)
@@ -291,8 +289,10 @@ public class Player : MonoBehaviour
         if (isInvincible)
             return;
 
+        currLife -= 5;
         velocity.x = Mathf.Sign(transform.position.x - enemyPosition.x) * 15;
         StartCoroutine(TemporaryInvincible());
+        OnDamageReceiveEvent.Invoke();
     }
 
     IEnumerator TemporaryInvincible()

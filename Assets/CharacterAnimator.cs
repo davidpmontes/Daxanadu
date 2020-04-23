@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class CharacterAnimator : MonoBehaviour
 {
@@ -12,14 +13,14 @@ public class CharacterAnimator : MonoBehaviour
     [SerializeField] private SpriteRenderer body;
     [SerializeField] private SpriteRenderer weapon;
 
-    [SerializeField] private BoxCollider2D weaponKnifeCollider;
-
     private float frameRateWalking = 0.2f;
     private float frameRateAttacking = 0.1f;
 
+    public UnityEvent OnAttackStartFrame;
+    public UnityEvent OnAttackEndFrame;
+
     private void Start()
     {
-        weaponKnifeCollider.enabled = false;
         StartCoroutine(WalkingFrames());
     }
 
@@ -73,7 +74,7 @@ public class CharacterAnimator : MonoBehaviour
         {
             if (frame == 2)
             {
-                weaponKnifeCollider.enabled = true;
+                OnAttackStartFrame.Invoke();
             }
 
             body.sprite = attacking_body[frame];
@@ -81,7 +82,7 @@ public class CharacterAnimator : MonoBehaviour
             frame += 1;
             yield return new WaitForSeconds(frameRateAttacking);
         }
-        weaponKnifeCollider.enabled = false;
+        OnAttackEndFrame.Invoke();
         StartCoroutine(WalkingFrames());
     }
 }

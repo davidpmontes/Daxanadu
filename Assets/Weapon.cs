@@ -2,6 +2,11 @@
 
 public class Weapon : MonoBehaviour
 {
+    private void Awake()
+    {
+        gameObject.SetActive(false);
+    }
+
     private void Update()
     {
         transform.position = Player.Instance.transform.position;

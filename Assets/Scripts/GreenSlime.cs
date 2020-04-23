@@ -83,7 +83,7 @@ public class GreenSlime : MonoBehaviour
     private int wallDirX;
     private Vector2 directionalInput;
     private float NextActionTime;
-    private bool isInvincible;
+    private int life = 5;
 
     private void Awake()
     {
@@ -279,23 +279,11 @@ public class GreenSlime : MonoBehaviour
 
     public void OnReceiveDamage(Vector2 enemyPosition)
     {
-        //if (isInvincible)
-        //    return;
-
         velocity.x = Mathf.Sign(transform.position.x - enemyPosition.x) * 5;
-        //StartCoroutine(TemporaryInvincible());
-    }
-
-    IEnumerator TemporaryInvincible()
-    {
-        float startTime = Time.time + 1;
-        isInvincible = true;
-        while (Time.time < startTime)
+        life -= 1;
+        if (life <= 0)
         {
-            spriteRenderer.enabled = !spriteRenderer.enabled;
-            yield return new WaitForSeconds(0.1f);
+            Destroy(gameObject);
         }
-        isInvincible = false;
-        spriteRenderer.enabled = true;
     }
 }

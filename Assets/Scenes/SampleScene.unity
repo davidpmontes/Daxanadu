@@ -266,6 +266,7 @@ GameObject:
   m_Component:
   - component: {fileID: 159279681}
   - component: {fileID: 159279682}
+  - component: {fileID: 159279683}
   m_Layer: 0
   m_Name: Healthbar
   m_TagString: Untagged
@@ -340,6 +341,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &159279683
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 159279680}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2d4b44fcfdf74694a974b9261e9def2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  greenBar: {fileID: 230736161}
 --- !u!1 &191072777
 GameObject:
   m_ObjectHideFlags: 0
@@ -8934,7 +8948,7 @@ GameObject:
   - component: {fileID: 230736162}
   - component: {fileID: 230736163}
   m_Layer: 0
-  m_Name: bar
+  m_Name: greenbar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9021,7 +9035,7 @@ GameObject:
   - component: {fileID: 306676359}
   - component: {fileID: 306676360}
   m_Layer: 0
-  m_Name: bar
+  m_Name: redbar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13070,7 +13084,7 @@ GameObject:
   - component: {fileID: 1134412137}
   - component: {fileID: 1134412136}
   m_Layer: 9
-  m_Name: Body
+  m_Name: BodySprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13792,7 +13806,7 @@ GameObject:
   - component: {fileID: 1397051512}
   - component: {fileID: 1397051511}
   m_Layer: 9
-  m_Name: Weapon
+  m_Name: WeaponsSprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -19232,6 +19246,34 @@ MonoBehaviour:
   wallSlideSpeedMax: 3
   wallStickTime: 0.25
   Weapon: {fileID: 0}
+  OnAttackEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1926752111}
+        m_MethodName: OnAttack
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnDamageReceiveEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 159279683}
+        m_MethodName: OnPlayerDamage
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1926752109
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19311,7 +19353,34 @@ MonoBehaviour:
   - {fileID: 3320142419207137325, guid: 0386fd54dd5d24531a65e1c706ac5013, type: 3}
   body: {fileID: 1134412136}
   weapon: {fileID: 1397051511}
-  weaponKnifeCollider: {fileID: 685454286}
+  OnAttackStartFrame:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1576783906}
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+  OnAttackEndFrame:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1576783906}
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!4 &1926752112
 Transform:
   m_ObjectHideFlags: 0
