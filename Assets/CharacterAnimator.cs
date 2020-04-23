@@ -7,15 +7,19 @@ public class CharacterAnimator : MonoBehaviour
     [SerializeField] private Sprite[] walking_weapon;
 
     [SerializeField] private Sprite[] attacking_body;
-    [SerializeField] private Sprite[] attacking_weapon;
+    [SerializeField] private Sprite[] attacking_weapon_knife;
 
     [SerializeField] private SpriteRenderer body;
     [SerializeField] private SpriteRenderer weapon;
 
-    private float frameRate = 0.2f;
+    [SerializeField] private BoxCollider2D weaponKnifeCollider;
+
+    private float frameRateWalking = 0.2f;
+    private float frameRateAttacking = 0.1f;
 
     private void Start()
     {
+        weaponKnifeCollider.enabled = false;
         StartCoroutine(WalkingFrames());
     }
 
@@ -29,13 +33,11 @@ public class CharacterAnimator : MonoBehaviour
     {
         if (directionalInput.x > 0)
         {
-            body.flipX = false;
-            weapon.flipX = false;
+            transform.localScale = new Vector3(1, 1);
         }
         else if (directionalInput.x < 0)
         {
-            body.flipX = true;
-            weapon.flipX = true;
+            transform.localScale = new Vector3(-1, 1);
         }
     }
 
@@ -60,7 +62,7 @@ public class CharacterAnimator : MonoBehaviour
             body.sprite = walking_body[frame];
             weapon.sprite = walking_weapon[frame];
             frame = (frame + 1) % 4;
-            yield return new WaitForSeconds(frameRate);
+            yield return new WaitForSeconds(frameRateWalking);
         }
     }
 
@@ -69,11 +71,17 @@ public class CharacterAnimator : MonoBehaviour
         int frame = 0;
         while (frame < 3)
         {
+            if (frame == 2)
+            {
+                weaponKnifeCollider.enabled = true;
+            }
+
             body.sprite = attacking_body[frame];
-            weapon.sprite = attacking_weapon[frame];
+            weapon.sprite = attacking_weapon_knife[frame];
             frame += 1;
-            yield return new WaitForSeconds(frameRate);
+            yield return new WaitForSeconds(frameRateAttacking);
         }
+        weaponKnifeCollider.enabled = false;
         StartCoroutine(WalkingFrames());
     }
 }
