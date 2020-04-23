@@ -13,6 +13,7 @@ public class InputController : MonoBehaviour
     public bool isCancel;
     public bool isSpaceDown;
     public bool isAttackStart;
+    public bool isMagicStart;
 
     private void Awake()
     {
@@ -35,5 +36,6 @@ public class InputController : MonoBehaviour
         isJumpStart = Input.GetKeyDown(KeyCode.Space);
         isJumpStop = Input.GetKeyUp(KeyCode.Space);
         isCancel = Input.GetKey(KeyCode.Backspace);
+        isMagicStart = Input.GetKeyDown(KeyCode.K);
     }
 }

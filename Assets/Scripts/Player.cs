@@ -91,9 +91,12 @@ public class Player : MonoBehaviour
     private bool isInvincible;
     private float maxLife = 100;
     private float currLife = 100;
+    private float maxMagic = 100;
+    private float currMagic = 100;
 
     public UnityEvent OnAttackEvent;
     public UnityEvent OnDamageReceiveEvent;
+    public UnityEvent OnMagicUsedEvent;
 
     private void Awake()
     {
@@ -134,6 +137,7 @@ public class Player : MonoBehaviour
         if (InputController.Instance.isJumpStart) OnJumpInputDown();
         if (InputController.Instance.isJumpStop) OnJumpInputUp();
         if (InputController.Instance.isAttackStart) OnAttack();
+        if (InputController.Instance.isMagicStart) OnMagicUsed();
     }
 
     private void CalculateVelocity()
@@ -284,6 +288,11 @@ public class Player : MonoBehaviour
         return currLife / maxLife;
     }
 
+    public float GetMagicPercentage()
+    {
+        return currMagic / maxMagic;
+    }
+
     public void OnReceiveDamage(Vector2 enemyPosition)
     {
         if (isInvincible)
@@ -293,6 +302,12 @@ public class Player : MonoBehaviour
         velocity.x = Mathf.Sign(transform.position.x - enemyPosition.x) * 15;
         StartCoroutine(TemporaryInvincible());
         OnDamageReceiveEvent.Invoke();
+    }
+
+    public void OnMagicUsed()
+    {
+        currMagic -= 5;
+        OnMagicUsedEvent.Invoke();
     }
 
     IEnumerator TemporaryInvincible()
