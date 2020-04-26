@@ -9,7 +9,8 @@ public class Player : MonoBehaviour
 {
     public static Player Instance { get; private set; }
 
-    [SoundGroupAttribute] public string attackSound;
+    [SoundGroupAttribute] public string damageSound;
+    [SoundGroupAttribute] public string magicSound;
 
     [SerializeField]
     private bool gravityEnabled;
@@ -273,7 +274,6 @@ public class Player : MonoBehaviour
 
     private void OnAttack()
     {
-        Debug.Log(MasterAudio.PlaySoundAndForget(attackSound));
         OnAttackEvent.Invoke();
     }
 
@@ -305,6 +305,7 @@ public class Player : MonoBehaviour
         currLife -= 5;
         velocity.x = Mathf.Sign(transform.position.x - enemyPosition.x) * 15;
         StartCoroutine(TemporaryInvincible());
+        MasterAudio.PlaySoundAndForget(damageSound);
         OnDamageReceiveEvent.Invoke();
     }
 
@@ -313,6 +314,7 @@ public class Player : MonoBehaviour
         if (currMagic < 5)
             return;
 
+        MasterAudio.PlaySoundAndForget(magicSound);
         currMagic -= 5;
         OnMagicUsedEvent.Invoke();
     }

@@ -1,8 +1,13 @@
-﻿using UnityEngine;
+﻿using DarkTonic.MasterAudio;
+using UnityEngine;
 
 [RequireComponent(typeof(BoxCollider2D))]
 public class GreenSlime : MonoBehaviour
 {
+    [SoundGroupAttribute] public string damageSound;
+    [SoundGroupAttribute] public string deathSound;
+    [SerializeField] private GameObject coinPrefab;
+
     [SerializeField]
     private bool gravityEnabled;
 
@@ -282,7 +287,11 @@ public class GreenSlime : MonoBehaviour
         life -= 1;
         if (life <= 0)
         {
+            MasterAudio.PlaySoundAndForget(deathSound);
+            var coin = Instantiate(coinPrefab);
+            coin.transform.position = transform.position;
             Destroy(gameObject);
         }
+        MasterAudio.PlaySoundAndForget(damageSound);
     }
 }
