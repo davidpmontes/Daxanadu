@@ -12,7 +12,6 @@ public class MagicProjectile : MonoBehaviour
         transform.localScale = Player.Instance.transform.localScale;
         direction = (int)Player.Instance.transform.localScale.x;
         lifespan = 2;
-        Debug.Log(direction);
     }
 
     private void Update()

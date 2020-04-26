@@ -1,12 +1,15 @@
 ﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
+using DarkTonic.MasterAudio;
 
 [RequireComponent (typeof (CharacterAnimator))]
 [RequireComponent (typeof (BoxCollider2D))]
 public class Player : MonoBehaviour
 {
     public static Player Instance { get; private set; }
+
+    [SoundGroupAttribute] public string attackSound;
 
     [SerializeField]
     private bool gravityEnabled;
@@ -270,6 +273,7 @@ public class Player : MonoBehaviour
 
     private void OnAttack()
     {
+        Debug.Log(MasterAudio.PlaySoundAndForget(attackSound));
         OnAttackEvent.Invoke();
     }
 
@@ -306,6 +310,9 @@ public class Player : MonoBehaviour
 
     public void OnMagicUsed()
     {
+        if (currMagic < 5)
+            return;
+
         currMagic -= 5;
         OnMagicUsedEvent.Invoke();
     }
