@@ -15078,9 +15078,9 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1113963283}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1249762471 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3529284079231967170, guid: c193c61ce94784a288e95aea5c03d02d,
+--- !u!212 &1249762472 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 8599038010231952549, guid: c193c61ce94784a288e95aea5c03d02d,
     type: 3}
   m_PrefabInstance: {fileID: 1748986443}
   m_PrefabAsset: {fileID: 0}
@@ -15574,9 +15574,9 @@ MonoBehaviour:
   soundPlayedCustomEvent: 
   willCleanUpDelegatesAfterStop: 1
   frames: 188
---- !u!1 &1318803706 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3529284079231967170, guid: c193c61ce94784a288e95aea5c03d02d,
+--- !u!212 &1318803707 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 8599038010231952549, guid: c193c61ce94784a288e95aea5c03d02d,
     type: 3}
   m_PrefabInstance: {fileID: 1345774170}
   m_PrefabAsset: {fileID: 0}
@@ -16265,15 +16265,15 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1486147747}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1495327115 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3529284079231967170, guid: c193c61ce94784a288e95aea5c03d02d,
+--- !u!212 &1495327116 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 8599038010231952549, guid: c193c61ce94784a288e95aea5c03d02d,
     type: 3}
   m_PrefabInstance: {fileID: 312557205}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1516935492 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3529284079231967170, guid: c193c61ce94784a288e95aea5c03d02d,
+--- !u!212 &1516935493 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 8599038010231952549, guid: c193c61ce94784a288e95aea5c03d02d,
     type: 3}
   m_PrefabInstance: {fileID: 335219135}
   m_PrefabAsset: {fileID: 0}
@@ -16637,9 +16637,9 @@ Transform:
   m_Father: {fileID: 1454866789}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1643657666 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3529284079231967170, guid: c193c61ce94784a288e95aea5c03d02d,
+--- !u!212 &1643657667 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 8599038010231952549, guid: c193c61ce94784a288e95aea5c03d02d,
     type: 3}
   m_PrefabInstance: {fileID: 1073838484}
   m_PrefabAsset: {fileID: 0}
@@ -20705,22 +20705,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   digits:
-  - {fileID: 1249762471}
-  - {fileID: 1516935492}
-  - {fileID: 1318803706}
-  - {fileID: 1495327115}
-  - {fileID: 1643657666}
+  - {fileID: 1249762472}
+  - {fileID: 1516935493}
+  - {fileID: 1318803707}
+  - {fileID: 1495327116}
+  - {fileID: 1643657667}
   _0To9:
-  - {fileID: 8305651586996221794, guid: d555159ca226b482a98a9deb95c3e902, type: 3}
-  - {fileID: 3529871853808715998, guid: 4a19a564746934a959d9b292d17c743d, type: 3}
-  - {fileID: 345652105092844820, guid: e7a3059d51d654a30b48fa9057eaeddc, type: 3}
-  - {fileID: 1917258094452748907, guid: d85bf3b104e1f4e52b5b6162aaa9a43c, type: 3}
-  - {fileID: 8921945264482736098, guid: 7e1a5043d2b4743998895211636fa0e3, type: 3}
-  - {fileID: 5423531313319749696, guid: a48e7cf3fca804a26af2b45ebee87172, type: 3}
-  - {fileID: 8429468085269486547, guid: 058b856653b794c75885dd17d2739fee, type: 3}
-  - {fileID: 7742566136887561563, guid: 90634e010c94e486ca753ee67536064d, type: 3}
-  - {fileID: 8964436727077063000, guid: fe472ab0a636c471085a4032b65a9624, type: 3}
-  - {fileID: 5646622516679575224, guid: cd16c6c39da884e04bcd9ac3bcc5bee0, type: 3}
+  - {fileID: 4629585457702443920, guid: 466a0da9d03fc4bc29f7c917fc35ce92, type: 3}
+  - {fileID: 2781949013477838901, guid: 466a0da9d03fc4bc29f7c917fc35ce92, type: 3}
+  - {fileID: 6794786823843153428, guid: 466a0da9d03fc4bc29f7c917fc35ce92, type: 3}
+  - {fileID: -7117185456238768025, guid: 466a0da9d03fc4bc29f7c917fc35ce92, type: 3}
+  - {fileID: 7232685452361563198, guid: 466a0da9d03fc4bc29f7c917fc35ce92, type: 3}
+  - {fileID: -4806875185289837118, guid: 466a0da9d03fc4bc29f7c917fc35ce92, type: 3}
+  - {fileID: -8839284238767306588, guid: 466a0da9d03fc4bc29f7c917fc35ce92, type: 3}
+  - {fileID: -6662241366200853236, guid: 466a0da9d03fc4bc29f7c917fc35ce92, type: 3}
+  - {fileID: 3663219869534670880, guid: 466a0da9d03fc4bc29f7c917fc35ce92, type: 3}
+  - {fileID: 8026917813071342434, guid: 466a0da9d03fc4bc29f7c917fc35ce92, type: 3}
 --- !u!331 &1690285332
 SpriteMask:
   m_ObjectHideFlags: 0

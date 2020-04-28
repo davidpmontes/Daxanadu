@@ -5,8 +5,8 @@ public class Gold : MonoBehaviour
 {
     public static Gold Instance { get; private set; }
     // 43210
-    [SerializeField] private GameObject[] digits;
-    [SerializeField] private GameObject[] _0To9;
+    [SerializeField] private SpriteRenderer[] digits;
+    [SerializeField] private Sprite[] _0To9;
 
     private int visibleGoldCount = 0;
     private int actualGoldCount = 0;
@@ -45,16 +45,7 @@ public class Gold : MonoBehaviour
 
         for (int i = 0; i < digits.Length; i++)
         {
-            SetDigit(ref digits[i], digits[i], value[i]);
+            digits[i].sprite = _0To9[int.Parse(value[i].ToString())];
         }
-    }
-
-    private void SetDigit(ref GameObject permanentDigit, GameObject digit, char value)
-    {
-        var newDigit = Instantiate(_0To9[int.Parse(value.ToString())]);
-        newDigit.transform.SetParent(transform);
-        newDigit.transform.position = digit.transform.position;
-        Destroy(digit);
-        permanentDigit = newDigit;
     }
 }
