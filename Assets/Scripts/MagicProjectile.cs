@@ -26,10 +26,6 @@ public class MagicProjectile : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.name == "greenSlime")
-        {
-            collision.gameObject.GetComponent<GreenSlime>().OnReceiveDamage(transform.position);
-            Destroy(gameObject);
-        }
+        Destroy(gameObject);
     }
 }

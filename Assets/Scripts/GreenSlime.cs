@@ -4,10 +4,6 @@ using UnityEngine;
 [RequireComponent(typeof(BoxCollider2D))]
 public class GreenSlime : MonoBehaviour
 {
-    [SoundGroupAttribute] public string damageSound;
-    [SoundGroupAttribute] public string deathSound;
-    [SerializeField] private GameObject coinPrefab;
-
     [SerializeField]
     private bool gravityEnabled;
 
@@ -87,7 +83,6 @@ public class GreenSlime : MonoBehaviour
     private int wallDirX;
     private Vector2 directionalInput;
     private float NextActionTime;
-    private int life = 5;
 
     private void Awake()
     {
@@ -271,27 +266,5 @@ public class GreenSlime : MonoBehaviour
     public void OnJumpInputUp()
     {
         velocity.y = Mathf.Min(velocity.y, minJumpVelocity);
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.name == "Player")
-        {
-            Player.Instance.OnReceiveDamage(transform.position);
-        }
-    }
-
-    public void OnReceiveDamage(Vector2 enemyPosition)
-    {
-        velocity.x = Mathf.Sign(transform.position.x - enemyPosition.x) * 5;
-        life -= 1;
-        if (life <= 0)
-        {
-            MasterAudio.PlaySoundAndForget(deathSound);
-            var coin = Instantiate(coinPrefab);
-            coin.transform.position = transform.position;
-            Destroy(gameObject);
-        }
-        MasterAudio.PlaySoundAndForget(damageSound);
     }
 }

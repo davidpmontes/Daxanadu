@@ -15,28 +15,13 @@ public class Skulls : MonoBehaviour
     private float oscillationRate = 2;
     private float oscillationAmplitude = 1.5f;
     private float direction = 0;
+    private Vector2 calculatedPosition;
 
     private void Update()
     {
+        MoveTowardsPlayer();
         OscillateLeftRight();
         RotateSkulls();
-        MoveTowardsPlayer();
-    }
-
-    private void RotateSkulls()
-    {
-        rotationObj.transform.RotateAround(transform.TransformPoint(Vector3.zero), Vector3.back, -Time.deltaTime * rotationSpeed);
-        skullA.transform.position = pointA.transform.position;
-        skullB.transform.position = pointB.transform.position;
-        skullC.transform.position = pointC.transform.position;
-    }
-
-    private void OscillateLeftRight()
-    {
-        transform.position = new Vector3(transform.position.x + direction * Time.deltaTime,
-                                         transform.parent.transform.TransformPoint(Vector3.zero).y +
-                                            Mathf.Sin(Time.time * oscillationRate) * oscillationAmplitude,
-                                         transform.position.z);
     }
 
     private void MoveTowardsPlayer()
@@ -49,5 +34,21 @@ public class Skulls : MonoBehaviour
         {
             direction = 2;
         }
+    }
+
+    private void OscillateLeftRight()
+    {
+        transform.position = new Vector3(transform.position.x + direction * Time.deltaTime,
+                                         transform.parent.transform.TransformPoint(Vector3.zero).y +
+                                            Mathf.Sin(Time.time * oscillationRate) * oscillationAmplitude,
+                                         transform.position.z);
+    }
+
+    private void RotateSkulls()
+    {
+        rotationObj.transform.RotateAround(transform.TransformPoint(Vector3.zero), Vector3.back, -Time.deltaTime * rotationSpeed);
+        if (skullA) skullA.transform.position = pointA.transform.position;
+        if (skullB) skullB.transform.position = pointB.transform.position;
+        if (skullC) skullC.transform.position = pointC.transform.position;
     }
 }
