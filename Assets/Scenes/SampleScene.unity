@@ -471,7 +471,7 @@ MonoBehaviour:
   deathSound: sfx_sounds_impact9
   coinPrefab: {fileID: 2629606705280017022, guid: 0243a4de9e5aa4844800d1090776ef2a,
     type: 3}
-  life: 5
+  life: 1
 --- !u!1 &114753763
 GameObject:
   m_ObjectHideFlags: 0
@@ -14164,7 +14164,7 @@ MonoBehaviour:
   deathSound: sfx_sounds_impact9
   coinPrefab: {fileID: 2629606705280017022, guid: 0243a4de9e5aa4844800d1090776ef2a,
     type: 3}
-  life: 5
+  life: 1
 --- !u!1 &973995056
 GameObject:
   m_ObjectHideFlags: 0
@@ -20975,7 +20975,7 @@ MonoBehaviour:
   deathSound: sfx_sounds_impact9
   coinPrefab: {fileID: 2629606705280017022, guid: 0243a4de9e5aa4844800d1090776ef2a,
     type: 3}
-  life: 5
+  life: 1
 --- !u!1 &1787632120
 GameObject:
   m_ObjectHideFlags: 0
@@ -20998,7 +20998,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!95 &1787632121
 Animator:
   serializedVersion: 3
@@ -21195,7 +21195,7 @@ MonoBehaviour:
   deathSound: sfx_sounds_impact9
   coinPrefab: {fileID: 2629606705280017022, guid: 0243a4de9e5aa4844800d1090776ef2a,
     type: 3}
-  life: 5
+  life: 1
 --- !u!1001 &1804085590
 PrefabInstance:
   m_ObjectHideFlags: 0

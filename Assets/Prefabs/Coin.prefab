@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 2629606705126902627}
   - component: {fileID: 2629606705126902636}
   - component: {fileID: 66624436273495770}
-  - component: {fileID: 8329294596952476874}
   m_Layer: 13
   m_Name: Coin
   m_TagString: Untagged
@@ -130,19 +129,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.31326556, y: 0.43685955}
   m_EdgeRadius: 0
---- !u!114 &8329294596952476874
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2629606705126902638}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 183cf93cbdd0b4571b2b13e5339fcc66, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  coinSound: sfx_coin_double3
 --- !u!1 &2629606705280017022
 GameObject:
   m_ObjectHideFlags: 0
@@ -152,6 +138,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2629606705280017021}
+  - component: {fileID: 7052355175567464629}
+  - component: {fileID: 4585367111043706868}
   m_Layer: 13
   m_Name: Coin
   m_TagString: Untagged
@@ -174,3 +162,41 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7052355175567464629
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2629606705280017022}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 183cf93cbdd0b4571b2b13e5339fcc66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  coinSound: sfx_coin_double3
+  animator: {fileID: 2629606705126902636}
+  collisionMask:
+    serializedVersion: 2
+    m_Bits: 256
+--- !u!50 &4585367111043706868
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2629606705280017022}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 1
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0

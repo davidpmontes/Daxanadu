@@ -44,7 +44,7 @@ public class EnemyDamage : MonoBehaviour
         {
             MasterAudio.PlaySoundAndForget(deathSound);
             var coin = Instantiate(coinPrefab);
-            coin.transform.position = transform.position;
+            coin.GetComponent<Coin>().Initialize(transform.position);
             Destroy(gameObject);
         }
         StartCoroutine(FlashRed());
