@@ -52,6 +52,7 @@ public class Coin : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        Gold.Instance.ChangeGoldAmount(25);
         MasterAudio.PlaySoundAndForget(coinSound);
         Destroy(gameObject);
     }

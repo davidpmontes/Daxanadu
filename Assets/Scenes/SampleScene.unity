@@ -175,7 +175,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &93112941
 PrefabInstance:
@@ -471,7 +471,7 @@ MonoBehaviour:
   deathSound: sfx_sounds_impact9
   coinPrefab: {fileID: 2629606705280017022, guid: 0243a4de9e5aa4844800d1090776ef2a,
     type: 3}
-  life: 1
+  life: 2
 --- !u!1 &114753763
 GameObject:
   m_ObjectHideFlags: 0
@@ -9827,7 +9827,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &363793474
 GameObject:
@@ -13478,7 +13478,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &586311948
 GameObject:
@@ -13642,7 +13642,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &625091299
 Rigidbody2D:
@@ -14164,7 +14164,7 @@ MonoBehaviour:
   deathSound: sfx_sounds_impact9
   coinPrefab: {fileID: 2629606705280017022, guid: 0243a4de9e5aa4844800d1090776ef2a,
     type: 3}
-  life: 1
+  life: 2
 --- !u!1 &973995056
 GameObject:
   m_ObjectHideFlags: 0
@@ -14987,7 +14987,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 13
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1183001944
 GameObject:
@@ -15034,7 +15034,7 @@ Transform:
   - {fileID: 460762874}
   - {fileID: 1984068289}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1192680401
 GameObject:
@@ -15876,7 +15876,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1397051510
 GameObject:
@@ -16465,7 +16465,7 @@ Transform:
   - {fileID: 1316413321}
   - {fileID: 463472717}
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1537497286
 PrefabInstance:
@@ -16584,7 +16584,7 @@ Transform:
   m_Children:
   - {fileID: 685454285}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &1576783909
 Rigidbody2D:
@@ -20975,7 +20975,7 @@ MonoBehaviour:
   deathSound: sfx_sounds_impact9
   coinPrefab: {fileID: 2629606705280017022, guid: 0243a4de9e5aa4844800d1090776ef2a,
     type: 3}
-  life: 1
+  life: 2
 --- !u!1 &1787632120
 GameObject:
   m_ObjectHideFlags: 0
@@ -20998,7 +20998,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!95 &1787632121
 Animator:
   serializedVersion: 3
@@ -21081,7 +21081,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1787632124
 MonoBehaviour:
@@ -21195,7 +21195,7 @@ MonoBehaviour:
   deathSound: sfx_sounds_impact9
   coinPrefab: {fileID: 2629606705280017022, guid: 0243a4de9e5aa4844800d1090776ef2a,
     type: 3}
-  life: 1
+  life: 2
 --- !u!1001 &1804085590
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -21805,7 +21805,7 @@ Transform:
   - {fileID: 1134412137}
   - {fileID: 1397051512}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &1926752114
 Rigidbody2D:
@@ -22073,7 +22073,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2022380261
 MonoBehaviour:
@@ -22371,7 +22371,7 @@ Transform:
   - {fileID: 592088097}
   - {fileID: 1485539989}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2092456973
 GameObject:

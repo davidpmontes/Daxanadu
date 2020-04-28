@@ -3,45 +3,45 @@ using UnityEngine;
 
 public class Gold : MonoBehaviour
 {
+    public static Gold Instance { get; private set; }
     // 43210
     [SerializeField] private GameObject[] digits;
     [SerializeField] private GameObject[] _0To9;
 
-    private int goldCount = 0;
+    private int visibleGoldCount = 0;
+    private int actualGoldCount = 0;
+    private bool isAnimating;
 
-    private void Start()
+    private void Awake()
     {
-        SetGoldCount(4135);
+        Instance = this;
     }
 
-    public void SetGoldCount(int value)
+    public void ChangeGoldAmount(int newAmount)
     {
-        UpdateGoldCountAnimated(value);
+        actualGoldCount += newAmount;
+        if (!isAnimating)
+            StartCoroutine(AnimateGoldCount());
     }
 
-    public void UpdateGoldCountAnimated(int newValue)
+    private IEnumerator AnimateGoldCount()
     {
-        if (goldCount < newValue)
+        isAnimating = true;
+        while(visibleGoldCount != actualGoldCount)
         {
-            StartCoroutine(AnimateGold(newValue));
+            if (visibleGoldCount < actualGoldCount)
+                visibleGoldCount += 5;
+            else
+                visibleGoldCount -= 5;
+            UpdateAllDigits();
+            yield return new WaitForSeconds(0.1f);
         }
+        isAnimating = false;
     }
 
-    IEnumerator AnimateGold(int newValue)
+    private void UpdateAllDigits()
     {
-        Debug.Log("coroutine");
-        for (int i = goldCount; i < newValue; i += 5)
-        {
-            UpdateDigits(i);
-            yield return new WaitForSeconds(0.01f);
-        }
-        goldCount = newValue;
-        UpdateDigits(goldCount);
-    }
-
-    public void UpdateDigits(int digitValue)
-    {
-        string value = digitValue.ToString("00000");
+        string value = visibleGoldCount.ToString("00000");
 
         for (int i = 0; i < digits.Length; i++)
         {
