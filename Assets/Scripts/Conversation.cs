@@ -28,8 +28,8 @@ public class Conversation : MonoBehaviour
     private readonly float FAST_SPEED = 0.03f;
     private float speed;
 
-    public delegate void ConversationHandler();
-    public event ConversationHandler Ended;
+    //public delegate void ConversationHandler();
+    //public event ConversationHandler Ended;
 
     //20 characters max per line, excluding > and ^
     private string[] convo = new string[] {
@@ -124,7 +124,7 @@ public class Conversation : MonoBehaviour
         portraitDialogueBox.SetActive(false);
         landscapeDialogueBox.SetActive(false);
         RecycleLetters();
-        Ended.Invoke();
+        //Ended.Invoke();
     }
 
     IEnumerator DrawConversation()

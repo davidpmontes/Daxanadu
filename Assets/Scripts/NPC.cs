@@ -39,7 +39,7 @@ public class NPC : MonoBehaviour
         {
             globalWaypoints[i] = localWaypoints[i] + new Vector2(transform.position.x, transform.position.y);
         }
-        Conversation.Instance.Ended += OnConversationEnded;
+        //Conversation.Instance.Ended += OnConversationEnded;
     }
 
     private void Update()

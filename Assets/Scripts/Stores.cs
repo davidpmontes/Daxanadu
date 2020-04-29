@@ -10,7 +10,9 @@ public class Stores : MonoBehaviour
     {
         if (InputController.Instance.DirectionalInput.y > 0.5f)
         {
-            Conversation.Instance.ShowConversation();
+            //Conversation.Instance.ShowConversation();
+            //Shop.Instance.ShowConversation();
+            Shop.Instance.ShowStoreBox();
         }
     }
 }
