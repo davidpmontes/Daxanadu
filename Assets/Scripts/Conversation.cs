@@ -1,83 +1,85 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+
+public enum STATES
+{
+    NORMAL, NEXT, FINISH, BUY
+}
 
 public class Conversation : MonoBehaviour
 {
-    private enum STATES
-    {
-        NORMAL, NEXT, FINISH
-    }
-
     public static Conversation Instance;
 
-    [SerializeField] private GameObject portraitDialogueBox;
-    [SerializeField] private GameObject landscapeDialogueBox;
-
-    [SerializeField] private GameObject cursorStart;
     [SerializeField] private GameObject cursor;
+    [SerializeField] private GameObject cursorStart;
+    [SerializeField] private GameObject scrollingBackground;
     [SerializeField] private GameObject caretFinished;
     [SerializeField] private GameObject caretNext;
-    [SerializeField] private GameObject scrollingBackground;
-    
-    private STATES state = STATES.NORMAL;
-    private List<GameObject> letters = new List<GameObject>();
-    private IEnumerator caretBlinkCoroutine;
 
-    private readonly float SLOW_SPEED = 0.1f;
-    private readonly float FAST_SPEED = 0.03f;
+    [SerializeField] private TextUtility textUtility;
+
+    private IEnumerator caretBlinkCoroutine;
+    private STATES state;
+    private bool started;
     private float speed;
 
-    //public delegate void ConversationHandler();
-    //public event ConversationHandler Ended;
+    private readonly float FAST_SPEED = 0.03f;
+    private readonly float SLOW_SPEED = 0.1f;
+    private readonly float INSTANT_SPEED = 0.0f;
+
+    public delegate void ConversationHandler();
+    public event ConversationHandler Ended;
 
     //20 characters max per line, excluding > and ^
     private string[] convo = new string[] {
-        "Glad you could",
-        "come.",
-        "Disaster has",
-        "befallen us.>",
-        "The Elf",
-        "fountain water,",
-        "our life source,",
-        "has stopped.>",
-        "The wells are",
-        "drying up.>",
-        "Many men went",
-        "out and nobody",
-        "came back.>",
-        "You are our last",
-        "hope.",
-        "I shall give you",
-        "1500 Golds.>",
-        "Prepare",
-        "for your journey",
-        "with this money.>",
-        "It will be a",
-        "dangerous",
-        "journey.>",
-        "Take care",
-        "of yourself.^"
+        "Glad you could^-->",
+        "come.^-->",
+        "Disaster has^-->",
+        "befallen us.^NXT",
+        "The Elf^-->",
+        "fountain water,^-->",
+        "our life source,^-->",
+        "has stopped.^NXT",
+        "The wells are^-->",
+        "drying up.^NXT",
+        "Many men went^-->",
+        "out and nobody^-->",
+        "came back.^NXT",
+        "You are our last^-->",
+        "hope.^-->",
+        "I shall give you^-->",
+        "1500 Golds.^NXT",
+        "Prepare^-->",
+        "for your journey^-->",
+        "with this money.^NXT",
+        "It will be a^-->",
+        "dangerous^-->",
+        "journey.^NXT",
+        "Take care^-->",
+        "of yourself.^END"
     };
 
     private void Awake()
     {
         Instance = this;
-        speed = SLOW_SPEED;
+        textUtility.Initialize(scrollingBackground);
     }
 
     private void Update()
     {
+        GetInput();
+    }
+
+    private void GetInput()
+    {
         if (InputController.Instance.isJumpStart)
         {
-            switch(state)
+            switch (state)
             {
                 case STATES.NORMAL:
                     break;
                 case STATES.NEXT:
-                    StopCoroutine(caretBlinkCoroutine);
-                    caretNext.SetActive(false);
-                    state = STATES.NORMAL;
+                    Continue();
                     break;
                 case STATES.FINISH:
                     HideConversation();
@@ -102,95 +104,121 @@ public class Conversation : MonoBehaviour
 
     public void ShowConversation()
     {
-        if (landscapeDialogueBox.activeSelf)
+        if (started)
             return;
 
+        started = true;
+        state = STATES.NORMAL;
         scrollingBackground.transform.position = Vector3.zero;
-        caretFinished.SetActive(false);
-        caretNext.SetActive(false);
+        cursor.transform.position = cursorStart.transform.position;
         Player.Instance.GetComponent<Player>().Pause();
-        portraitDialogueBox.SetActive(true);
-        landscapeDialogueBox.SetActive(true);
-
-        StartCoroutine(DrawConversation());
+        PortraitContainer.Instance.Show();
+        LandscapeContainer.Instance.Show();
+        DrawConversation(convo);
     }
 
     public void HideConversation()
     {
+        started = false;
         StopAllCoroutines();
         caretFinished.SetActive(false);
         caretNext.SetActive(false);
         Player.Instance.GetComponent<Player>().Unpause();
-        portraitDialogueBox.SetActive(false);
-        landscapeDialogueBox.SetActive(false);
-        RecycleLetters();
-        //Ended.Invoke();
+        PortraitContainer.Instance.Hide();
+        LandscapeContainer.Instance.Hide();
+        textUtility.RecycleLetters();
+        Ended.Invoke();
     }
 
-    IEnumerator DrawConversation()
+    public void Continue()
     {
-        cursor.transform.position = cursorStart.transform.position;
+        StopCoroutine(caretBlinkCoroutine);
+        caretNext.SetActive(false);
+        state = STATES.NORMAL;
+    }
 
+    public void DrawConversation(string[] dialogue)
+    {
+        StartCoroutine(DrawConversationCoroutine(dialogue));
+    }
 
-        //foreach (string line in convo)
-        for (int lineIdx = 0; lineIdx < convo.Length; lineIdx++)
+    private IEnumerator DrawConversationCoroutine(string[] dialogue)
+    {
+        for (int lineIdx = 0; lineIdx < dialogue.Length; lineIdx++)
         {
-            for (int i = 0; i < convo[lineIdx].Length; i++)
+            for (int i = 0; i < dialogue[lineIdx].Length; i++)
             {
-                string symbol = convo[lineIdx].Substring(i, 1);
-                if ("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789',\"!-.?_".Contains(symbol))
-                {
-                    switch(symbol)
-                    {
-                        case "'": symbol = "apostrophe"; break;
-                        case ",": symbol = "comma"; break;
-                        case "\"": symbol = "doubleQuotes"; break;
-                        case "!": symbol = "exclamationPoint"; break;
-                        case "-": symbol = "hyphen"; break;
-                        case ".": symbol = "period"; break;
-                        case "?": symbol = "questionMark"; break;
-                        case "_": symbol = "underscore"; break;
-                    }
+                string symbol = dialogue[lineIdx].Substring(i, 1);
 
-                    AlphabetPool.Pools parsed_enum = (AlphabetPool.Pools)System.Enum.Parse(typeof(AlphabetPool.Pools), "_" + symbol);
-                    var letter = AlphabetPool.Instance.GetFromPoolInactive(parsed_enum);
-                    letter.transform.position = cursor.transform.position;
-                    letter.transform.SetParent(scrollingBackground.transform);
-                    letter.SetActive(true);
-                    letters.Add(letter);
-                }
-                else if (symbol == ">") // next
+                if ("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789',\"!-.?_ ".Contains(symbol))
                 {
-                    state = STATES.NEXT;
-                    caretBlinkCoroutine = CaretBlink(caretNext);
-                    StartCoroutine(caretBlinkCoroutine);
-                    while (state == STATES.NEXT)
+                    textUtility.DrawSymbol(symbol, cursor.transform.position);
+                    cursor.transform.position += new Vector3(0.5f, 0, 0);
+                    yield return new WaitForSeconds(speed);
+                }
+                else if (symbol == "^")
+                {
+                    string cmd = dialogue[lineIdx].Substring(i + 1, 3);
+
+                    if (cmd == "BUY")
                     {
-                        yield return null;
+                        state = STATES.BUY;
+                        break;
+                    }
+                    else if (cmd == "CLR")
+                    {
+                        ClearConversation();
+                        break;
+                    }
+                    else if (cmd == "END")
+                    {
+                        state = STATES.FINISH;
+                        caretBlinkCoroutine = CaretBlink(caretFinished);
+                        StartCoroutine(caretBlinkCoroutine);
+                        break;
+                    }
+                    else if (cmd == "NXT")
+                    {
+                        state = STATES.NEXT;
+                        caretBlinkCoroutine = CaretBlink(caretNext);
+                        StartCoroutine(caretBlinkCoroutine);
+                        while (state == STATES.NEXT)
+                        {
+                            yield return null;
+                        }
+                        EndOfLine(lineIdx);
+                        break;
+                    }
+                    else if (cmd == "-->")
+                    {
+                        EndOfLine(lineIdx);
+                        break;
+                    }
+                    else
+                    {
+                        Debug.LogError("Unrecognized character");
                     }
                 }
-                else if (symbol == "^") // finish
-                {
-                    state = STATES.FINISH;
-                    caretBlinkCoroutine = CaretBlink(caretFinished);
-                    StartCoroutine(caretBlinkCoroutine);
-                }
-
-                cursor.transform.position += new Vector3(0.5f, 0, 0);
-                yield return new WaitForSeconds(speed);
             }
+        }
+    }
 
-            if (state != STATES.FINISH)
+    private void EndOfLine(int lineIdx)
+    {
+        if (state != STATES.FINISH)
+        {
+            if (lineIdx < 3)
             {
-                if (lineIdx < 3)
-                {
-                    cursor.transform.position = new Vector3(cursorStart.transform.position.x, cursor.transform.position.y - 0.6f, cursor.transform.position.z);
-                }
-                else
-                {
-                    scrollingBackground.transform.position += new Vector3(0, 0.6f, 0);
-                    cursor.transform.position = new Vector3(cursorStart.transform.position.x, cursor.transform.position.y, cursor.transform.position.z);
-                }
+                cursor.transform.position = new Vector3(cursorStart.transform.position.x,
+                                                        cursor.transform.position.y - 0.6f,
+                                                        cursor.transform.position.z);
+            }
+            else
+            {
+                scrollingBackground.transform.position += new Vector3(0, 0.6f, 0);
+                cursor.transform.position = new Vector3(cursorStart.transform.position.x,
+                                                        cursor.transform.position.y,
+                                                        cursor.transform.position.z);
             }
         }
     }
@@ -204,12 +232,11 @@ public class Conversation : MonoBehaviour
         }
     }
 
-    private void RecycleLetters()
+    private void ClearConversation()
     {
-        for (int i = letters.Count - 1; i >= 0; i--)
-        {
-            AlphabetPool.Instance.DeactivateAndAddToPool(letters[i]);
-            letters.RemoveAt(i);
-        }
+        scrollingBackground.transform.position = Vector3.zero;
+        cursor.transform.position = cursorStart.transform.position;
+        state = STATES.NORMAL;
+        textUtility.RecycleLetters();
     }
 }
