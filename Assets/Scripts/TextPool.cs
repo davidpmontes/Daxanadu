@@ -2,24 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AlphabetPool : MonoBehaviour
+public class TextPool : MonoBehaviour
 {
-    public enum AlphabetPools
+    public enum TextPools
     {
-        _a, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m, _n, _o, _p,
-        _q, _r, _s, _t, _u, _v, _w, _x, _y, _z,
-        _A, _B, _C, _D, _E, _F, _G, _H, _I, _J, _K, _L, _M, _N, _O, _P,
-        _Q, _R, _S, _T, _U, _V, _W, _X, _Y, _Z,
-        _0, _1, _2, _3, _4, _5, _6, _7, _8, _9,
-        _apostrophe, _comma, _doubleQuotes, _exclamationPoint, _hyphen,
-        _period, _questionMark, _underscore, _caret
+        ScrollingConversation
     };
 
     public GameObject[] prefabs;
     private Dictionary<string, Queue<GameObject>> dictOfPools;
     private Dictionary<string, GameObject> dictOfPrefabs;
 
-    public static AlphabetPool Instance { get; private set; }
+    public static TextPool Instance { get; private set; }
 
     private void Awake()
     {
@@ -34,13 +28,13 @@ public class AlphabetPool : MonoBehaviour
             dictOfPrefabs.Add(prefab.name, prefab);
         }
 
-        foreach (AlphabetPools item in Enum.GetValues(typeof(AlphabetPools)))
+        foreach (TextPools item in Enum.GetValues(typeof(TextPools)))
         {
             GrowPool(item, 3);
         }
     }
 
-    private void GrowPool(AlphabetPools poolName, int amount)
+    private void GrowPool(TextPools poolName, int amount)
     {
         for (int i = 0; i < amount; i++)
         {
@@ -51,7 +45,7 @@ public class AlphabetPool : MonoBehaviour
         }
     }
 
-    public GameObject GetFromPoolActiveSetTransform(AlphabetPools poolName, Transform t)
+    public GameObject GetFromPoolActiveSetTransform(TextPools poolName, Transform t)
     {
         Queue<GameObject> pool = dictOfPools[poolName.ToString()];
         if (pool.Count == 0)
@@ -63,7 +57,7 @@ public class AlphabetPool : MonoBehaviour
         return instance;
     }
 
-    public GameObject GetFromPoolInactive(AlphabetPools poolName)
+    public GameObject GetFromPoolInactive(TextPools poolName)
     {
         Queue<GameObject> pool = dictOfPools[poolName.ToString()];
         if (pool.Count == 0)
@@ -82,5 +76,4 @@ public class AlphabetPool : MonoBehaviour
         Queue<GameObject> pool = dictOfPools[instance.name];
         pool.Enqueue(instance);
     }
-
 }

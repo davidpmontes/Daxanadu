@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
-public class PortraitContainer : MonoBehaviour
+public class StoreContainer : MonoBehaviour
 {
-    public static PortraitContainer Instance { get; private set; }
+    public static StoreContainer Instance { get; private set; }
 
     [SerializeField] private GameObject frame;
 

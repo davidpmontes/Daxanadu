@@ -3,7 +3,7 @@ using UnityEngine;
 
 public enum STATES
 {
-    NORMAL, NEXT, FINISH, BUY
+    NORMAL, NEXT, FINISH
 }
 
 public class Conversation : MonoBehaviour
@@ -102,14 +102,21 @@ public class Conversation : MonoBehaviour
         }
     }
 
-    public void ShowConversation()
+    public void ShowConversation(Vector2 cursorStartPosition,
+                                 Vector2 caretNextPosition,
+                                 Vector2 caretFinishedPosition)
     {
         if (started)
+        {
             return;
+        }
 
         started = true;
         state = STATES.NORMAL;
         scrollingBackground.transform.position = Vector3.zero;
+        cursorStart.transform.position = cursorStartPosition;
+        caretNext.transform.position = caretNextPosition;
+        caretFinished.transform.position = caretFinishedPosition;
         cursor.transform.position = cursorStart.transform.position;
         Player.Instance.GetComponent<Player>().Pause();
         PortraitContainer.Instance.Show();
@@ -128,6 +135,7 @@ public class Conversation : MonoBehaviour
         LandscapeContainer.Instance.Hide();
         textUtility.RecycleLetters();
         Ended.Invoke();
+        TextPool.Instance.DeactivateAndAddToPool(gameObject);
     }
 
     public void Continue()
@@ -160,12 +168,7 @@ public class Conversation : MonoBehaviour
                 {
                     string cmd = dialogue[lineIdx].Substring(i + 1, 3);
 
-                    if (cmd == "BUY")
-                    {
-                        state = STATES.BUY;
-                        break;
-                    }
-                    else if (cmd == "CLR")
+                    if (cmd == "CLR")
                     {
                         ClearConversation();
                         break;

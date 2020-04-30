@@ -27,7 +27,7 @@ public class TextUtility : MonoBehaviour
             case " ": return null;
         }
 
-        AlphabetPool.Pools parsed_enum = (AlphabetPool.Pools)System.Enum.Parse(typeof(AlphabetPool.Pools), "_" + symbol);
+        AlphabetPool.AlphabetPools parsed_enum = (AlphabetPool.AlphabetPools)System.Enum.Parse(typeof(AlphabetPool.AlphabetPools), "_" + symbol);
         var letter = AlphabetPool.Instance.GetFromPoolInactive(parsed_enum);
         letter.transform.position = position;
         letter.transform.SetParent(background.transform);

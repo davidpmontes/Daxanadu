@@ -53,9 +53,17 @@ public class NPC : MonoBehaviour
     {
         if (InputController.Instance.DirectionalInput.y > 0.5f)
         {
-            Conversation.Instance.ShowConversation();
+            if (!animator.enabled)
+                return;
+
             animator.enabled = false;
             enabled = false;
+
+            var convo = TextPool.Instance.GetFromPoolInactive(TextPool.TextPools.ScrollingConversation);
+            convo.SetActive(true);
+            convo.GetComponent<Conversation>().ShowConversation(LandscapeContainer.Instance.GetCursorStartPosition(),
+                                                                LandscapeContainer.Instance.GetCaretNextPosition(),
+                                                                LandscapeContainer.Instance.GetCaretFinishPosition());
         }
     }
 
