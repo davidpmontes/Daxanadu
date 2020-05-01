@@ -8,8 +8,6 @@ public enum STATES
 
 public class Conversation : MonoBehaviour
 {
-    public static Conversation Instance;
-
     [SerializeField] private GameObject cursor;
     [SerializeField] private GameObject cursorStart;
     [SerializeField] private GameObject scrollingBackground;
@@ -30,38 +28,10 @@ public class Conversation : MonoBehaviour
     public delegate void ConversationHandler();
     public event ConversationHandler Ended;
 
-    //20 characters max per line, excluding > and ^
-    private string[] convo = new string[] {
-        "Glad you could^-->",
-        "come.^-->",
-        "Disaster has^-->",
-        "befallen us.^NXT",
-        "The Elf^-->",
-        "fountain water,^-->",
-        "our life source,^-->",
-        "has stopped.^NXT",
-        "The wells are^-->",
-        "drying up.^NXT",
-        "Many men went^-->",
-        "out and nobody^-->",
-        "came back.^NXT",
-        "You are our last^-->",
-        "hope.^-->",
-        "I shall give you^-->",
-        "1500 Golds.^NXT",
-        "Prepare^-->",
-        "for your journey^-->",
-        "with this money.^NXT",
-        "It will be a^-->",
-        "dangerous^-->",
-        "journey.^NXT",
-        "Take care^-->",
-        "of yourself.^END"
-    };
+    private string convo;
 
     private void Awake()
     {
-        Instance = this;
         textUtility.Initialize(scrollingBackground);
     }
 
@@ -72,7 +42,7 @@ public class Conversation : MonoBehaviour
 
     private void GetInput()
     {
-        if (InputController.Instance.isJumpStart)
+        if (InputController.Instance.onJumpDown)
         {
             switch (state)
             {
@@ -104,7 +74,8 @@ public class Conversation : MonoBehaviour
 
     public void ShowConversation(Vector2 cursorStartPosition,
                                  Vector2 caretNextPosition,
-                                 Vector2 caretFinishedPosition)
+                                 Vector2 caretFinishedPosition,
+                                 string[] convo)
     {
         if (started)
         {
@@ -118,9 +89,6 @@ public class Conversation : MonoBehaviour
         caretNext.transform.position = caretNextPosition;
         caretFinished.transform.position = caretFinishedPosition;
         cursor.transform.position = cursorStart.transform.position;
-        Player.Instance.GetComponent<Player>().Pause();
-        PortraitContainer.Instance.Show();
-        LandscapeContainer.Instance.Show();
         DrawConversation(convo);
     }
 
@@ -130,12 +98,8 @@ public class Conversation : MonoBehaviour
         StopAllCoroutines();
         caretFinished.SetActive(false);
         caretNext.SetActive(false);
-        Player.Instance.GetComponent<Player>().Unpause();
-        PortraitContainer.Instance.Hide();
-        LandscapeContainer.Instance.Hide();
         textUtility.RecycleLetters();
-        Ended.Invoke();
-        TextPool.Instance.DeactivateAndAddToPool(gameObject);
+        if (Ended != null) Ended.Invoke();
     }
 
     public void Continue()
@@ -199,7 +163,7 @@ public class Conversation : MonoBehaviour
                     }
                     else
                     {
-                        Debug.LogError("Unrecognized character");
+                        Debug.LogError(cmd + ": Unrecognized character");
                     }
                 }
             }

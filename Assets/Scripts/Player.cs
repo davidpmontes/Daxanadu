@@ -138,10 +138,10 @@ public class Player : MonoBehaviour
     private void GetInput()
     {
         directionalInput = InputController.Instance.DirectionalInput;
-        if (InputController.Instance.isJumpStart) OnJumpInputDown();
-        if (InputController.Instance.isJumpStop) OnJumpInputUp();
-        if (InputController.Instance.isAttackStart) OnAttack();
-        if (InputController.Instance.isMagicStart) OnMagicUsed();
+        if (InputController.Instance.onJumpDown) OnJumpInputDown();
+        if (InputController.Instance.onJumpUp) OnJumpInputUp();
+        if (InputController.Instance.onAttackDown) OnAttack();
+        if (InputController.Instance.onMagicDown) OnMagicUsed();
     }
 
     private void CalculateVelocity()

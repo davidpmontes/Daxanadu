@@ -5,6 +5,36 @@
 [RequireComponent(typeof(Animator))]
 public class NPC : MonoBehaviour
 {
+    private GameObject conversationInstance;
+    //20 characters max per line, excluding > and ^
+    private string[] conversation = new string[] {
+        "Glad you could^-->",
+        "come.^-->",
+        "Disaster has^-->",
+        "befallen us.^NXT",
+        "The Elf^-->",
+        "fountain water,^-->",
+        "our life source,^-->",
+        "has stopped.^NXT",
+        "The wells are^-->",
+        "drying up.^NXT",
+        "Many men went^-->",
+        "out and nobody^-->",
+        "came back.^NXT",
+        "You are our last^-->",
+        "hope.^-->",
+        "I shall give you^-->",
+        "1500 Golds.^NXT",
+        "Prepare^-->",
+        "for your journey^-->",
+        "with this money.^NXT",
+        "It will be a^-->",
+        "dangerous^-->",
+        "journey.^NXT",
+        "Take care^-->",
+        "of yourself.^END"
+    };
+
     [SerializeField]
     [Tooltip("Waypoints that are defined relative to the platform.")]
     private Vector2[] localWaypoints;
@@ -39,7 +69,6 @@ public class NPC : MonoBehaviour
         {
             globalWaypoints[i] = localWaypoints[i] + new Vector2(transform.position.x, transform.position.y);
         }
-        Conversation.Instance.Ended += OnConversationEnded;
     }
 
     private void Update()
@@ -59,16 +88,27 @@ public class NPC : MonoBehaviour
             animator.enabled = false;
             enabled = false;
 
-            var convo = TextPool.Instance.GetFromPoolInactive(TextPool.TextPools.ScrollingConversation);
-            convo.SetActive(true);
-            convo.GetComponent<Conversation>().ShowConversation(LandscapeContainer.Instance.GetCursorStartPosition(),
+            conversationInstance = TextPool.Instance.GetFromPoolInactive(TextPool.TextPools.ScrollingConversation);
+            conversationInstance.SetActive(true);
+            conversationInstance.GetComponent<Conversation>().ShowConversation(LandscapeContainer.Instance.GetCursorStartPosition(),
                                                                 LandscapeContainer.Instance.GetCaretNextPosition(),
-                                                                LandscapeContainer.Instance.GetCaretFinishPosition());
+                                                                LandscapeContainer.Instance.GetCaretFinishPosition(),
+                                                                conversation);
+            Player.Instance.GetComponent<Player>().Pause();
+            PortraitContainer.Instance.Show();
+            LandscapeContainer.Instance.Show();
+
+            conversationInstance.GetComponent<Conversation>().Ended += OnConversationEnded;
         }
     }
 
     private void OnConversationEnded()
     {
+        conversationInstance.GetComponent<Conversation>().Ended -= OnConversationEnded;
+        TextPool.Instance.DeactivateAndAddToPool(conversationInstance);
+        Player.Instance.GetComponent<Player>().Unpause();
+        PortraitContainer.Instance.Hide();
+        LandscapeContainer.Instance.Hide();
         enabled = true;
         animator.enabled = true;
     }

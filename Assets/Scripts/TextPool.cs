@@ -6,7 +6,8 @@ public class TextPool : MonoBehaviour
 {
     public enum TextPools
     {
-        ScrollingConversation
+        ScrollingConversation,
+        ChoicePicker
     };
 
     public GameObject[] prefabs;
