@@ -1,10 +1,12 @@
 ﻿using UnityEngine;
+using UnityEngine.Experimental.U2D.Animation;
 
 [RequireComponent(typeof(BoxCollider2D))]
 public class Stores : MonoBehaviour
 {
     public Vector2 playerDestination;
     public Vector2 cameraDestination;
+    public StoreItemBase[] storeItems;
 
     private string[] greetingText = new string[] {
         "Welcome!^-->",
@@ -17,14 +19,9 @@ public class Stores : MonoBehaviour
     private string choiceB = "Sell";
     private bool started;
     private GameObject greetingInstance;
-    private GameObject choicePickerInstance;
-
-    private string[] storeList = new string[]
-    {
-        "Key^-->",
-        "Sword^-->",
-        "Axe^-->"
-    };
+    private GameObject buySellPickerInstance;
+    private GameObject itemLister;
+    private GameObject confirmPickerInstance;
 
     private void OnCollisionStay2D(Collision2D collision)
     {
@@ -37,9 +34,9 @@ public class Stores : MonoBehaviour
             greetingInstance = TextPool.Instance.GetFromPoolInactive(TextPool.TextPools.ScrollingConversation);
             greetingInstance.SetActive(true);
             greetingInstance.GetComponent<Conversation>().ShowConversation(LandscapeContainer.Instance.GetCursorStartPosition(),
-                                                                LandscapeContainer.Instance.GetCaretNextPosition(),
-                                                                LandscapeContainer.Instance.GetCaretFinishPosition(),
-                                                                greetingText);
+                                                                           LandscapeContainer.Instance.GetCaretNextPosition(),
+                                                                           LandscapeContainer.Instance.GetCaretFinishPosition(),
+                                                                           greetingText);
 
             greetingInstance.GetComponent<Conversation>().Ended += OnGreetingEnded;
 
@@ -53,23 +50,33 @@ public class Stores : MonoBehaviour
     {
         greetingInstance.GetComponent<Conversation>().Ended -= OnGreetingEnded;
         TextPool.Instance.DeactivateAndAddToPool(greetingInstance);
-        choicePickerInstance = TextPool.Instance.GetFromPoolInactive(TextPool.TextPools.ChoicePicker);
-        choicePickerInstance.SetActive(true);
-        choicePickerInstance.GetComponent<ChoicePicker>().ShowChoicePicker(LandscapeContainer.Instance.GetChoiceAPosition(),
+        buySellPickerInstance = TextPool.Instance.GetFromPoolInactive(TextPool.TextPools.ChoicePicker);
+        buySellPickerInstance.SetActive(true);
+        buySellPickerInstance.GetComponent<ChoicePicker>().ShowChoicePicker(LandscapeContainer.Instance.GetChoiceAPosition(),
                                                                    LandscapeContainer.Instance.GetChoiceBPosition(),
                                                                    choiceA,
                                                                    choiceB);
 
-        choicePickerInstance.GetComponent<ChoicePicker>().Ended += OnChoicePicked;
+        buySellPickerInstance.GetComponent<ChoicePicker>().Ended += OnBuySellSelected;
     }
 
-    private void OnChoicePicked(string choice)
+    private void OnBuySellSelected(string choice)
     {
-        choicePickerInstance.GetComponent<ChoicePicker>().Ended -= OnChoicePicked;
-        TextPool.Instance.DeactivateAndAddToPool(choicePickerInstance);
-        Debug.Log(choice);
-        Player.Instance.GetComponent<Player>().Unpause();
-        PortraitContainer.Instance.Hide();
+        buySellPickerInstance.GetComponent<ChoicePicker>().Ended -= OnBuySellSelected;
+        TextPool.Instance.DeactivateAndAddToPool(buySellPickerInstance);
         LandscapeContainer.Instance.Hide();
+        StoreContainer.Instance.Show();
+
+        itemLister = TextPool.Instance.GetFromPoolInactive(TextPool.TextPools.ItemLister);
+        itemLister.SetActive(true);
+        itemLister.GetComponent<ItemLister>().DisplayItems(StoreContainer.Instance.GetCaretStartPosition(),
+                                                           StoreContainer.Instance.GetLargeImagePosition(),
+                                                           storeItems);
+        itemLister.GetComponent<ItemLister>().ItemSelected += OnItemSelected;
+    }
+
+    private void OnItemSelected(int itemIdx)
+    {
+
     }
 }

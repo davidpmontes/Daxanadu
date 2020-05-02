@@ -1,13 +1,13 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public enum STATES
-{
-    NORMAL, NEXT, FINISH
-}
-
 public class Conversation : MonoBehaviour
 {
+    private enum STATES
+    {
+        NORMAL, NEXT, FINISH
+    }
+
     [SerializeField] private GameObject cursor;
     [SerializeField] private GameObject cursorStart;
     [SerializeField] private GameObject scrollingBackground;

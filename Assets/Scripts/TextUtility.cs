@@ -30,10 +30,7 @@ public class TextUtility : MonoBehaviour
         AlphabetPool.AlphabetPools parsed_enum = (AlphabetPool.AlphabetPools)System.Enum.Parse(typeof(AlphabetPool.AlphabetPools), "_" + symbol);
         var letter = AlphabetPool.Instance.GetFromPoolInactive(parsed_enum);
         letter.transform.position = position;
-        if (background != null)
-            letter.transform.SetParent(background.transform);
-        else
-            letter.transform.SetParent(null);
+        letter.transform.SetParent(background.transform);
         letter.SetActive(true);
         letters.Add(letter);
         return letter;

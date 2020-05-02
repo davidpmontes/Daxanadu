@@ -19,7 +19,7 @@ public class ChoicePicker : MonoBehaviour
 
     private void Awake()
     {
-        textUtility.Initialize(null);
+        textUtility.Initialize(gameObject);
     }
 
     private void Update()

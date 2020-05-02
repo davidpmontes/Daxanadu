@@ -1,21 +1,20 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TextPool : MonoBehaviour
+public class ObjectPool : MonoBehaviour
 {
-    public enum TextPools
+    public enum ObjectPools
     {
-        ScrollingConversation,
-        ChoicePicker,
-        ItemLister
+        ImageObject
     };
 
     public GameObject[] prefabs;
     private Dictionary<string, Queue<GameObject>> dictOfPools;
     private Dictionary<string, GameObject> dictOfPrefabs;
 
-    public static TextPool Instance { get; private set; }
+    public static ObjectPool Instance { get; private set; }
 
     private void Awake()
     {
@@ -30,13 +29,13 @@ public class TextPool : MonoBehaviour
             dictOfPrefabs.Add(prefab.name, prefab);
         }
 
-        foreach (TextPools item in Enum.GetValues(typeof(TextPools)))
+        foreach (ObjectPools item in Enum.GetValues(typeof(ObjectPools)))
         {
             GrowPool(item, 3);
         }
     }
 
-    private void GrowPool(TextPools poolName, int amount)
+    private void GrowPool(ObjectPools poolName, int amount)
     {
         for (int i = 0; i < amount; i++)
         {
@@ -47,7 +46,7 @@ public class TextPool : MonoBehaviour
         }
     }
 
-    public GameObject GetFromPoolActiveSetTransform(TextPools poolName, Transform t)
+    public GameObject GetFromPoolActiveSetTransform(ObjectPools poolName, Transform t)
     {
         Queue<GameObject> pool = dictOfPools[poolName.ToString()];
         if (pool.Count == 0)
@@ -59,7 +58,7 @@ public class TextPool : MonoBehaviour
         return instance;
     }
 
-    public GameObject GetFromPoolInactive(TextPools poolName)
+    public GameObject GetFromPoolInactive(ObjectPools poolName)
     {
         Queue<GameObject> pool = dictOfPools[poolName.ToString()];
         if (pool.Count == 0)
