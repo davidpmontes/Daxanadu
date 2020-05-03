@@ -80,6 +80,11 @@ public class NPC : MonoBehaviour
 
     private void OnCollisionStay2D(Collision2D collision)
     {
+        ConversationStart();
+    }
+
+    private void ConversationStart()
+    {
         if (InputController.Instance.DirectionalInput.y > 0.5f)
         {
             if (!animator.enabled)
@@ -98,13 +103,13 @@ public class NPC : MonoBehaviour
             PortraitContainer.Instance.Show();
             LandscapeContainer.Instance.Show();
 
-            conversationInstance.GetComponent<Conversation>().Ended += OnConversationEnded;
+            conversationInstance.GetComponent<Conversation>().Ended += ConversationEnd;
         }
     }
 
-    private void OnConversationEnded()
+    private void ConversationEnd()
     {
-        conversationInstance.GetComponent<Conversation>().Ended -= OnConversationEnded;
+        conversationInstance.GetComponent<Conversation>().Ended -= ConversationEnd;
         TextPool.Instance.DeactivateAndAddToPool(conversationInstance);
         Player.Instance.GetComponent<Player>().Unpause();
         PortraitContainer.Instance.Hide();

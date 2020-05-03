@@ -41,3 +41,18 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Background
+    uniqueID: 1935480699
+    locked: 0
+  - name: MovingObjects
+    uniqueID: 2751043445
+    locked: 0
+  - name: Foreground
+    uniqueID: 209533597
+    locked: 0
+  - name: MenusBackground
+    uniqueID: 2361955779
+    locked: 0
+  - name: MenusForeground
+    uniqueID: 1306241457
+    locked: 0

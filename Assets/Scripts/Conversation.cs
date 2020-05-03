@@ -98,7 +98,7 @@ public class Conversation : MonoBehaviour
         StopAllCoroutines();
         caretFinished.SetActive(false);
         caretNext.SetActive(false);
-        textUtility.RecycleLetters();
+        textUtility.RecycleAll();
         if (Ended != null) Ended.Invoke();
     }
 
@@ -172,6 +172,7 @@ public class Conversation : MonoBehaviour
 
     private void EndOfLine(int lineIdx)
     {
+        textUtility.NewLine();
         if (state != STATES.FINISH)
         {
             if (lineIdx < 3)
@@ -204,6 +205,6 @@ public class Conversation : MonoBehaviour
         scrollingBackground.transform.position = Vector3.zero;
         cursor.transform.position = cursorStart.transform.position;
         state = STATES.NORMAL;
-        textUtility.RecycleLetters();
+        textUtility.RecycleAll();
     }
 }

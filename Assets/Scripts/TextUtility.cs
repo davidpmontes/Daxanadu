@@ -3,12 +3,14 @@ using UnityEngine;
 
 public class TextUtility : MonoBehaviour
 {
-    private List<GameObject> letters;
+    private List<List<GameObject>> lines;
+    private List<GameObject> currLine;
     private GameObject background;
 
     public void Initialize(GameObject background)
     {
-        letters = new List<GameObject>();
+        lines = new List<List<GameObject>>();
+        currLine = new List<GameObject>();
         this.background = background;
     }
 
@@ -32,16 +34,36 @@ public class TextUtility : MonoBehaviour
         letter.transform.position = position;
         letter.transform.SetParent(background.transform);
         letter.SetActive(true);
-        letters.Add(letter);
+        currLine.Add(letter);
         return letter;
     }
 
-    public void RecycleLetters()
+    public void NewLine()
     {
-        for (int i = letters.Count - 1; i >= 0; i--)
+        if (lines.Count > 3)
         {
-            AlphabetPool.Instance.DeactivateAndAddToPool(letters[i]);
-            letters.RemoveAt(i);
+            RecycleLine(lines[0]);
+            lines.RemoveAt(0);
+        }
+        lines.Add(currLine);
+        currLine = new List<GameObject>();
+    }
+
+    public void RecycleAll()
+    { 
+        for (int i = lines.Count - 1; i >= 0; i--)
+        {
+            RecycleLine(lines[i]);
+            lines.RemoveAt(i);
+        }
+    }
+
+    public void RecycleLine(List<GameObject> line)
+    {
+        for (int i = line.Count - 1; i >= 0; i--)
+        {
+            AlphabetPool.Instance.DeactivateAndAddToPool(line[i]);
+            line.RemoveAt(i);
         }
     }
 }

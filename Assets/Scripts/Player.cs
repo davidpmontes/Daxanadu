@@ -1,4 +1,32 @@
-﻿using System.Collections;
+﻿// *** BACK ***
+// Sorting Layer: 
+//
+// Sorting Layer: Background objects
+// 0: Sky
+// 1: Far background
+// 2: Near background
+// 3: Buildings
+// 4: Ground and platforms
+// 5: Animated tiles
+//
+// Sorting Layer: MovingObjects: Characters, Enemies, Magic, Weapons, SFX
+// 0: All
+//
+// Sorting Layer: Foreground objects: Trees, wells
+// 0: All
+//
+// Sorting Layer: Menus Background: Black backgrounds, Frames
+// 0: Frames and Backdrops
+//
+// Sorting Layer: Menus Foreground
+// ***spritemasks back -1 -> 1 front
+//
+// 0: Images main, Words, Graphics, cursors
+// 1: Images accessories
+//
+// *** FRONT ***
+
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 using DarkTonic.MasterAudio;

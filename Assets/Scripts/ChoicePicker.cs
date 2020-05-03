@@ -44,7 +44,7 @@ public class ChoicePicker : MonoBehaviour
 
         if (InputController.Instance.onSpaceDown)
         {
-            textUtility.RecycleLetters();
+            textUtility.RecycleAll();
             Ended.Invoke(choice);
         }
     }

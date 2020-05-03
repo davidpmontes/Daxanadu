@@ -163,7 +163,7 @@ GameObject:
   - component: {fileID: 3352178116193332539}
   - component: {fileID: 3352178116193332541}
   m_Layer: 0
-  m_Name: Conversation
+  m_Name: ScrollingConversation
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -361,6 +361,16 @@ PrefabInstance:
     - target: {fileID: 8341847906265912522, guid: f3d243e001fbf4674bfdb852e6cfc33e,
         type: 3}
       propertyPath: m_SortingOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8341847906265912522, guid: f3d243e001fbf4674bfdb852e6cfc33e,
+        type: 3}
+      propertyPath: m_SortingLayerID
+      value: 1306241457
+      objectReference: {fileID: 0}
+    - target: {fileID: 8341847906265912522, guid: f3d243e001fbf4674bfdb852e6cfc33e,
+        type: 3}
+      propertyPath: m_SortingLayer
       value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -452,12 +462,22 @@ PrefabInstance:
     - target: {fileID: 8341847906265912522, guid: f3d243e001fbf4674bfdb852e6cfc33e,
         type: 3}
       propertyPath: m_SortingOrder
-      value: 5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8341847906265912522, guid: f3d243e001fbf4674bfdb852e6cfc33e,
         type: 3}
       propertyPath: m_FlipY
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8341847906265912522, guid: f3d243e001fbf4674bfdb852e6cfc33e,
+        type: 3}
+      propertyPath: m_SortingLayerID
+      value: 1306241457
+      objectReference: {fileID: 0}
+    - target: {fileID: 8341847906265912522, guid: f3d243e001fbf4674bfdb852e6cfc33e,
+        type: 3}
+      propertyPath: m_SortingLayer
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f3d243e001fbf4674bfdb852e6cfc33e, type: 3}
