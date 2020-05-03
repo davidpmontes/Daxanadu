@@ -10,15 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d6b874d20ff564ac39066aa310cd8f24, type: 3}
-  m_Name: GoldKey
+  m_Name: Sword
   m_EditorClassIdentifier: 
-  menuName: Gold Key
+  menuName: Sword
   description:
-  - Opens gold door
-  - locks
-  sprite: {fileID: 21300000, guid: a53c75f8e9efb4151971b4a27fe09d54, type: 3}
-  cost: 1000
-  attackPower: 0
+  - A medium length
+  - sword with better
+  - reach than a knife
+  sprite: {fileID: 21300000, guid: 082c5f6bf22284e67a60be16afa54fa9, type: 3}
+  cost: 5000
+  attackPower: 15
   defensePower: 0
   healingPower: 0
   durationTime: 0

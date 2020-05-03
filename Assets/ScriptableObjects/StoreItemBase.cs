@@ -1,11 +1,14 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/StoreItem", order = 1)]
 public class StoreItemBase : ScriptableObject
 {
     public string menuName;
-    public Sprite smallSprite;
-    public Sprite largeSprite;
+    public string[] description;
+    public Sprite sprite;
+    public int cost;
+    public int attackPower;
+    public int defensePower;
+    public int healingPower;
+    public int durationTime;
 }

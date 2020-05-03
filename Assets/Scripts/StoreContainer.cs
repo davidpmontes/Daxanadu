@@ -6,11 +6,8 @@ public class StoreContainer : MonoBehaviour
 
     [SerializeField] private GameObject frame;
     [SerializeField] private GameObject caretStartPosition;
-    [SerializeField] private GameObject largeImagePosition;
 
     public Vector2 GetCaretStartPosition() => caretStartPosition.transform.position;
-    public Vector2 GetLargeImagePosition() => largeImagePosition.transform.position;
-
 
     private void Awake()
     {

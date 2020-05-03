@@ -5,7 +5,8 @@ public class ItemLister : MonoBehaviour
 {
     [SerializeField] private GameObject cursor;
     [SerializeField] private GameObject cursorStart;
-    [SerializeField] private TextUtility textUtility;
+    [SerializeField] private TextUtility textUtilityStore;
+    [SerializeField] private TextUtility textUtilityLandscape;
 
     private bool started;
 
@@ -15,13 +16,13 @@ public class ItemLister : MonoBehaviour
     private int itemIdx;
     private int numItems;
     private Vector2 itemStartPosition;
-    private GameObject largeImage;
     private List<GameObject> images;
     private StoreItemBase[] itemList;
 
     private void Awake()
     {
-        textUtility.Initialize(gameObject);
+        textUtilityStore.Initialize(gameObject);
+        textUtilityLandscape.Initialize(gameObject);
     }
 
     private void Update()
@@ -36,24 +37,26 @@ public class ItemLister : MonoBehaviour
             itemIdx = Mathf.Max(itemIdx - 1, 0);
             cursor.transform.position = new Vector2(cursor.transform.position.x,
                                                     cursorStart.transform.position.y - itemIdx);
-            SetLargeImage(itemIdx);
+            DrawItemDescription(LandscapeContainer.Instance.GetCursorStartPosition(),
+                                itemList[itemIdx].description);
         }
         else if (InputController.Instance.onDown)
         {
             itemIdx = Mathf.Min(itemIdx + 1, numItems - 1);
             cursor.transform.position = new Vector2(cursor.transform.position.x,
                                                     cursorStart.transform.position.y - itemIdx);
-            SetLargeImage(itemIdx);
+            DrawItemDescription(LandscapeContainer.Instance.GetCursorStartPosition(),
+                                itemList[itemIdx].description);
         }
 
         if (InputController.Instance.onSpaceDown)
         {
+            textUtilityLandscape.RecycleAll();
             ItemSelected.Invoke(itemIdx);
         }
     }
 
     public void DisplayItems(Vector2 cursorStartPosition,
-                             Vector2 largeImagePosition,
                              StoreItemBase[] itemList)
     {
         if (started)
@@ -68,18 +71,10 @@ public class ItemLister : MonoBehaviour
         itemIdx = 0;
         cursorStart.transform.position = cursorStartPosition;
         cursor.transform.position = cursorStart.transform.position;
-        itemStartPosition = cursor.transform.position + new Vector3(1f, 0, 0);
-
-        largeImage = ObjectPool.Instance.GetFromPoolInactive(ObjectPool.ObjectPools.ImageObject);
-        largeImage.transform.position = largeImagePosition;
-        largeImage.SetActive(true);
-        SetLargeImage(0);
+        itemStartPosition = cursor.transform.position + new Vector3(2f, 0, 0);
+        DrawItemDescription(LandscapeContainer.Instance.GetCursorStartPosition(),
+                            itemList[0].description);
         DrawItemList();
-    }
-
-    private void SetLargeImage(int idx)
-    {
-        largeImage.GetComponent<SpriteRenderer>().sprite = itemList[idx].largeSprite;
     }
 
     public void DrawItemList()
@@ -87,24 +82,71 @@ public class ItemLister : MonoBehaviour
         Vector2 nextItemPosition = itemStartPosition;
         for (int lineIdx = 0; lineIdx < itemList.Length; lineIdx++)
         {
-            var smallImage = ObjectPool.Instance.GetFromPoolInactive(ObjectPool.ObjectPools.ImageObject);
-            smallImage.transform.position = nextItemPosition + new Vector2(-0.5f, 0);
-            smallImage.SetActive(true);
-            smallImage.GetComponent<SpriteRenderer>().sprite = itemList[lineIdx].smallSprite;
-            images.Add(smallImage);
+            DrawItemImage(nextItemPosition + new Vector2(-1f, 0), itemList[lineIdx].sprite);
+            DrawItemName(nextItemPosition, itemList[lineIdx].menuName);
+            DrawItemCost(nextItemPosition, itemList[lineIdx].cost.ToString());
 
-            for (int i = 0; i < itemList[lineIdx].menuName.Length; i++)
+            nextItemPosition = new Vector2(itemStartPosition.x,
+                                           nextItemPosition.y - 1.0f);
+        }
+    }
+
+    private void DrawItemImage(Vector2 position, Sprite sprite)
+    {
+        var smallImage = ObjectPool.Instance.GetFromPoolInactive(ObjectPool.ObjectPools.ImageObject);
+        smallImage.transform.position = position;
+        smallImage.SetActive(true);
+        smallImage.GetComponent<SpriteRenderer>().sprite = sprite;
+        images.Add(smallImage);
+    }
+
+    private void DrawItemName(Vector2 position, string name)
+    {
+        for (int i = 0; i < name.Length; i++)
+        {
+            string symbol = name.Substring(i, 1);
+
+            if ("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789',\"!-.?_ ".Contains(symbol))
             {
-                string symbol = itemList[lineIdx].menuName.Substring(i, 1);
+                textUtilityStore.DrawSymbol(symbol, position);
+                position += new Vector2(0.5f, 0);
+            }
+        }
+    }
+
+    private void DrawItemCost(Vector2 position, string goldCost)
+    {
+        position = new Vector2(itemStartPosition.x + 5.5f, position.y);
+        for (int i = 0; i < goldCost.Length; i++)
+        {
+            string symbol = goldCost.Substring(i, 1);
+
+            if ("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789',\"!-.?_ ".Contains(symbol))
+            {
+                textUtilityStore.DrawSymbol(symbol, position);
+                position += new Vector2(0.5f, 0);
+            }
+        }
+    }
+
+    private void DrawItemDescription(Vector2 position, string[] description)
+    {
+        textUtilityLandscape.RecycleAll();
+        Vector2 startPosition = position;
+        for (int i = 0; i < description.Length; i++)
+        {
+            for (int j = 0; j < description[i].Length; j++)
+            {
+                string symbol = description[i].Substring(j, 1);
 
                 if ("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789',\"!-.?_ ".Contains(symbol))
                 {
-                    textUtility.DrawSymbol(symbol, nextItemPosition);
-                    nextItemPosition += new Vector2(0.5f, 0);
+                    textUtilityLandscape.DrawSymbol(symbol, position);
+                    position += new Vector2(0.5f, 0);
                 }
             }
-            nextItemPosition = new Vector2(itemStartPosition.x,
-                                           nextItemPosition.y - 1.0f);
+            textUtilityLandscape.NewLine();
+            position = new Vector2(startPosition.x, position.y - 0.6f);
         }
     }
 }

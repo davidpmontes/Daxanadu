@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d6b874d20ff564ac39066aa310cd8f24, type: 3}
-  m_Name: GoldKey
+  m_Name: Knife
   m_EditorClassIdentifier: 
-  menuName: Gold Key
+  menuName: Knife
   description:
-  - Opens gold door
-  - locks
-  sprite: {fileID: 21300000, guid: a53c75f8e9efb4151971b4a27fe09d54, type: 3}
-  cost: 1000
-  attackPower: 0
+  - A small knife,
+  - very short range
+  sprite: {fileID: 21300000, guid: 202a94311c14b41be820d0168bc2d0a5, type: 3}
+  cost: 2500
+  attackPower: 5
   defensePower: 0
   healingPower: 0
   durationTime: 0

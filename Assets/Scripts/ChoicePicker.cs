@@ -50,7 +50,7 @@ public class ChoicePicker : MonoBehaviour
     }
 
     public void ShowChoicePicker(Vector2 choiceAPosition, Vector2 choiceBPosition,
-                                 string choiceA, string choiceB)
+                                 string description, string choiceA, string choiceB)
     {
         if (started)
         {
@@ -64,6 +64,7 @@ public class ChoicePicker : MonoBehaviour
         this.choiceAPosition.transform.position = choiceAPosition;
         this.choiceBPosition.transform.position = choiceBPosition;
         caret.transform.position = choiceAPosition;
+        DrawText(description, LandscapeContainer.Instance.GetCursorStartPosition());
         DrawText(choiceA, choiceAPosition);
         DrawText(choiceB, choiceBPosition);
     }

@@ -50,7 +50,7 @@ public class TextUtility : MonoBehaviour
     }
 
     public void RecycleAll()
-    { 
+    {
         for (int i = lines.Count - 1; i >= 0; i--)
         {
             RecycleLine(lines[i]);

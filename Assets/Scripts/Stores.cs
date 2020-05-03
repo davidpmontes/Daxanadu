@@ -15,13 +15,11 @@ public class Stores : MonoBehaviour
         "Buy or Sell?^END",
     };
 
-    private string choiceA = "Buy";
-    private string choiceB = "Sell";
     private bool started;
     private GameObject greetingInstance;
     private GameObject buySellPickerInstance;
     private GameObject itemLister;
-    private GameObject confirmPickerInstance;
+    private GameObject confirmPurchasePickerInstance;
 
     private void OnCollisionStay2D(Collision2D collision)
     {
@@ -33,10 +31,11 @@ public class Stores : MonoBehaviour
             started = true;
             greetingInstance = TextPool.Instance.GetFromPoolInactive(TextPool.TextPools.ScrollingConversation);
             greetingInstance.SetActive(true);
-            greetingInstance.GetComponent<Conversation>().ShowConversation(LandscapeContainer.Instance.GetCursorStartPosition(),
-                                                                           LandscapeContainer.Instance.GetCaretNextPosition(),
-                                                                           LandscapeContainer.Instance.GetCaretFinishPosition(),
-                                                                           greetingText);
+            greetingInstance.GetComponent<Conversation>().ShowConversation(
+                                    LandscapeContainer.Instance.GetCursorStartPosition(),
+                                    LandscapeContainer.Instance.GetCaretNextPosition(),
+                                    LandscapeContainer.Instance.GetCaretFinishPosition(),
+                                    greetingText);
 
             greetingInstance.GetComponent<Conversation>().Ended += OnGreetingEnded;
 
@@ -52,10 +51,11 @@ public class Stores : MonoBehaviour
         TextPool.Instance.DeactivateAndAddToPool(greetingInstance);
         buySellPickerInstance = TextPool.Instance.GetFromPoolInactive(TextPool.TextPools.ChoicePicker);
         buySellPickerInstance.SetActive(true);
-        buySellPickerInstance.GetComponent<ChoicePicker>().ShowChoicePicker(LandscapeContainer.Instance.GetChoiceAPosition(),
-                                                                   LandscapeContainer.Instance.GetChoiceBPosition(),
-                                                                   choiceA,
-                                                                   choiceB);
+        buySellPickerInstance.GetComponent<ChoicePicker>().ShowChoicePicker
+                                    (LandscapeContainer.Instance.GetChoiceAPosition(),
+                                     LandscapeContainer.Instance.GetChoiceBPosition(),
+                                     "How may I help?",
+                                     "Buy", "Sell");
 
         buySellPickerInstance.GetComponent<ChoicePicker>().Ended += OnBuySellSelected;
     }
@@ -64,19 +64,24 @@ public class Stores : MonoBehaviour
     {
         buySellPickerInstance.GetComponent<ChoicePicker>().Ended -= OnBuySellSelected;
         TextPool.Instance.DeactivateAndAddToPool(buySellPickerInstance);
-        LandscapeContainer.Instance.Hide();
         StoreContainer.Instance.Show();
 
         itemLister = TextPool.Instance.GetFromPoolInactive(TextPool.TextPools.ItemLister);
         itemLister.SetActive(true);
         itemLister.GetComponent<ItemLister>().DisplayItems(StoreContainer.Instance.GetCaretStartPosition(),
-                                                           StoreContainer.Instance.GetLargeImagePosition(),
                                                            storeItems);
         itemLister.GetComponent<ItemLister>().ItemSelected += OnItemSelected;
     }
 
     private void OnItemSelected(int itemIdx)
     {
-
+        confirmPurchasePickerInstance = TextPool.Instance.GetFromPoolInactive(
+                                                TextPool.TextPools.ChoicePicker);
+        confirmPurchasePickerInstance.SetActive(true);
+        confirmPurchasePickerInstance.GetComponent<ChoicePicker>().ShowChoicePicker(
+                                    LandscapeContainer.Instance.GetChoiceAPosition(),
+                                    LandscapeContainer.Instance.GetChoiceBPosition(),
+                                    "Buy this?",
+                                    "Yes", "No");
     }
 }

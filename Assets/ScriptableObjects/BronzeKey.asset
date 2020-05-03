@@ -13,5 +13,12 @@ MonoBehaviour:
   m_Name: BronzeKey
   m_EditorClassIdentifier: 
   menuName: Bronze Key
-  smallSprite: {fileID: 21300000, guid: 52ee30027564b44f88358919c35817a4, type: 3}
-  largeSprite: {fileID: 21300000, guid: 02cbf8b4b3bd0471ebda3093bf319c83, type: 3}
+  description:
+  - Opens bronze door
+  - locks
+  sprite: {fileID: 21300000, guid: 52ee30027564b44f88358919c35817a4, type: 3}
+  cost: 250
+  attackPower: 0
+  defensePower: 0
+  healingPower: 0
+  durationTime: 0
