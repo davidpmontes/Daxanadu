@@ -12,6 +12,7 @@ public class ChoicePicker : MonoBehaviour
     public event ChoicePickerHandler canceled;
     public event ChoicePickerHandler choiceA;
     public event ChoicePickerHandler choiceB;
+    private bool isChoiceA;
 
     private bool canReceiveInput;
     private bool started;
@@ -30,20 +31,25 @@ public class ChoicePicker : MonoBehaviour
 
         if (input > 0)
         {
+            isChoiceA = false;
             caret.transform.position = choiceBPosition.transform.position;
         }
         else if (input < 0)
         {
+            isChoiceA = true;
             caret.transform.position = choiceAPosition.transform.position;
         }
 
-        if (InputController.Instance.onSpaceDown)
+        if (InputController.Instance.onActionA_Down)
         {
             canReceiveInput = false;
-            choiceA.Invoke();
+            if (isChoiceA)
+                choiceA.Invoke();
+            else
+                choiceB.Invoke();
         }
 
-        if (InputController.Instance.isCancel)
+        if (InputController.Instance.onActionB_Down)
         {
             canReceiveInput = false;
             canceled.Invoke();
@@ -51,7 +57,7 @@ public class ChoicePicker : MonoBehaviour
     }
 
     public void ShowChoicePicker(Vector2 choiceAPosition, Vector2 choiceBPosition,
-                                 string description, string choiceA, string choiceB)
+                                 string description, string choiceAText, string choiceBText)
     {
         if (started)
         {
@@ -65,9 +71,10 @@ public class ChoicePicker : MonoBehaviour
         caret.SetActive(true);
         caret.transform.position = choiceAPosition;
         textUtility.Initialize(gameObject, true);
+        isChoiceA = true;
         DrawText(description, LandscapeContainer.Instance.GetCursorStartPosition());
-        DrawText(choiceA, choiceAPosition);
-        DrawText(choiceB, choiceBPosition);
+        DrawText(choiceAText, choiceAPosition);
+        DrawText(choiceBText, choiceBPosition);
     }
 
     private void DrawText(string choice, Vector2 choicePosition)
@@ -86,6 +93,7 @@ public class ChoicePicker : MonoBehaviour
 
     public void Hide()
     {
+        started = false;
         caret.SetActive(false);
         textUtility.RecycleAll();
     }

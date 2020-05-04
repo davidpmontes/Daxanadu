@@ -49,6 +49,9 @@ public class TextUtility : MonoBehaviour
     {
         if (shouldReleaseAll)
         {
+            if (all == null)
+                return;
+
             for (int i = all.Count - 1; i >= 0; i--)
             {
                 AlphabetPool.Instance.DeactivateAndAddToPool(all[i]);
@@ -57,6 +60,9 @@ public class TextUtility : MonoBehaviour
         }
         else
         {
+            if (lines == null)
+                return;
+
             for(int i = lines.Count - 1; i >= 0; i--)
             {
                 RecycleLine(lines[i]);

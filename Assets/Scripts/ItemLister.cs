@@ -14,7 +14,8 @@ public class ItemLister : MonoBehaviour
     public event ItemListerHandler itemSelected;
     public event ItemListerHandler canceled;
 
-    private bool enforcedInputBreak;
+    private bool enforcedActionB_Released;
+    private bool enforcedActionA_Released;
     private int itemIdx;
     private int numItems;
     private Vector2 itemStartPosition;
@@ -30,16 +31,16 @@ public class ItemLister : MonoBehaviour
 
     private void GetInput()
     {
-        if (!enforcedInputBreak)
-        {
-            enforcedInputBreak = true;
-            return;
-        }
-
         if (!canReceiveInput)
             return;
 
-        if (InputController.Instance.onUp)
+        if (!InputController.Instance.actionA)
+            enforcedActionA_Released = true;
+
+        if (!InputController.Instance.actionB)
+            enforcedActionB_Released = true;
+
+        if (InputController.Instance.onUp_Down)
         {
             itemIdx = Mathf.Max(itemIdx - 1, 0);
             cursor.transform.position = new Vector2(cursor.transform.position.x,
@@ -47,7 +48,7 @@ public class ItemLister : MonoBehaviour
             DrawItemDescription(LandscapeContainer.Instance.GetCursorStartPosition(),
                                 itemList[itemIdx].description);
         }
-        else if (InputController.Instance.onDown)
+        else if (InputController.Instance.onDown_Down)
         {
             itemIdx = Mathf.Min(itemIdx + 1, numItems - 1);
             cursor.transform.position = new Vector2(cursor.transform.position.x,
@@ -56,18 +57,31 @@ public class ItemLister : MonoBehaviour
                                 itemList[itemIdx].description);
         }
 
-        if (InputController.Instance.onSpaceDown)
+        if (InputController.Instance.onActionA_Down)
         {
+            if (!enforcedActionA_Released)
+                return;
+
             canReceiveInput = false;
             textUtilityLandscape.RecycleAll();
             itemSelected.Invoke(itemIdx);
         }
 
-        if (InputController.Instance.isCancel)
+        if (InputController.Instance.onActionB_Down)
         {
+            if (!enforcedActionB_Released)
+                return;
+
             canReceiveInput = false;
             canceled.Invoke(-1);
         }
+    }
+
+    public void EnableReceivingInput()
+    {
+        canReceiveInput = true;
+        enforcedActionA_Released = false;
+        enforcedActionB_Released = false;
     }
 
     public void DisplayItems(Vector2 cursorStartPosition,
@@ -78,11 +92,13 @@ public class ItemLister : MonoBehaviour
             return;
         }
 
+        canReceiveInput = false;
         this.itemList = itemList;
         images = new List<GameObject>();
         started = true;
         numItems = itemList.Length;
         itemIdx = 0;
+        cursor.SetActive(true);
         cursorStart.transform.position = cursorStartPosition;
         cursor.transform.position = cursorStart.transform.position;
         itemStartPosition = cursor.transform.position + new Vector3(2f, 0, 0);
@@ -91,11 +107,9 @@ public class ItemLister : MonoBehaviour
         DrawItemDescription(LandscapeContainer.Instance.GetCursorStartPosition(),
                             itemList[0].description);
         DrawItemList();
-        canReceiveInput = true;
-        enforcedInputBreak = false;
     }
 
-    private void DrawItemDescription(Vector2 position, string[] description)
+    public void DrawItemDescription(Vector2 position, string[] description)
     {
         textUtilityLandscape.RecycleAll();
         Vector2 startPosition = position;
@@ -167,12 +181,15 @@ public class ItemLister : MonoBehaviour
         }
     }
 
-
-
-    public void RecycleAll()
+    public void Hide()
     {
+        started = false;
+        cursor.SetActive(false);
         textUtilityLandscape.RecycleAll();
         textUtilityStore.RecycleAll();
+
+        if (images == null)
+            return;
 
         for (int i = images.Count - 1; i >= 0; i--)
         {

@@ -9,12 +9,28 @@ public class Stores : MonoBehaviour
 
     private string[] greetingText = new string[] {
         "Welcome!^-->",
-        "Welcome!^-->",
-        "How may I help?^-->",
-        "Buy or Sell?^END",
+        "Welcome!^END",
     };
 
+    private string[] purchasedText = new string[]
+    {
+        "Purchased!"
+    };
+
+    private string[] purchaseCanceledText = new string[]
+    {
+        "Cancelled"
+    };
+
+    private string[] unaffordableText = new string[]
+    {
+        "I am sorry, you",
+        "do not have enough",
+        "money."
+    };
+    
     private bool started;
+    private int itemIdx;
     private GameObject conversationInstance;
     private GameObject choicePickerInstance;
     private GameObject itemListerInstance;
@@ -35,6 +51,8 @@ public class Stores : MonoBehaviour
 
     private void EnterStore()
     {
+        itemIdx = 0;
+
         conversationInstance = TextPool.Instance.GetFromPoolInactive(TextPool.TextPools.ScrollingConversation);
         choicePickerInstance = TextPool.Instance.GetFromPoolInactive(TextPool.TextPools.ChoicePicker);
         itemListerInstance = TextPool.Instance.GetFromPoolInactive(TextPool.TextPools.ItemLister);
@@ -64,7 +82,7 @@ public class Stores : MonoBehaviour
     {
         conversationInstance.GetComponent<Conversation>().finished -= OnGreetingFinished;
         conversationInstance.GetComponent<Conversation>().canceled -= OnGreetingCanceled;
-        conversationInstance.GetComponent<Conversation>().HideConversation();
+        conversationInstance.GetComponent<Conversation>().Hide();
 
         choicePickerInstance.GetComponent<ChoicePicker>().ShowChoicePicker
                                     (LandscapeContainer.Instance.GetChoiceAPosition(),
@@ -81,7 +99,7 @@ public class Stores : MonoBehaviour
     {
         conversationInstance.GetComponent<Conversation>().finished -= OnGreetingFinished;
         conversationInstance.GetComponent<Conversation>().canceled -= OnGreetingCanceled;
-        conversationInstance.GetComponent<Conversation>().HideConversation();
+        conversationInstance.GetComponent<Conversation>().Hide();
 
         ExitStore();
     }
@@ -101,6 +119,7 @@ public class Stores : MonoBehaviour
                                 storeItems);
         itemListerInstance.GetComponent<ItemLister>().itemSelected += OnItemSelected;
         itemListerInstance.GetComponent<ItemLister>().canceled += OnItemSelectionCancelled;
+        itemListerInstance.GetComponent<ItemLister>().EnableReceivingInput();
     }
 
     private void OnConfirmSell()
@@ -117,42 +136,78 @@ public class Stores : MonoBehaviour
         choicePickerInstance.GetComponent<ChoicePicker>().choiceA -= OnConfirmBuy;
         choicePickerInstance.GetComponent<ChoicePicker>().choiceB -= OnConfirmSell;
         choicePickerInstance.GetComponent<ChoicePicker>().canceled -= OnBuySellCancelled;
+        choicePickerInstance.GetComponent<ChoicePicker>().Hide();
 
         ExitStore();
     }
 
     private void OnItemSelected(int itemIdx)
     {
-        choicePickerInstance.GetComponent<ChoicePicker>().ShowChoicePicker(
+        this.itemIdx = itemIdx;
+
+        if (Gold.Instance.CheckGoldChangeAmount(-storeItems[itemIdx].cost))
+        {
+            choicePickerInstance.GetComponent<ChoicePicker>().ShowChoicePicker(
                                     LandscapeContainer.Instance.GetChoiceAPosition(),
                                     LandscapeContainer.Instance.GetChoiceBPosition(),
                                     "Buy this?",
                                     "Yes", "No");
-        choicePickerInstance.GetComponent<ChoicePicker>().choiceA += OnConfirmPurchase;
-        choicePickerInstance.GetComponent<ChoicePicker>().choiceB += OnCancelPurchase;
+            choicePickerInstance.GetComponent<ChoicePicker>().choiceA += OnConfirmPurchase;
+            choicePickerInstance.GetComponent<ChoicePicker>().choiceB += OnCancelPurchase;
+            choicePickerInstance.GetComponent<ChoicePicker>().canceled += OnCancelPurchase;
+        }
+        else
+        {
+            itemListerInstance.GetComponent<ItemLister>().DrawItemDescription(
+                        LandscapeContainer.Instance.GetCursorStartPosition(),
+                        unaffordableText);
+            itemListerInstance.GetComponent<ItemLister>().EnableReceivingInput();
+        }
     }
 
     private void OnItemSelectionCancelled(int itemIdx)
     {
         itemListerInstance.GetComponent<ItemLister>().itemSelected -= OnItemSelected;
         itemListerInstance.GetComponent<ItemLister>().canceled -= OnItemSelectionCancelled;
-        itemListerInstance.GetComponent<ItemLister>().RecycleAll();
+        itemListerInstance.GetComponent<ItemLister>().Hide();
 
         ExitStore();
     }
 
     private void OnConfirmPurchase()
     {
+        choicePickerInstance.GetComponent<ChoicePicker>().choiceA -= OnConfirmPurchase;
+        choicePickerInstance.GetComponent<ChoicePicker>().choiceB -= OnCancelPurchase;
+        choicePickerInstance.GetComponent<ChoicePicker>().canceled -= OnCancelPurchase;
+        choicePickerInstance.GetComponent<ChoicePicker>().Hide();
+
+        Gold.Instance.ChangeGoldAmount(-storeItems[itemIdx].cost);
+        itemListerInstance.GetComponent<ItemLister>().DrawItemDescription(
+                                LandscapeContainer.Instance.GetCursorStartPosition(),
+                                purchasedText);
+        itemListerInstance.GetComponent<ItemLister>().EnableReceivingInput();
 
     }
 
     private void OnCancelPurchase()
     {
+        choicePickerInstance.GetComponent<ChoicePicker>().choiceA -= OnConfirmPurchase;
+        choicePickerInstance.GetComponent<ChoicePicker>().choiceB -= OnCancelPurchase;
+        choicePickerInstance.GetComponent<ChoicePicker>().canceled -= OnCancelPurchase;
+        choicePickerInstance.GetComponent<ChoicePicker>().Hide();
 
+        itemListerInstance.GetComponent<ItemLister>().DrawItemDescription(
+                                LandscapeContainer.Instance.GetCursorStartPosition(),
+                                purchaseCanceledText);
+        itemListerInstance.GetComponent<ItemLister>().EnableReceivingInput();
     }
 
     private void ExitStore()
     {
+        conversationInstance.GetComponent<Conversation>().Hide();
+        choicePickerInstance.GetComponent<ChoicePicker>().Hide();
+        itemListerInstance.GetComponent<ItemLister>().Hide();
+
         TextPool.Instance.DeactivateAndAddToPool(conversationInstance);
         TextPool.Instance.DeactivateAndAddToPool(choicePickerInstance);
         TextPool.Instance.DeactivateAndAddToPool(itemListerInstance);

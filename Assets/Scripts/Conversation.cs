@@ -41,7 +41,7 @@ public class Conversation : MonoBehaviour
         if (!canReceiveInput)
             return;
 
-        if (InputController.Instance.onJumpDown)
+        if (InputController.Instance.onActionA_Down)
         {
             switch (state)
             {
@@ -57,7 +57,7 @@ public class Conversation : MonoBehaviour
             }
         }
 
-        if (InputController.Instance.isSpaceDown)
+        if (InputController.Instance.actionA)
         {
             speed = FAST_SPEED;
         }
@@ -66,7 +66,7 @@ public class Conversation : MonoBehaviour
             speed = SLOW_SPEED;
         }
 
-        if (InputController.Instance.isCancel)
+        if (InputController.Instance.onActionB_Down)
         {
             canReceiveInput = false;
             canceled.Invoke();
@@ -95,7 +95,7 @@ public class Conversation : MonoBehaviour
         DrawConversation(convo);
     }
 
-    public void HideConversation()
+    public void Hide()
     {
         started = false;
         StopAllCoroutines();

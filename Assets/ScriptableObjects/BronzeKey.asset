@@ -16,7 +16,7 @@ MonoBehaviour:
   description:
   - Opens bronze door
   - locks
-  sprite: {fileID: 21300000, guid: 52ee30027564b44f88358919c35817a4, type: 3}
+  sprite: {fileID: 21300000, guid: 85552e2c0a9ec452884560314325fd2c, type: 3}
   cost: 250
   attackPower: 0
   defensePower: 0

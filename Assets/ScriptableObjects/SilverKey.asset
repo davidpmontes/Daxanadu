@@ -16,7 +16,7 @@ MonoBehaviour:
   description:
   - Opens silver
   - door locks
-  sprite: {fileID: 21300000, guid: 087fb7b2edfab4ea187979e439c9b16c, type: 3}
+  sprite: {fileID: 21300000, guid: 36074ed53b9624383b198441b0bde386, type: 3}
   cost: 500
   attackPower: 0
   defensePower: 0

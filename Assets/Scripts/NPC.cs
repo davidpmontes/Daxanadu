@@ -117,7 +117,7 @@ public class NPC : MonoBehaviour
     {
         conversationInstance.GetComponent<Conversation>().finished -= ConversationEnd;
         conversationInstance.GetComponent<Conversation>().canceled -= ConversationEnd;
-        conversationInstance.GetComponent<Conversation>().HideConversation();
+        conversationInstance.GetComponent<Conversation>().Hide();
         TextPool.Instance.DeactivateAndAddToPool(conversationInstance);
 
         Player.Instance.GetComponent<Player>().Unpause();

@@ -15,6 +15,12 @@ public class Gold : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+        ChangeGoldAmount(5000);
+    }
+
+    public bool CheckGoldChangeAmount(int newAmount)
+    {
+        return actualGoldCount + newAmount >= 0 && actualGoldCount + newAmount <= 99999;
     }
 
     public void ChangeGoldAmount(int newAmount)
@@ -34,7 +40,7 @@ public class Gold : MonoBehaviour
             else
                 visibleGoldCount -= 5;
             UpdateAllDigits();
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(0.01f);
         }
         isAnimating = false;
     }

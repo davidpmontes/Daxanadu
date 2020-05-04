@@ -31,8 +31,8 @@ using UnityEngine;
 using UnityEngine.Events;
 using DarkTonic.MasterAudio;
 
-[RequireComponent (typeof (CharacterAnimator))]
-[RequireComponent (typeof (BoxCollider2D))]
+[RequireComponent(typeof(CharacterAnimator))]
+[RequireComponent(typeof(BoxCollider2D))]
 public class Player : MonoBehaviour
 {
     public static Player Instance { get; private set; }
@@ -103,7 +103,7 @@ public class Player : MonoBehaviour
     [SerializeField]
     [Tooltip("How long you remain attached to a wall when " +
         "trying to move away.")]
-    private  float wallStickTime = 0.25f;
+    private float wallStickTime = 0.25f;
 
     [SerializeField]
     private GameObject Weapon;
@@ -166,10 +166,10 @@ public class Player : MonoBehaviour
     private void GetInput()
     {
         directionalInput = InputController.Instance.DirectionalInput;
-        if (InputController.Instance.onJumpDown) OnJumpInputDown();
-        if (InputController.Instance.onJumpUp) OnJumpInputUp();
-        if (InputController.Instance.onAttackDown) OnAttack();
-        if (InputController.Instance.onMagicDown) OnMagicUsed();
+        if (InputController.Instance.onActionB_Down) OnJumpInputDown();
+        if (InputController.Instance.onActionB_Up) OnJumpInputUp();
+        if (InputController.Instance.onActionA_Down) OnAttack();
+        if (InputController.Instance.onActionX_Down) OnMagicUsed();
     }
 
     private void CalculateVelocity()
@@ -193,7 +193,7 @@ public class Player : MonoBehaviour
                 velocity.x = Mathf.SmoothDamp(velocity.x,
                                               targetVelocityX,
                                               ref velocityXSmoothing,
-                                              accelerationTimeGrounded*
+                                              accelerationTimeGrounded *
                                                     controller.collisions.frictionFactor);
             }
         }
@@ -351,7 +351,7 @@ public class Player : MonoBehaviour
     {
         float startTime = Time.time + 1;
         isInvincible = true;
-        while(Time.time < startTime)
+        while (Time.time < startTime)
         {
             //spriteRenderer.enabled = !spriteRenderer.enabled;
             characterAnimator.ToggleSpriteRendererVisibility();
