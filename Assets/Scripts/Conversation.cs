@@ -26,7 +26,10 @@ public class Conversation : MonoBehaviour
     private readonly float INSTANT_SPEED = 0.0f;
 
     public delegate void ConversationHandler();
-    public event ConversationHandler Ended;
+    public event ConversationHandler Finished;
+    public event ConversationHandler Canceled;
+
+    public bool canReceiveInput;
 
     private string convo;
 
@@ -42,6 +45,9 @@ public class Conversation : MonoBehaviour
 
     private void GetInput()
     {
+        if (!canReceiveInput)
+            return;
+
         if (InputController.Instance.onJumpDown)
         {
             switch (state)
@@ -52,7 +58,8 @@ public class Conversation : MonoBehaviour
                     Continue();
                     break;
                 case STATES.FINISH:
-                    HideConversation();
+                    canReceiveInput = false;
+                    Finished.Invoke();
                     break;
             }
         }
@@ -68,7 +75,8 @@ public class Conversation : MonoBehaviour
 
         if (InputController.Instance.isCancel)
         {
-            HideConversation();
+            canReceiveInput = false;
+            Canceled.Invoke();
         }
     }
 
@@ -82,6 +90,7 @@ public class Conversation : MonoBehaviour
             return;
         }
 
+        canReceiveInput = true;
         started = true;
         state = STATES.NORMAL;
         scrollingBackground.transform.position = Vector3.zero;
@@ -98,8 +107,8 @@ public class Conversation : MonoBehaviour
         StopAllCoroutines();
         caretFinished.SetActive(false);
         caretNext.SetActive(false);
+        textUtility.NewLine();
         textUtility.RecycleAll();
-        if (Ended != null) Ended.Invoke();
     }
 
     public void Continue()
@@ -167,12 +176,12 @@ public class Conversation : MonoBehaviour
                     }
                 }
             }
+            textUtility.NewLine();
         }
     }
 
     private void EndOfLine(int lineIdx)
     {
-        textUtility.NewLine();
         if (state != STATES.FINISH)
         {
             if (lineIdx < 3)
@@ -200,7 +209,7 @@ public class Conversation : MonoBehaviour
         }
     }
 
-    private void ClearConversation()
+    public void ClearConversation()
     {
         scrollingBackground.transform.position = Vector3.zero;
         cursor.transform.position = cursorStart.transform.position;

@@ -11,13 +11,17 @@ public class ItemLister : MonoBehaviour
     private bool started;
 
     public delegate void ItemListerHandler(int itemIdx);
-    public event ItemListerHandler ItemSelected;
+    public event ItemListerHandler itemSelected;
+    public event ItemListerHandler canceled;
+
 
     private int itemIdx;
     private int numItems;
     private Vector2 itemStartPosition;
     private List<GameObject> images;
     private StoreItemBase[] itemList;
+
+    public bool canReceiveInput;
 
     private void Awake()
     {
@@ -32,6 +36,9 @@ public class ItemLister : MonoBehaviour
 
     private void GetInput()
     {
+        if (!canReceiveInput)
+            return;
+
         if (InputController.Instance.onUp)
         {
             itemIdx = Mathf.Max(itemIdx - 1, 0);
@@ -51,8 +58,15 @@ public class ItemLister : MonoBehaviour
 
         if (InputController.Instance.onSpaceDown)
         {
+            canReceiveInput = false;
             textUtilityLandscape.RecycleAll();
-            ItemSelected.Invoke(itemIdx);
+            itemSelected.Invoke(itemIdx);
+        }
+
+        if (InputController.Instance.isCancel)
+        {
+            canReceiveInput = false;
+            canceled.Invoke(-1);
         }
     }
 
@@ -75,6 +89,7 @@ public class ItemLister : MonoBehaviour
         DrawItemDescription(LandscapeContainer.Instance.GetCursorStartPosition(),
                             itemList[0].description);
         DrawItemList();
+        canReceiveInput = true;
     }
 
     public void DrawItemList()
@@ -148,5 +163,10 @@ public class ItemLister : MonoBehaviour
             textUtilityLandscape.NewLine();
             position = new Vector2(startPosition.x, position.y - 0.6f);
         }
+    }
+
+    public void RecycleAll()
+    {
+
     }
 }

@@ -37,7 +37,8 @@ public class Stores : MonoBehaviour
                                     LandscapeContainer.Instance.GetCaretFinishPosition(),
                                     greetingText);
 
-            greetingInstance.GetComponent<Conversation>().Ended += OnGreetingEnded;
+            greetingInstance.GetComponent<Conversation>().Finished += OnGreetingFinished;
+            greetingInstance.GetComponent<Conversation>().Canceled += OnGreetingCanceled;
 
             Player.Instance.GetComponent<Player>().Pause();
             PortraitContainer.Instance.Show();
@@ -45,10 +46,22 @@ public class Stores : MonoBehaviour
         }
     }
 
-    private void OnGreetingEnded()
+    private void OnGreetingCanceled()
     {
-        greetingInstance.GetComponent<Conversation>().Ended -= OnGreetingEnded;
-        TextPool.Instance.DeactivateAndAddToPool(greetingInstance);
+        greetingInstance.GetComponent<Conversation>().Finished -= OnGreetingFinished;
+        greetingInstance.GetComponent<Conversation>().Canceled -= OnGreetingCanceled;
+        greetingInstance.GetComponent<Conversation>().HideConversation();
+
+        Player.Instance.GetComponent<Player>().Unpause();
+        PortraitContainer.Instance.Hide();
+        LandscapeContainer.Instance.Hide();
+        started = false;
+    }
+
+    private void OnGreetingFinished()
+    {
+        greetingInstance.GetComponent<Conversation>().Finished -= OnGreetingFinished;
+        greetingInstance.GetComponent<Conversation>().ClearConversation();
         buySellPickerInstance = TextPool.Instance.GetFromPoolInactive(TextPool.TextPools.ChoicePicker);
         buySellPickerInstance.SetActive(true);
         buySellPickerInstance.GetComponent<ChoicePicker>().ShowChoicePicker
@@ -57,12 +70,16 @@ public class Stores : MonoBehaviour
                                      "How may I help?",
                                      "Buy", "Sell");
 
-        buySellPickerInstance.GetComponent<ChoicePicker>().Ended += OnBuySellSelected;
+        buySellPickerInstance.GetComponent<ChoicePicker>().choiceA += OnConfirmBuy;
+        buySellPickerInstance.GetComponent<ChoicePicker>().choiceB += OnConfirmSell;
+        buySellPickerInstance.GetComponent<ChoicePicker>().canceled += OnBuySellCancelled;
     }
 
-    private void OnBuySellSelected(string choice)
+    private void OnConfirmBuy()
     {
-        buySellPickerInstance.GetComponent<ChoicePicker>().Ended -= OnBuySellSelected;
+        buySellPickerInstance.GetComponent<ChoicePicker>().choiceA -= OnConfirmBuy;
+        buySellPickerInstance.GetComponent<ChoicePicker>().choiceB -= OnConfirmSell;
+        buySellPickerInstance.GetComponent<ChoicePicker>().canceled -= OnBuySellCancelled;
         TextPool.Instance.DeactivateAndAddToPool(buySellPickerInstance);
         StoreContainer.Instance.Show();
 
@@ -70,7 +87,25 @@ public class Stores : MonoBehaviour
         itemLister.SetActive(true);
         itemLister.GetComponent<ItemLister>().DisplayItems(StoreContainer.Instance.GetCaretStartPosition(),
                                                            storeItems);
-        itemLister.GetComponent<ItemLister>().ItemSelected += OnItemSelected;
+        itemLister.GetComponent<ItemLister>().itemSelected += OnItemSelected;
+        itemLister.GetComponent<ItemLister>().canceled += OnItemSelectionCancelled;
+    }
+
+    private void OnConfirmSell()
+    {
+
+    }
+
+    private void OnBuySellCancelled()
+    {
+        buySellPickerInstance.GetComponent<ChoicePicker>().choiceA -= OnConfirmBuy;
+        buySellPickerInstance.GetComponent<ChoicePicker>().choiceB -= OnConfirmSell;
+        buySellPickerInstance.GetComponent<ChoicePicker>().canceled -= OnBuySellCancelled;
+        TextPool.Instance.DeactivateAndAddToPool(buySellPickerInstance);
+        Player.Instance.GetComponent<Player>().Unpause();
+        PortraitContainer.Instance.Hide();
+        LandscapeContainer.Instance.Hide();
+        started = false;
     }
 
     private void OnItemSelected(int itemIdx)
@@ -83,5 +118,28 @@ public class Stores : MonoBehaviour
                                     LandscapeContainer.Instance.GetChoiceBPosition(),
                                     "Buy this?",
                                     "Yes", "No");
+        confirmPurchasePickerInstance.GetComponent<ChoicePicker>().choiceA += OnConfirmPurchase;
+        confirmPurchasePickerInstance.GetComponent<ChoicePicker>().choiceB += OnCancelPurchase;
+    }
+
+    private void OnItemSelectionCancelled(int itemIdx)
+    {
+        itemLister.GetComponent<ItemLister>().itemSelected -= OnItemSelected;
+        itemLister.GetComponent<ItemLister>().canceled -= OnItemSelectionCancelled;
+        Player.Instance.GetComponent<Player>().Unpause();
+        PortraitContainer.Instance.Hide();
+        LandscapeContainer.Instance.Hide();
+        StoreContainer.Instance.Hide();
+        started = false;
+    }
+
+    private void OnConfirmPurchase()
+    {
+
+    }
+
+    private void OnCancelPurchase()
+    {
+
     }
 }

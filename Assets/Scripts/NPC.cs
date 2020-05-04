@@ -103,13 +103,13 @@ public class NPC : MonoBehaviour
             PortraitContainer.Instance.Show();
             LandscapeContainer.Instance.Show();
 
-            conversationInstance.GetComponent<Conversation>().Ended += ConversationEnd;
+            conversationInstance.GetComponent<Conversation>().Finished += ConversationEnd;
         }
     }
 
     private void ConversationEnd()
     {
-        conversationInstance.GetComponent<Conversation>().Ended -= ConversationEnd;
+        conversationInstance.GetComponent<Conversation>().Finished -= ConversationEnd;
         TextPool.Instance.DeactivateAndAddToPool(conversationInstance);
         Player.Instance.GetComponent<Player>().Unpause();
         PortraitContainer.Instance.Hide();

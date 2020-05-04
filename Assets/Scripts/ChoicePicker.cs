@@ -8,13 +8,12 @@ public class ChoicePicker : MonoBehaviour
 
     [SerializeField] private TextUtility textUtility;
 
-    public delegate void ChoicePickerHandler(string choice);
-    public event ChoicePickerHandler Ended;
+    public delegate void ChoicePickerHandler();
+    public event ChoicePickerHandler canceled;
+    public event ChoicePickerHandler choiceA;
+    public event ChoicePickerHandler choiceB;
 
-    private string choiceA;
-    private string choiceB;
-    private string choice;
-
+    private bool canReceiveInput;
     private bool started;
 
     private void Awake()
@@ -29,23 +28,31 @@ public class ChoicePicker : MonoBehaviour
 
     private void GetInput()
     {
+        if (!canReceiveInput)
+            return;
+
         float input = InputController.Instance.DirectionalInput.x;
 
         if (input > 0)
         {
-            choice = choiceB;
             caret.transform.position = choiceBPosition.transform.position;
         }
         else if (input < 0)
         {
-            choice = choiceA;
             caret.transform.position = choiceAPosition.transform.position;
         }
 
         if (InputController.Instance.onSpaceDown)
         {
+            canReceiveInput = false;
             textUtility.RecycleAll();
-            Ended.Invoke(choice);
+            choiceA.Invoke();
+        }
+
+        if (InputController.Instance.isCancel)
+        {
+            canReceiveInput = false;
+            canceled.Invoke();
         }
     }
 
@@ -58,9 +65,7 @@ public class ChoicePicker : MonoBehaviour
         }
 
         started = true;
-        this.choice = choiceA;
-        this.choiceA = choiceA;
-        this.choiceB = choiceB;
+        canReceiveInput = true;
         this.choiceAPosition.transform.position = choiceAPosition;
         this.choiceBPosition.transform.position = choiceBPosition;
         caret.transform.position = choiceAPosition;
