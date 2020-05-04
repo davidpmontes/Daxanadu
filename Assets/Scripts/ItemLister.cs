@@ -14,7 +14,7 @@ public class ItemLister : MonoBehaviour
     public event ItemListerHandler itemSelected;
     public event ItemListerHandler canceled;
 
-
+    private bool enforcedInputBreak;
     private int itemIdx;
     private int numItems;
     private Vector2 itemStartPosition;
@@ -23,12 +23,6 @@ public class ItemLister : MonoBehaviour
 
     public bool canReceiveInput;
 
-    private void Awake()
-    {
-        textUtilityStore.Initialize(gameObject);
-        textUtilityLandscape.Initialize(gameObject);
-    }
-
     private void Update()
     {
         GetInput();
@@ -36,6 +30,12 @@ public class ItemLister : MonoBehaviour
 
     private void GetInput()
     {
+        if (!enforcedInputBreak)
+        {
+            enforcedInputBreak = true;
+            return;
+        }
+
         if (!canReceiveInput)
             return;
 
@@ -86,10 +86,33 @@ public class ItemLister : MonoBehaviour
         cursorStart.transform.position = cursorStartPosition;
         cursor.transform.position = cursorStart.transform.position;
         itemStartPosition = cursor.transform.position + new Vector3(2f, 0, 0);
+        textUtilityStore.Initialize(gameObject, false);
+        textUtilityLandscape.Initialize(gameObject, true);
         DrawItemDescription(LandscapeContainer.Instance.GetCursorStartPosition(),
                             itemList[0].description);
         DrawItemList();
         canReceiveInput = true;
+        enforcedInputBreak = false;
+    }
+
+    private void DrawItemDescription(Vector2 position, string[] description)
+    {
+        textUtilityLandscape.RecycleAll();
+        Vector2 startPosition = position;
+        for (int i = 0; i < description.Length; i++)
+        {
+            for (int j = 0; j < description[i].Length; j++)
+            {
+                string symbol = description[i].Substring(j, 1);
+
+                if ("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789',\"!-.?_ ".Contains(symbol))
+                {
+                    textUtilityLandscape.DrawSymbol(symbol, position);
+                    position += new Vector2(0.5f, 0);
+                }
+            }
+            position = new Vector2(startPosition.x, position.y - 0.6f);
+        }
     }
 
     public void DrawItemList()
@@ -144,29 +167,17 @@ public class ItemLister : MonoBehaviour
         }
     }
 
-    private void DrawItemDescription(Vector2 position, string[] description)
-    {
-        textUtilityLandscape.RecycleAll();
-        Vector2 startPosition = position;
-        for (int i = 0; i < description.Length; i++)
-        {
-            for (int j = 0; j < description[i].Length; j++)
-            {
-                string symbol = description[i].Substring(j, 1);
 
-                if ("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789',\"!-.?_ ".Contains(symbol))
-                {
-                    textUtilityLandscape.DrawSymbol(symbol, position);
-                    position += new Vector2(0.5f, 0);
-                }
-            }
-            textUtilityLandscape.NewLine();
-            position = new Vector2(startPosition.x, position.y - 0.6f);
-        }
-    }
 
     public void RecycleAll()
     {
+        textUtilityLandscape.RecycleAll();
+        textUtilityStore.RecycleAll();
 
+        for (int i = images.Count - 1; i >= 0; i--)
+        {
+            ObjectPool.Instance.DeactivateAndAddToPool(images[i]);
+            images.RemoveAt(i);
+        }
     }
 }

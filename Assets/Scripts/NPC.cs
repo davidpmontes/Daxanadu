@@ -67,7 +67,9 @@ public class NPC : MonoBehaviour
         globalWaypoints = new Vector2[localWaypoints.Length];
         for (int i = 0; i < localWaypoints.Length; i++)
         {
-            globalWaypoints[i] = localWaypoints[i] + new Vector2(transform.position.x, transform.position.y);
+            globalWaypoints[i] = localWaypoints[i] + new Vector2(
+                                                        transform.position.x,
+                                                        transform.position.y);
         }
     }
 
@@ -95,22 +97,29 @@ public class NPC : MonoBehaviour
 
             conversationInstance = TextPool.Instance.GetFromPoolInactive(TextPool.TextPools.ScrollingConversation);
             conversationInstance.SetActive(true);
-            conversationInstance.GetComponent<Conversation>().ShowConversation(LandscapeContainer.Instance.GetCursorStartPosition(),
-                                                                LandscapeContainer.Instance.GetCaretNextPosition(),
-                                                                LandscapeContainer.Instance.GetCaretFinishPosition(),
-                                                                conversation);
+            conversationInstance.GetComponent<Conversation>().ShowConversation(
+                LandscapeContainer.Instance.GetCursorStartPosition(),
+                LandscapeContainer.Instance.GetCaretNextPosition(),
+                LandscapeContainer.Instance.GetCaretFinishPosition(),
+                conversation);
+
             Player.Instance.GetComponent<Player>().Pause();
             PortraitContainer.Instance.Show();
             LandscapeContainer.Instance.Show();
 
-            conversationInstance.GetComponent<Conversation>().Finished += ConversationEnd;
+            conversationInstance.GetComponent<Conversation>().finished += ConversationEnd;
+            conversationInstance.GetComponent<Conversation>().canceled += ConversationEnd;
+
         }
     }
 
     private void ConversationEnd()
     {
-        conversationInstance.GetComponent<Conversation>().Finished -= ConversationEnd;
+        conversationInstance.GetComponent<Conversation>().finished -= ConversationEnd;
+        conversationInstance.GetComponent<Conversation>().canceled -= ConversationEnd;
+        conversationInstance.GetComponent<Conversation>().HideConversation();
         TextPool.Instance.DeactivateAndAddToPool(conversationInstance);
+
         Player.Instance.GetComponent<Player>().Unpause();
         PortraitContainer.Instance.Hide();
         LandscapeContainer.Instance.Hide();

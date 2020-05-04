@@ -36,7 +36,7 @@ public class AlphabetPool : MonoBehaviour
 
         foreach (AlphabetPools item in Enum.GetValues(typeof(AlphabetPools)))
         {
-            GrowPool(item, 3);
+            GrowPool(item, 1);
         }
     }
 

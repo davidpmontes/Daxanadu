@@ -26,17 +26,10 @@ public class Conversation : MonoBehaviour
     private readonly float INSTANT_SPEED = 0.0f;
 
     public delegate void ConversationHandler();
-    public event ConversationHandler Finished;
-    public event ConversationHandler Canceled;
+    public event ConversationHandler finished;
+    public event ConversationHandler canceled;
 
     public bool canReceiveInput;
-
-    private string convo;
-
-    private void Awake()
-    {
-        textUtility.Initialize(scrollingBackground);
-    }
 
     private void Update()
     {
@@ -59,7 +52,7 @@ public class Conversation : MonoBehaviour
                     break;
                 case STATES.FINISH:
                     canReceiveInput = false;
-                    Finished.Invoke();
+                    finished.Invoke();
                     break;
             }
         }
@@ -76,7 +69,7 @@ public class Conversation : MonoBehaviour
         if (InputController.Instance.isCancel)
         {
             canReceiveInput = false;
-            Canceled.Invoke();
+            canceled.Invoke();
         }
     }
 
@@ -98,6 +91,7 @@ public class Conversation : MonoBehaviour
         caretNext.transform.position = caretNextPosition;
         caretFinished.transform.position = caretFinishedPosition;
         cursor.transform.position = cursorStart.transform.position;
+        textUtility.Initialize(scrollingBackground, false);
         DrawConversation(convo);
     }
 

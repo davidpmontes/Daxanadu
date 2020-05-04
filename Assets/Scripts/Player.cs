@@ -3,9 +3,9 @@
 //
 // Sorting Layer: Background objects
 // 0: Sky
-// 1: Far background
-// 2: Near background
-// 3: Buildings
+// 1: Far background: distant mountains
+// 2: Buildings
+// 3: Trees
 // 4: Ground and platforms
 // 5: Animated tiles
 //

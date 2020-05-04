@@ -16,11 +16,6 @@ public class ChoicePicker : MonoBehaviour
     private bool canReceiveInput;
     private bool started;
 
-    private void Awake()
-    {
-        textUtility.Initialize(gameObject);
-    }
-
     private void Update()
     {
         GetInput();
@@ -45,7 +40,6 @@ public class ChoicePicker : MonoBehaviour
         if (InputController.Instance.onSpaceDown)
         {
             canReceiveInput = false;
-            textUtility.RecycleAll();
             choiceA.Invoke();
         }
 
@@ -68,7 +62,9 @@ public class ChoicePicker : MonoBehaviour
         canReceiveInput = true;
         this.choiceAPosition.transform.position = choiceAPosition;
         this.choiceBPosition.transform.position = choiceBPosition;
+        caret.SetActive(true);
         caret.transform.position = choiceAPosition;
+        textUtility.Initialize(gameObject, true);
         DrawText(description, LandscapeContainer.Instance.GetCursorStartPosition());
         DrawText(choiceA, choiceAPosition);
         DrawText(choiceB, choiceBPosition);
@@ -86,5 +82,11 @@ public class ChoicePicker : MonoBehaviour
                 textUtility.DrawSymbol(symbol, choicePosition);
             }
         }
+    }
+
+    public void Hide()
+    {
+        caret.SetActive(false);
+        textUtility.RecycleAll();
     }
 }

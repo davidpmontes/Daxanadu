@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.Experimental.U2D.Animation;
 
 [RequireComponent(typeof(BoxCollider2D))]
 public class Stores : MonoBehaviour
@@ -16,10 +15,9 @@ public class Stores : MonoBehaviour
     };
 
     private bool started;
-    private GameObject greetingInstance;
-    private GameObject buySellPickerInstance;
-    private GameObject itemLister;
-    private GameObject confirmPurchasePickerInstance;
+    private GameObject conversationInstance;
+    private GameObject choicePickerInstance;
+    private GameObject itemListerInstance;
 
     private void OnCollisionStay2D(Collision2D collision)
     {
@@ -29,108 +27,118 @@ public class Stores : MonoBehaviour
                 return;
 
             started = true;
-            greetingInstance = TextPool.Instance.GetFromPoolInactive(TextPool.TextPools.ScrollingConversation);
-            greetingInstance.SetActive(true);
-            greetingInstance.GetComponent<Conversation>().ShowConversation(
+
+            EnterStore();
+            BeginGreeting();
+        }
+    }
+
+    private void EnterStore()
+    {
+        conversationInstance = TextPool.Instance.GetFromPoolInactive(TextPool.TextPools.ScrollingConversation);
+        choicePickerInstance = TextPool.Instance.GetFromPoolInactive(TextPool.TextPools.ChoicePicker);
+        itemListerInstance = TextPool.Instance.GetFromPoolInactive(TextPool.TextPools.ItemLister);
+
+        conversationInstance.SetActive(true);
+        choicePickerInstance.SetActive(true);
+        itemListerInstance.SetActive(true);
+
+        Player.Instance.GetComponent<Player>().Pause();
+        PortraitContainer.Instance.Show();
+        LandscapeContainer.Instance.Show();
+    }
+
+    private void BeginGreeting()
+    {
+        conversationInstance.GetComponent<Conversation>().ShowConversation(
                                     LandscapeContainer.Instance.GetCursorStartPosition(),
                                     LandscapeContainer.Instance.GetCaretNextPosition(),
                                     LandscapeContainer.Instance.GetCaretFinishPosition(),
                                     greetingText);
 
-            greetingInstance.GetComponent<Conversation>().Finished += OnGreetingFinished;
-            greetingInstance.GetComponent<Conversation>().Canceled += OnGreetingCanceled;
-
-            Player.Instance.GetComponent<Player>().Pause();
-            PortraitContainer.Instance.Show();
-            LandscapeContainer.Instance.Show();
-        }
-    }
-
-    private void OnGreetingCanceled()
-    {
-        greetingInstance.GetComponent<Conversation>().Finished -= OnGreetingFinished;
-        greetingInstance.GetComponent<Conversation>().Canceled -= OnGreetingCanceled;
-        greetingInstance.GetComponent<Conversation>().HideConversation();
-
-        Player.Instance.GetComponent<Player>().Unpause();
-        PortraitContainer.Instance.Hide();
-        LandscapeContainer.Instance.Hide();
-        started = false;
+        conversationInstance.GetComponent<Conversation>().finished += OnGreetingFinished;
+        conversationInstance.GetComponent<Conversation>().canceled += OnGreetingCanceled;
     }
 
     private void OnGreetingFinished()
     {
-        greetingInstance.GetComponent<Conversation>().Finished -= OnGreetingFinished;
-        greetingInstance.GetComponent<Conversation>().ClearConversation();
-        buySellPickerInstance = TextPool.Instance.GetFromPoolInactive(TextPool.TextPools.ChoicePicker);
-        buySellPickerInstance.SetActive(true);
-        buySellPickerInstance.GetComponent<ChoicePicker>().ShowChoicePicker
+        conversationInstance.GetComponent<Conversation>().finished -= OnGreetingFinished;
+        conversationInstance.GetComponent<Conversation>().canceled -= OnGreetingCanceled;
+        conversationInstance.GetComponent<Conversation>().HideConversation();
+
+        choicePickerInstance.GetComponent<ChoicePicker>().ShowChoicePicker
                                     (LandscapeContainer.Instance.GetChoiceAPosition(),
                                      LandscapeContainer.Instance.GetChoiceBPosition(),
                                      "How may I help?",
                                      "Buy", "Sell");
 
-        buySellPickerInstance.GetComponent<ChoicePicker>().choiceA += OnConfirmBuy;
-        buySellPickerInstance.GetComponent<ChoicePicker>().choiceB += OnConfirmSell;
-        buySellPickerInstance.GetComponent<ChoicePicker>().canceled += OnBuySellCancelled;
+        choicePickerInstance.GetComponent<ChoicePicker>().choiceA += OnConfirmBuy;
+        choicePickerInstance.GetComponent<ChoicePicker>().choiceB += OnConfirmSell;
+        choicePickerInstance.GetComponent<ChoicePicker>().canceled += OnBuySellCancelled;
+    }
+
+    private void OnGreetingCanceled()
+    {
+        conversationInstance.GetComponent<Conversation>().finished -= OnGreetingFinished;
+        conversationInstance.GetComponent<Conversation>().canceled -= OnGreetingCanceled;
+        conversationInstance.GetComponent<Conversation>().HideConversation();
+
+        ExitStore();
     }
 
     private void OnConfirmBuy()
     {
-        buySellPickerInstance.GetComponent<ChoicePicker>().choiceA -= OnConfirmBuy;
-        buySellPickerInstance.GetComponent<ChoicePicker>().choiceB -= OnConfirmSell;
-        buySellPickerInstance.GetComponent<ChoicePicker>().canceled -= OnBuySellCancelled;
-        TextPool.Instance.DeactivateAndAddToPool(buySellPickerInstance);
+        choicePickerInstance.GetComponent<ChoicePicker>().choiceA -= OnConfirmBuy;
+        choicePickerInstance.GetComponent<ChoicePicker>().choiceB -= OnConfirmSell;
+        choicePickerInstance.GetComponent<ChoicePicker>().canceled -= OnBuySellCancelled;
+        choicePickerInstance.GetComponent<ChoicePicker>().Hide();
+
+
         StoreContainer.Instance.Show();
 
-        itemLister = TextPool.Instance.GetFromPoolInactive(TextPool.TextPools.ItemLister);
-        itemLister.SetActive(true);
-        itemLister.GetComponent<ItemLister>().DisplayItems(StoreContainer.Instance.GetCaretStartPosition(),
-                                                           storeItems);
-        itemLister.GetComponent<ItemLister>().itemSelected += OnItemSelected;
-        itemLister.GetComponent<ItemLister>().canceled += OnItemSelectionCancelled;
+        itemListerInstance.GetComponent<ItemLister>().DisplayItems(
+                                StoreContainer.Instance.GetCaretStartPosition(),
+                                storeItems);
+        itemListerInstance.GetComponent<ItemLister>().itemSelected += OnItemSelected;
+        itemListerInstance.GetComponent<ItemLister>().canceled += OnItemSelectionCancelled;
     }
 
     private void OnConfirmSell()
     {
+        choicePickerInstance.GetComponent<ChoicePicker>().choiceA -= OnConfirmBuy;
+        choicePickerInstance.GetComponent<ChoicePicker>().choiceB -= OnConfirmSell;
+        choicePickerInstance.GetComponent<ChoicePicker>().canceled -= OnBuySellCancelled;
 
+        ExitStore();
     }
 
     private void OnBuySellCancelled()
     {
-        buySellPickerInstance.GetComponent<ChoicePicker>().choiceA -= OnConfirmBuy;
-        buySellPickerInstance.GetComponent<ChoicePicker>().choiceB -= OnConfirmSell;
-        buySellPickerInstance.GetComponent<ChoicePicker>().canceled -= OnBuySellCancelled;
-        TextPool.Instance.DeactivateAndAddToPool(buySellPickerInstance);
-        Player.Instance.GetComponent<Player>().Unpause();
-        PortraitContainer.Instance.Hide();
-        LandscapeContainer.Instance.Hide();
-        started = false;
+        choicePickerInstance.GetComponent<ChoicePicker>().choiceA -= OnConfirmBuy;
+        choicePickerInstance.GetComponent<ChoicePicker>().choiceB -= OnConfirmSell;
+        choicePickerInstance.GetComponent<ChoicePicker>().canceled -= OnBuySellCancelled;
+
+        ExitStore();
     }
 
     private void OnItemSelected(int itemIdx)
     {
-        confirmPurchasePickerInstance = TextPool.Instance.GetFromPoolInactive(
-                                                TextPool.TextPools.ChoicePicker);
-        confirmPurchasePickerInstance.SetActive(true);
-        confirmPurchasePickerInstance.GetComponent<ChoicePicker>().ShowChoicePicker(
+        choicePickerInstance.GetComponent<ChoicePicker>().ShowChoicePicker(
                                     LandscapeContainer.Instance.GetChoiceAPosition(),
                                     LandscapeContainer.Instance.GetChoiceBPosition(),
                                     "Buy this?",
                                     "Yes", "No");
-        confirmPurchasePickerInstance.GetComponent<ChoicePicker>().choiceA += OnConfirmPurchase;
-        confirmPurchasePickerInstance.GetComponent<ChoicePicker>().choiceB += OnCancelPurchase;
+        choicePickerInstance.GetComponent<ChoicePicker>().choiceA += OnConfirmPurchase;
+        choicePickerInstance.GetComponent<ChoicePicker>().choiceB += OnCancelPurchase;
     }
 
     private void OnItemSelectionCancelled(int itemIdx)
     {
-        itemLister.GetComponent<ItemLister>().itemSelected -= OnItemSelected;
-        itemLister.GetComponent<ItemLister>().canceled -= OnItemSelectionCancelled;
-        Player.Instance.GetComponent<Player>().Unpause();
-        PortraitContainer.Instance.Hide();
-        LandscapeContainer.Instance.Hide();
-        StoreContainer.Instance.Hide();
-        started = false;
+        itemListerInstance.GetComponent<ItemLister>().itemSelected -= OnItemSelected;
+        itemListerInstance.GetComponent<ItemLister>().canceled -= OnItemSelectionCancelled;
+        itemListerInstance.GetComponent<ItemLister>().RecycleAll();
+
+        ExitStore();
     }
 
     private void OnConfirmPurchase()
@@ -141,5 +149,18 @@ public class Stores : MonoBehaviour
     private void OnCancelPurchase()
     {
 
+    }
+
+    private void ExitStore()
+    {
+        TextPool.Instance.DeactivateAndAddToPool(conversationInstance);
+        TextPool.Instance.DeactivateAndAddToPool(choicePickerInstance);
+        TextPool.Instance.DeactivateAndAddToPool(itemListerInstance);
+
+        Player.Instance.GetComponent<Player>().Unpause();
+        PortraitContainer.Instance.Hide();
+        LandscapeContainer.Instance.Hide();
+        StoreContainer.Instance.Hide();
+        started = false;
     }
 }
