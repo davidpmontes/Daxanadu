@@ -15,6 +15,8 @@ public class ViewSwitcher : MonoBehaviour
     private int BOUNDS_WIDTH = 16;
     private int BOUNDS_HEIGHT = 15;
 
+    private bool cameraFollow;
+
     private void Awake()
     {
         Instance = this;
@@ -24,6 +26,9 @@ public class ViewSwitcher : MonoBehaviour
 
     private void Update()
     {
+        if (!cameraFollow)
+            return;
+
         if (state == "playing")
         {
             if (!bounds.Contains(player.transform.position))
@@ -65,11 +70,14 @@ public class ViewSwitcher : MonoBehaviour
         }
     }
 
-    public void Teleporting(Vector2 playerDestination, Vector2 cameraDestination)
+    public void Teleporting(Vector2 playerDestination,
+                            Vector2 cameraDestination,
+                            bool enableCameraFollow)
     {
+        cameraFollow = enableCameraFollow;
         player.GetComponent<Player>().Pause();
-        transform.position = cameraDestination + new Vector2(0, 2);
-        bounds.center = cameraDestination + new Vector2(0, 2);
+        transform.position = cameraDestination;
+        bounds.center = cameraDestination;
         Player.Instance.transform.position = playerDestination;
         player.GetComponent<Player>().Unpause();
     }

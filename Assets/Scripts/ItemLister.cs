@@ -20,7 +20,7 @@ public class ItemLister : MonoBehaviour
     private int numItems;
     private Vector2 itemStartPosition;
     private List<GameObject> images;
-    private StoreItemBase[] itemList;
+    private StoreItem[] itemList;
 
     public bool canReceiveInput;
 
@@ -85,7 +85,7 @@ public class ItemLister : MonoBehaviour
     }
 
     public void DisplayItems(Vector2 cursorStartPosition,
-                             StoreItemBase[] itemList)
+                             StoreItem[] itemList)
     {
         if (started)
         {

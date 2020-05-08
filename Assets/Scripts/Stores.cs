@@ -3,31 +3,7 @@
 [RequireComponent(typeof(BoxCollider2D))]
 public class Stores : MonoBehaviour
 {
-    public Vector2 playerDestination;
-    public Vector2 cameraDestination;
-    public StoreItemBase[] storeItems;
-
-    private string[] greetingText = new string[] {
-        "Welcome!^-->",
-        "Welcome!^END",
-    };
-
-    private string[] purchasedText = new string[]
-    {
-        "Purchased!"
-    };
-
-    private string[] purchaseCanceledText = new string[]
-    {
-        "Cancelled"
-    };
-
-    private string[] unaffordableText = new string[]
-    {
-        "I am sorry, you",
-        "do not have enough",
-        "money."
-    };
+    public StoreSettings storeSettings;
     
     private bool started;
     private int itemIdx;
@@ -53,6 +29,9 @@ public class Stores : MonoBehaviour
     {
         itemIdx = 0;
 
+        PortraitContainer.Instance.ShowFrame();
+        PortraitContainer.Instance.ShowPortrait(storeSettings.owner);
+
         conversationInstance = TextPool.Instance.GetFromPoolInactive(TextPool.TextPools.ScrollingConversation);
         choicePickerInstance = TextPool.Instance.GetFromPoolInactive(TextPool.TextPools.ChoicePicker);
         itemListerInstance = TextPool.Instance.GetFromPoolInactive(TextPool.TextPools.ItemLister);
@@ -62,7 +41,7 @@ public class Stores : MonoBehaviour
         itemListerInstance.SetActive(true);
 
         Player.Instance.GetComponent<Player>().Pause();
-        PortraitContainer.Instance.Show();
+        PortraitContainer.Instance.ShowFrame();
         LandscapeContainer.Instance.Show();
     }
 
@@ -72,7 +51,7 @@ public class Stores : MonoBehaviour
                                     LandscapeContainer.Instance.GetCursorStartPosition(),
                                     LandscapeContainer.Instance.GetCaretNextPosition(),
                                     LandscapeContainer.Instance.GetCaretFinishPosition(),
-                                    greetingText);
+                                    storeSettings.initialGreetingText);
 
         conversationInstance.GetComponent<Conversation>().finished += OnGreetingFinished;
         conversationInstance.GetComponent<Conversation>().canceled += OnGreetingCanceled;
@@ -116,7 +95,7 @@ public class Stores : MonoBehaviour
 
         itemListerInstance.GetComponent<ItemLister>().DisplayItems(
                                 StoreContainer.Instance.GetCaretStartPosition(),
-                                storeItems);
+                                storeSettings.items);
         itemListerInstance.GetComponent<ItemLister>().itemSelected += OnItemSelected;
         itemListerInstance.GetComponent<ItemLister>().canceled += OnItemSelectionCancelled;
         itemListerInstance.GetComponent<ItemLister>().EnableReceivingInput();
@@ -145,7 +124,7 @@ public class Stores : MonoBehaviour
     {
         this.itemIdx = itemIdx;
 
-        if (Gold.Instance.CheckGoldChangeAmount(-storeItems[itemIdx].cost))
+        if (Gold.Instance.CheckGoldChangeAmount(-storeSettings.items[itemIdx].cost))
         {
             choicePickerInstance.GetComponent<ChoicePicker>().ShowChoicePicker(
                                     LandscapeContainer.Instance.GetChoiceAPosition(),
@@ -160,7 +139,7 @@ public class Stores : MonoBehaviour
         {
             itemListerInstance.GetComponent<ItemLister>().DrawItemDescription(
                         LandscapeContainer.Instance.GetCursorStartPosition(),
-                        unaffordableText);
+                        storeSettings.purchaseUnaffordableText);
             itemListerInstance.GetComponent<ItemLister>().EnableReceivingInput();
         }
     }
@@ -181,10 +160,10 @@ public class Stores : MonoBehaviour
         choicePickerInstance.GetComponent<ChoicePicker>().canceled -= OnCancelPurchase;
         choicePickerInstance.GetComponent<ChoicePicker>().Hide();
 
-        Gold.Instance.ChangeGoldAmount(-storeItems[itemIdx].cost);
+        Gold.Instance.ChangeGoldAmount(-storeSettings.items[itemIdx].cost);
         itemListerInstance.GetComponent<ItemLister>().DrawItemDescription(
                                 LandscapeContainer.Instance.GetCursorStartPosition(),
-                                purchasedText);
+                                storeSettings.purchaseConfirmedText);
         itemListerInstance.GetComponent<ItemLister>().EnableReceivingInput();
 
     }
@@ -198,12 +177,15 @@ public class Stores : MonoBehaviour
 
         itemListerInstance.GetComponent<ItemLister>().DrawItemDescription(
                                 LandscapeContainer.Instance.GetCursorStartPosition(),
-                                purchaseCanceledText);
+                                storeSettings.purchaseCanceledText);
         itemListerInstance.GetComponent<ItemLister>().EnableReceivingInput();
     }
 
     private void ExitStore()
     {
+        PortraitContainer.Instance.HideAllPortraits();
+        PortraitContainer.Instance.HideFrame();
+
         conversationInstance.GetComponent<Conversation>().Hide();
         choicePickerInstance.GetComponent<ChoicePicker>().Hide();
         itemListerInstance.GetComponent<ItemLister>().Hide();
@@ -213,7 +195,7 @@ public class Stores : MonoBehaviour
         TextPool.Instance.DeactivateAndAddToPool(itemListerInstance);
 
         Player.Instance.GetComponent<Player>().Unpause();
-        PortraitContainer.Instance.Hide();
+        PortraitContainer.Instance.HideFrame();
         LandscapeContainer.Instance.Hide();
         StoreContainer.Instance.Hide();
         started = false;

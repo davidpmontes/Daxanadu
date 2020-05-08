@@ -104,7 +104,7 @@ public class NPC : MonoBehaviour
                 conversation);
 
             Player.Instance.GetComponent<Player>().Pause();
-            PortraitContainer.Instance.Show();
+            PortraitContainer.Instance.ShowFrame();
             LandscapeContainer.Instance.Show();
 
             conversationInstance.GetComponent<Conversation>().finished += ConversationEnd;
@@ -121,7 +121,7 @@ public class NPC : MonoBehaviour
         TextPool.Instance.DeactivateAndAddToPool(conversationInstance);
 
         Player.Instance.GetComponent<Player>().Unpause();
-        PortraitContainer.Instance.Hide();
+        PortraitContainer.Instance.HideFrame();
         LandscapeContainer.Instance.Hide();
         enabled = true;
         animator.enabled = true;

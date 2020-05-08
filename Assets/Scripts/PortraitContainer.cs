@@ -10,10 +10,10 @@ public class PortraitContainer : MonoBehaviour
     private void Awake()
     {
         Instance = this;
-        Hide();
+        HideFrame();
     }
 
-    public void SetPortrait(string name)
+    public void ShowPortrait(string name)
     {
         bool childfound = false;
         foreach (Transform child in frame.transform)
@@ -31,12 +31,20 @@ public class PortraitContainer : MonoBehaviour
         Assert.IsTrue(childfound);
     }
 
-    public void Show()
+    public void HideAllPortraits()
+    {
+        foreach (Transform child in frame.transform)
+        {
+            child.gameObject.SetActive(false);
+        }
+    }
+
+    public void ShowFrame()
     {
         frame.SetActive(true);
     }
 
-    public void Hide()
+    public void HideFrame()
     {
         frame.SetActive(false);
     }

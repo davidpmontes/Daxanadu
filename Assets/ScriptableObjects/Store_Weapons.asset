@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c9a343ae2cf148d1b75568584d638fc, type: 3}
+  m_Name: Store_Weapons
+  m_EditorClassIdentifier: 
+  items:
+  - {fileID: 11400000, guid: b9913cfb8338744faa466cb506254494, type: 2}
+  - {fileID: 11400000, guid: 9851ab36e950741439572fe298a5c5ed, type: 2}
+  owner: girl
+  playerDestination: {x: 0, y: 0}
+  cameraDestination: {x: 0, y: 0}
+  initialGreetingText:
+  - Hi!^END
+  buySellGreetingText:
+  - Whatcha need?
+  purchaseConfirmedText:
+  - Ok!
+  purchaseCanceledText:
+  - Aw...
+  purchaseUnaffordableText:
+  - Sorry! :(

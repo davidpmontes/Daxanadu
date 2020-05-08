@@ -3,16 +3,15 @@
 //
 // Sorting Layer: Background objects
 // 0: Sky
-// 1: Far background: distant mountains
-// 2: Buildings
-// 3: Trees
-// 4: Ground and platforms
-// 5: Animated tiles
+// 1: Very Far background: distant mountains
+// 2: Background Buildings
+// 3: Background Trees
+// 4: Physical Ground Walls and platforms
 //
 // Sorting Layer: MovingObjects: Characters, Enemies, Magic, Weapons, SFX
 // 0: All
 //
-// Sorting Layer: Foreground objects: Trees, wells
+// Sorting Layer: Foreground objects: Foreground Trees, wells
 // 0: All
 //
 // Sorting Layer: Menus Background: Black backgrounds, Frames

@@ -1,6 +1,14 @@
 ﻿using UnityEngine;
 
-public class StoreItem : StoreItemBase
+[CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/StoreItem", order = 1)]
+public class StoreItem : ScriptableObject
 {
-
+    public string menuName;
+    public string[] description;
+    public Sprite sprite;
+    public int cost;
+    public int attackPower;
+    public int defensePower;
+    public int healingPower;
+    public int durationTime;
 }
