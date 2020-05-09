@@ -6,22 +6,22 @@ using UnityEngine;
 [RequireComponent(typeof(SpriteRenderer))]
 public class EnemyDamage : MonoBehaviour
 {
+    [SerializeField]
+    private EnemyDamageConfig config;
     private SpriteRenderer spriteRenderer;
-
-    [SoundGroupAttribute] public string damageSound;
-    [SoundGroupAttribute] public string deathSound;
-    [SerializeField] private GameObject coinPrefab;
 
     private Shader shaderGUItext;
     private Shader shaderSpritesDefault;
 
-    public int life = 1;
+    private int life;
 
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         shaderGUItext = Shader.Find("GUI/Text Shader");
         shaderSpritesDefault = Shader.Find("Sprites/Default");
+
+        life = config.life;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -42,13 +42,13 @@ public class EnemyDamage : MonoBehaviour
         life -= 1;
         if (life <= 0)
         {
-            MasterAudio.PlaySoundAndForget(deathSound);
-            var coin = Instantiate(coinPrefab);
+            MasterAudio.PlaySoundAndForget(config.deathSound);
+            var coin = Instantiate(config.coinPrefab);
             coin.GetComponent<Coin>().Initialize(transform.position);
             Destroy(gameObject);
         }
         StartCoroutine(FlashRed());
-        MasterAudio.PlaySoundAndForget(damageSound);
+        MasterAudio.PlaySoundAndForget(config.damageSound);
     }
 
     IEnumerator FlashRed()

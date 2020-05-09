@@ -97,23 +97,8 @@ public class GreenSlime : MonoBehaviour
     private void Update()
     {
         GetInput();
-        UpdateAnimations();
         CalculateVelocity();
-        if (wallJumpsEnabled) HandleWallSliding();
-
-        controller.Move(velocity * Time.deltaTime, directionalInput);
-
-        /*
-         * NOTE: Important that the "controller.move" is done prior to below if statement
-         * 
-         */
-        if (controller.collisions.above || controller.collisions.below)
-        {
-            if (controller.collisions.slidingDownMaxSlope)
-                velocity.y += controller.collisions.slopeNormal.y * -gravity * Time.deltaTime;
-            else
-                velocity.y = 0;
-        }
+        Move();
     }
 
     private void GetInput()
@@ -129,142 +114,39 @@ public class GreenSlime : MonoBehaviour
     private void CalculateVelocity()
     {
         float targetVelocityX = directionalInput.x * moveSpeed;
-        float targetVelocityY = directionalInput.y * moveSpeed;
+        
 
-        if (AirControlEnabled)
+        if (controller.collisions.below)
         {
             velocity.x = targetVelocityX;
-            //velocity.x = Mathf.SmoothDamp(velocity.x,
-            //                              targetVelocityX,
-            //                              ref velocityXSmoothing,
-            //                              controller.collisions.below ?
-            //                                    accelerationTimeGrounded * controller.collisions.frictionFactor :
-            //                                    accelerationTimeAirborne);
         }
-        else
-        {
-            if (controller.collisions.below)
-            {
-                velocity.x = targetVelocityX;
-                //velocity.x = Mathf.SmoothDamp(velocity.x,
-                //                              targetVelocityX,
-                //                              ref velocityXSmoothing,
-                //                              accelerationTimeGrounded *
-                //                                    controller.collisions.frictionFactor);
-            }
-        }
-
-        if (flyEnabled)
-        {
-            velocity.y = Mathf.SmoothDamp(velocity.y,
-                              targetVelocityY,
-                              ref velocityYSmoothing,
-                              controller.collisions.below ?
-                                    accelerationTimeGrounded * controller.collisions.frictionFactor :
-                                    accelerationTimeAirborne);
-        }
-
+        
         if (gravityEnabled)
             velocity.y += gravity * Time.deltaTime;
     }
 
-    private void HandleWallSliding()
-    {
-        // detects if the wall is on the left or right side
-        wallDirX = controller.collisions.left ? -1 : 1;
-        wallSliding = false;
-
-        /*
-         * Conditions for wall slide:
-         *   Must have a wall on the immediate left or right AND
-         *   Cannot have a collider below AND
-         *   Must be actively moving downwards
-         */
-        if ((controller.collisions.left || controller.collisions.right) && !controller.collisions.below && velocity.y < 0)
-        {
-            wallSliding = true;
-
-            velocity.y = Mathf.Max(velocity.y, -wallSlideSpeedMax);
-
-            // Only unstick if moving away from the wall for long enough
-            if (timeToWallUnstick > 0)
-            {
-                velocityXSmoothing = 0;
-                velocity.x = 0;
-
-                // if the player is actively trying to move away from the wall
-                if (directionalInput.x != wallDirX && directionalInput.x != 0)
-                {
-                    timeToWallUnstick -= Time.deltaTime;
-                }
-                else
-                {
-                    timeToWallUnstick = wallStickTime;
-                }
-            }
-            else
-            {
-                timeToWallUnstick = wallStickTime;
-            }
-        }
-    }
-
-    private void UpdateAnimations()
-    {
-        if (directionalInput.x > 0)
-        {
-            spriteRenderer.flipX = false;
-        }
-        else if (directionalInput.x < 0)
-        {
-            spriteRenderer.flipX = true;
-        }
-    }
-
     public void OnJumpInputDown()
     {
-        if (wallSliding)
-        {
-            if (wallDirX == directionalInput.x)
-            {
-                velocity.x = -wallDirX * wallJumpClimb.x;
-                velocity.y = wallJumpClimb.y;
-            }
-            else if (directionalInput.x == 0)
-            {
-                velocity.x = -wallDirX * wallJumpOff.x;
-                velocity.y = wallJumpOff.y;
-            }
-            else
-            {
-                velocity.x = -wallDirX * wallLeap.x;
-                velocity.y = wallLeap.y;
-            }
-        }
-
         if (controller.collisions.below)
         {
-            if (controller.collisions.slidingDownMaxSlope)
-            {
-                /*
-                 * Not jumping while on a max slope
-                 * 
-                 */
-                if (directionalInput.x != -Mathf.Sign(controller.collisions.slopeNormal.x))
-                {
-                    velocity.y = maxJumpVelocity * controller.collisions.slopeNormal.y;
-                    velocity.x = maxJumpVelocity * controller.collisions.slopeNormal.x;
-                }
-            }
-            else
-            {
-                velocity.y = maxJumpVelocity;
-            }
+            velocity.y = maxJumpVelocity;
         }
     }
 
-    public void OnJumpInputUp()
+    private void Move()
     {
-        velocity.y = Mathf.Min(velocity.y, minJumpVelocity);
+        controller.Move(velocity * Time.deltaTime, directionalInput);
+
+        /*
+         * NOTE: Important that the "controller.move" is done prior to below if statement
+         * 
+         */
+        if (controller.collisions.above || controller.collisions.below)
+        {
+            if (controller.collisions.slidingDownMaxSlope)
+                velocity.y += controller.collisions.slopeNormal.y * -gravity * Time.deltaTime;
+            else
+                velocity.y = 0;
+        }
     }
 }
