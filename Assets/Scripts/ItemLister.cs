@@ -34,10 +34,10 @@ public class ItemLister : MonoBehaviour
         if (!canReceiveInput)
             return;
 
-        if (!InputController.Instance.actionA)
+        if (!InputController.Instance.actionPrimary)
             enforcedActionA_Released = true;
 
-        if (!InputController.Instance.actionB)
+        if (!InputController.Instance.actionCancel)
             enforcedActionB_Released = true;
 
         if (InputController.Instance.onUp_Down)
@@ -57,7 +57,7 @@ public class ItemLister : MonoBehaviour
                                 itemList[itemIdx].description);
         }
 
-        if (InputController.Instance.onActionA_Down)
+        if (InputController.Instance.onActionPrimary_Down)
         {
             if (!enforcedActionA_Released)
                 return;
@@ -67,7 +67,7 @@ public class ItemLister : MonoBehaviour
             itemSelected.Invoke(itemIdx);
         }
 
-        if (InputController.Instance.onActionB_Down)
+        if (InputController.Instance.onActionCancel_Down)
         {
             if (!enforcedActionB_Released)
                 return;

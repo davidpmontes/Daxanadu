@@ -41,7 +41,7 @@ public class Conversation : MonoBehaviour
         if (!canReceiveInput)
             return;
 
-        if (InputController.Instance.onActionA_Down)
+        if (InputController.Instance.onActionPrimary_Down)
         {
             switch (state)
             {
@@ -57,7 +57,7 @@ public class Conversation : MonoBehaviour
             }
         }
 
-        if (InputController.Instance.actionA)
+        if (InputController.Instance.actionPrimary)
         {
             speed = FAST_SPEED;
         }
@@ -66,7 +66,7 @@ public class Conversation : MonoBehaviour
             speed = SLOW_SPEED;
         }
 
-        if (InputController.Instance.onActionB_Down)
+        if (InputController.Instance.onActionCancel_Down)
         {
             canReceiveInput = false;
             canceled.Invoke();

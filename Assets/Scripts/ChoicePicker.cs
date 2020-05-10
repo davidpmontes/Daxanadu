@@ -40,7 +40,7 @@ public class ChoicePicker : MonoBehaviour
             caret.transform.position = choiceAPosition.transform.position;
         }
 
-        if (InputController.Instance.onActionA_Down)
+        if (InputController.Instance.onActionPrimary_Down)
         {
             canReceiveInput = false;
             if (isChoiceA)
@@ -49,7 +49,7 @@ public class ChoicePicker : MonoBehaviour
                 choiceB.Invoke();
         }
 
-        if (InputController.Instance.onActionB_Down)
+        if (InputController.Instance.onActionCancel_Down)
         {
             canReceiveInput = false;
             canceled.Invoke();

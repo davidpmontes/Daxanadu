@@ -165,10 +165,10 @@ public class Player : MonoBehaviour
     private void GetInput()
     {
         directionalInput = InputController.Instance.DirectionalInput;
-        if (InputController.Instance.onActionB_Down) OnJumpInputDown();
-        if (InputController.Instance.onActionB_Up) OnJumpInputUp();
-        if (InputController.Instance.onActionA_Down) OnAttack();
-        if (InputController.Instance.onActionX_Down) OnMagicUsed();
+        if (InputController.Instance.onActionCancel_Down) OnJumpInputDown();
+        if (InputController.Instance.onActionCancel_Up) OnJumpInputUp();
+        if (InputController.Instance.onActionPrimary_Down) OnAttack();
+        if (InputController.Instance.onActionSecondary_Down) OnMagicUsed();
     }
 
     private void CalculateVelocity()

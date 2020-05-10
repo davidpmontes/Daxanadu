@@ -1,4 +1,6 @@
 ﻿using UnityEngine;
+using UnityEngine.InputSystem;
+using static UnityEngine.InputSystem.InputAction;
 
 public class InputController : MonoBehaviour
 {
@@ -17,24 +19,29 @@ public class InputController : MonoBehaviour
 
     public Vector2 DirectionalInput;
 
-    public bool onActionA_Down;
-    public bool onActionB_Down;
-    public bool onActionX_Down;
+    public bool onActionPrimary_Down;
+    public bool onActionCancel_Down;
+    public bool onActionSecondary_Down;
     public bool onActionY_Down;
 
-    public bool onActionA_Up;
-    public bool onActionB_Up;
-    public bool onActionX_Up;
+    public bool onActionPrimary_Up;
+    public bool onActionCancel_Up;
+    public bool onActionSecondary_Up;
     public bool onActionY_Up;
 
-    public bool actionA;
-    public bool actionB;
-    public bool actionX;
+    public bool actionPrimary;
+    public bool actionCancel;
+    public bool actionSecondary;
     public bool actionY;
+
+    private Controls controls;
+    
 
     private void Awake()
     {
         Instance = this;
+        controls = new Controls();
+        controls.Player.Enable();
     }
 
     void Update()
@@ -52,8 +59,13 @@ public class InputController : MonoBehaviour
 
     private void GetInput()
     {
-        horizontal = Input.GetAxisRaw("Horizontal");
-        vertical = Input.GetAxisRaw("Vertical");
+        //horizontal = controls.Player.Move.ReadValue<Vector2>().x;
+        //vertical = controls.Player.Move.ReadValue<Vector2>().y;
+
+        horizontal = -Gamepad.current[UnityEngine.InputSystem.LowLevel.GamepadButton.DpadLeft].ReadValue() +
+                     Gamepad.current[UnityEngine.InputSystem.LowLevel.GamepadButton.DpadRight].ReadValue();
+        vertical = Gamepad.current[UnityEngine.InputSystem.LowLevel.GamepadButton.DpadUp].ReadValue() +
+                   -Gamepad.current[UnityEngine.InputSystem.LowLevel.GamepadButton.DpadDown].ReadValue();
 
         if (Mathf.Approximately(horizontal, 0f)) horizontalReleased = true;
         if (Mathf.Approximately(vertical, 0f)) verticalReleased = true;
@@ -90,19 +102,39 @@ public class InputController : MonoBehaviour
 
         DirectionalInput = new Vector2(horizontal, vertical);
 
-        onActionA_Down = Input.GetKeyDown(KeyCode.J);
-        onActionB_Down = Input.GetKeyDown(KeyCode.N);
-        onActionX_Down = Input.GetKeyDown(KeyCode.U);
-        onActionY_Down = Input.GetKeyDown(KeyCode.H);
+        if (onActionPrimary_Down)
+            onActionPrimary_Down = false;
+        if (onActionPrimary_Up)
+            onActionPrimary_Up = false;
 
-        onActionA_Up = Input.GetKeyUp(KeyCode.J);
-        onActionB_Up = Input.GetKeyUp(KeyCode.N);
-        onActionX_Up = Input.GetKeyUp(KeyCode.U);
-        onActionY_Up = Input.GetKeyUp(KeyCode.H);
+        onActionPrimary_Down = Gamepad.current[UnityEngine.InputSystem.LowLevel.GamepadButton.East].wasPressedThisFrame;
+        onActionPrimary_Up = Gamepad.current[UnityEngine.InputSystem.LowLevel.GamepadButton.East].wasReleasedThisFrame;
+        actionPrimary = Gamepad.current[UnityEngine.InputSystem.LowLevel.GamepadButton.East].isPressed;
 
-        actionA = Input.GetKey(KeyCode.J);
-        actionB = Input.GetKey(KeyCode.N);
-        actionX = Input.GetKey(KeyCode.U);
-        actionY = Input.GetKey(KeyCode.H);
+        onActionCancel_Down = Gamepad.current[UnityEngine.InputSystem.LowLevel.GamepadButton.South].wasPressedThisFrame;
+        onActionCancel_Up = Gamepad.current[UnityEngine.InputSystem.LowLevel.GamepadButton.South].wasReleasedThisFrame;
+        actionCancel = Gamepad.current[UnityEngine.InputSystem.LowLevel.GamepadButton.South].isPressed;
+
+        onActionSecondary_Down = Gamepad.current[UnityEngine.InputSystem.LowLevel.GamepadButton.North].wasPressedThisFrame;
+        onActionSecondary_Up = Gamepad.current[UnityEngine.InputSystem.LowLevel.GamepadButton.North].wasPressedThisFrame;
+        actionSecondary = Gamepad.current[UnityEngine.InputSystem.LowLevel.GamepadButton.North].isPressed;
+
+        //onActionPrimary_Down = Input.GetKeyDown(KeyCode.J);
+        //onActionCancel_Down = Input.GetKeyDown(KeyCode.N);
+        //onActionX_Down = Input.GetKeyDown(KeyCode.U);
+        //onActionY_Down = Input.GetKeyDown(KeyCode.H);
+
+        //onActionPrimary_Up = Input.GetKeyUp(KeyCode.J);
+        //onActionCancel_Up = Input.GetKeyUp(KeyCode.N);
+        //onActionX_Up = Input.GetKeyUp(KeyCode.U);
+        //onActionY_Up = Input.GetKeyUp(KeyCode.H);
+
+        //actionCancel = controls.Player.ActionCancel.performed;
+        //actionSecondary = controls.Player.ActionSecondary.ReadValue<bool>();
+
+        //actionPrimary = Input.GetKey(KeyCode.J);
+        //actionCancel = Input.GetKey(KeyCode.N);
+        //actionX = Input.GetKey(KeyCode.U);
+        //actionY = Input.GetKey(KeyCode.H);
     }
 }
