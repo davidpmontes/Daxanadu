@@ -12,12 +12,29 @@ public class FlyingEnemy : MonoBehaviour
 
     private Vector2 inputDirection;
 
+    private float leftBoundary;
+    private float rightBoundary;
+    private float topBoundary;
+    private float bottomBoundary;
+
+    private float speed;
+
     private void Awake()
     {
         controller = GetComponent<Controller2D>();
         movingObject = GetComponent<MovingObject>();
         movingObject.AssignConfiguration(config);
         movingObject.CalculateMovementVariables();
+    }
+
+    private void Start()
+    {
+        leftBoundary = ViewSwitcher.Instance.transform.position.x - 7.5f;
+        rightBoundary = ViewSwitcher.Instance.transform.position.x + 7.5f;
+        topBoundary = ViewSwitcher.Instance.transform.position.y + 5.5f;
+        bottomBoundary = ViewSwitcher.Instance.transform.position.y - 6f;
+
+        inputDirection = new Vector2(-1, 1 / 3f);
     }
 
     private void Update()
@@ -32,10 +49,24 @@ public class FlyingEnemy : MonoBehaviour
 
     private void GetInput()
     {
-        if (NextActionTime > Time.time)
-            return;
+        if (transform.position.x < leftBoundary)
+        {
+            inputDirection.x = 1;
+        }
+        if (transform.position.x > rightBoundary)
+        {
+            inputDirection.x = -1;
+        }
+        if (transform.position.y > topBoundary)
+        {
+            inputDirection.y = -1/3f;
+        }
+        if (transform.position.y < bottomBoundary)
+        {
+            inputDirection.y = 1/3f;
+        }
 
-        inputDirection = new Vector2(Player.Instance.transform.position.x > transform.position.x ? 1 : -1, 0);
+        speed = Mathf.Max(0, Mathf.Clamp(Mathf.Sin(Time.time), -0.25f, 0.25f)) * 25;
     }
 
     private void UpdateAnimations()
@@ -52,15 +83,6 @@ public class FlyingEnemy : MonoBehaviour
 
     private void Move()
     {
-        if (NextActionTime > Time.time)
-            return;
-
-        NextActionTime = Time.time + 2;
-
-        movingObject.SetDirectionalInput(inputDirection);
-        if (controller.collisions.below)
-        {
-            movingObject.Jump();
-        }
+        movingObject.SetDirectionalInput(inputDirection * speed);
     }
 }

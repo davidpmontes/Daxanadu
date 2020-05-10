@@ -92,6 +92,13 @@ public class MovingObject : MonoBehaviour
 
         if (config.flyEnabled)
         {
+            velocity.x = Mathf.SmoothDamp(velocity.x,
+                              targetVelocityX,
+                              ref velocityXSmoothing,
+                              controller.collisions.below ?
+                                    config.accelerationTimeGrounded * controller.collisions.frictionFactor :
+                                    config.accelerationTimeAirborne);
+
             velocity.y = Mathf.SmoothDamp(velocity.y,
                               targetVelocityY,
                               ref velocityYSmoothing,

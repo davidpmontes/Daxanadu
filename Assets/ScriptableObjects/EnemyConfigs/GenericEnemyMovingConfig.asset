@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d17546ba8d4ec4fdc9ce42e22a8c8cfe, type: 3}
-  m_Name: FlyingEnemyMovingConfig
+  m_Name: GenericEnemyMovingConfig
   m_EditorClassIdentifier: 
-  gravityEnabled: 0
-  flyEnabled: 1
+  gravityEnabled: 1
+  flyEnabled: 0
   AirControlEnabled: 0
   maxJumpHeight: 4
   minJumpHeight: 1
