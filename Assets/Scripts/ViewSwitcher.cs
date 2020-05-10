@@ -1,10 +1,12 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class ViewSwitcher : MonoBehaviour
 {
     public static ViewSwitcher Instance { get; private set; }
     [SerializeField] private GameObject player;
 
+    [SerializeField] private SpriteRenderer blackFade;
     private Bounds bounds;
     private string state;
     private Vector2 direction;
@@ -21,6 +23,7 @@ public class ViewSwitcher : MonoBehaviour
     {
         Instance = this;
         bounds = new Bounds(transform.position, new Vector2(BOUNDS_WIDTH, BOUNDS_HEIGHT));
+        cameraFollow = true;
         state = "playing";
     }
 
@@ -74,17 +77,56 @@ public class ViewSwitcher : MonoBehaviour
                             Vector2 cameraDestination,
                             bool enableCameraFollow)
     {
-        cameraFollow = enableCameraFollow;
-        player.GetComponent<Player>().Pause();
-        transform.position = cameraDestination;
-        bounds.center = cameraDestination;
-        Player.Instance.transform.position = playerDestination;
-        player.GetComponent<Player>().Unpause();
+        StartCoroutine(TeleportCoroutine(playerDestination,
+                                         cameraDestination,
+                                         enableCameraFollow));
     }
 
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireCube(bounds.center, bounds.size);
+    }
+
+    private IEnumerator TeleportCoroutine(Vector2 playerDestination,
+                            Vector2 cameraDestination,
+                            bool enableCameraFollow)
+    {
+        player.GetComponent<Player>().Pause();
+
+        yield return FadeToBlack();
+
+        cameraFollow = enableCameraFollow;
+        transform.position = cameraDestination;
+        bounds.center = cameraDestination;
+        Player.Instance.transform.position = playerDestination;
+
+        yield return FadeToTransparent();
+
+        player.GetComponent<Player>().Unpause();
+    }
+
+    private IEnumerator FadeToBlack()
+    {
+        Color newColor = Color.black;
+        newColor.a = 0;
+        while (newColor.a < 1)
+        {
+            newColor.a += 0.2f;
+            blackFade.color = newColor;
+            yield return new WaitForSeconds(0.1f);
+        }
+    }
+
+    private IEnumerator FadeToTransparent()
+    {
+        Color newColor = Color.black;
+        newColor.a = 1;
+        while (newColor.a > 0)
+        {
+            newColor.a -= 0.2f;
+            blackFade.color = newColor;
+            yield return new WaitForSeconds(0.1f);
+        }
     }
 }

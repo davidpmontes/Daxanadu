@@ -23,6 +23,8 @@
 // 0: Images main, Words, Graphics, cursors
 // 1: Images accessories
 //
+// Sorting Layer: BlackFade
+//
 // *** FRONT ***
 
 using System.Collections;
@@ -307,11 +309,13 @@ public class Player : MonoBehaviour
     public void Pause()
     {
         enabled = false;
+        characterAnimator.OnPause();
     }
 
     public void Unpause()
     {
         enabled = true;
+        characterAnimator.OnUnpause();
     }
 
     public float GetLifePercentage()

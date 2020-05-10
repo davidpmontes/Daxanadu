@@ -24,6 +24,16 @@ public class CharacterAnimator : MonoBehaviour
         StartCoroutine(WalkingFrames());
     }
 
+    public void OnPause()
+    {
+        StopAllCoroutines();
+    }
+
+    public void OnUnpause()
+    {
+        StartCoroutine(WalkingFrames());
+    }
+
     public void OnAttack()
     {
         StopAllCoroutines();
