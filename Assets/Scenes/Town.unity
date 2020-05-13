@@ -21859,7 +21859,7 @@ SpriteRenderer:
   m_SortingLayerID: -1543923851
   m_SortingLayer: 2
   m_SortingOrder: 0
-  m_Sprite: {fileID: -2858461255669054906, guid: 6e6f089f5f3114f11b39b39e5a5d42bd,
+  m_Sprite: {fileID: -5019787323766475798, guid: 021d0d0e7cc4048a495cef8d1a9b8a49,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -24211,9 +24211,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 5
+  m_SortingLayerID: -1543923851
+  m_SortingLayer: 2
+  m_SortingOrder: 0
   m_Sprite: {fileID: 3320142419207137325, guid: 0386fd54dd5d24531a65e1c706ac5013,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -43643,19 +43643,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   walking_body:
-  - {fileID: 2215745761463138581, guid: 8f5cb7f9359564a3581b4e94ef08188a, type: 3}
-  - {fileID: 1700766857389022521, guid: 8f5cb7f9359564a3581b4e94ef08188a, type: 3}
-  - {fileID: 2457880308640484884, guid: 8f5cb7f9359564a3581b4e94ef08188a, type: 3}
-  - {fileID: -1273090703572220712, guid: 8f5cb7f9359564a3581b4e94ef08188a, type: 3}
+  - {fileID: 5524861077063659524, guid: 021d0d0e7cc4048a495cef8d1a9b8a49, type: 3}
+  - {fileID: 5284636488813755864, guid: 021d0d0e7cc4048a495cef8d1a9b8a49, type: 3}
+  - {fileID: -5019787323766475798, guid: 021d0d0e7cc4048a495cef8d1a9b8a49, type: 3}
+  - {fileID: 7758792658266409007, guid: 021d0d0e7cc4048a495cef8d1a9b8a49, type: 3}
   walking_weapon:
   - {fileID: -4307771529080215864, guid: 5b41a7f138fbd4b42b35df720a91bec8, type: 3}
   - {fileID: 313614004656477793, guid: 5b41a7f138fbd4b42b35df720a91bec8, type: 3}
   - {fileID: -4307771529080215864, guid: 5b41a7f138fbd4b42b35df720a91bec8, type: 3}
   - {fileID: 0}
   attacking_body:
-  - {fileID: -8403806705498589453, guid: 6e6f089f5f3114f11b39b39e5a5d42bd, type: 3}
-  - {fileID: -4700962206925797956, guid: 6e6f089f5f3114f11b39b39e5a5d42bd, type: 3}
-  - {fileID: -2858461255669054906, guid: 6e6f089f5f3114f11b39b39e5a5d42bd, type: 3}
+  - {fileID: -3225968970738416889, guid: 9d50721b1d2d940c1962a922cc6cdf56, type: 3}
+  - {fileID: 1752581986696764647, guid: 9d50721b1d2d940c1962a922cc6cdf56, type: 3}
+  - {fileID: 5870934962871608865, guid: 9d50721b1d2d940c1962a922cc6cdf56, type: 3}
   attacking_weapon_knife:
   - {fileID: -7674641386107673909, guid: 0386fd54dd5d24531a65e1c706ac5013, type: 3}
   - {fileID: 0}
