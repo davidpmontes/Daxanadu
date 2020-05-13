@@ -8,7 +8,8 @@ public class TextPool : MonoBehaviour
     {
         ScrollingConversation,
         ChoicePicker,
-        ItemLister
+        ItemLister,
+        LetterPicker
     };
 
     public GameObject[] prefabs;

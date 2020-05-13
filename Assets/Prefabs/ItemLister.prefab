@@ -132,6 +132,7 @@ MonoBehaviour:
   cursorStart: {fileID: 5542354634994603299}
   textUtilityStore: {fileID: 1008164756670565085}
   textUtilityLandscape: {fileID: 1434480656346026754}
+  canReceiveInput: 0
 --- !u!1 &5542354634994603299
 GameObject:
   m_ObjectHideFlags: 0
