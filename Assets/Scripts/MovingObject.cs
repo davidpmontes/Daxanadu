@@ -1,7 +1,6 @@
 ﻿using DarkTonic.MasterAudio;
 using UnityEngine;
 
-[RequireComponent(typeof(SpriteRenderer))]
 [RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(BoxCollider2D))]
 [RequireComponent(typeof(Controller2D))]
@@ -42,6 +41,7 @@ public class MovingObject : MonoBehaviour
     }
 
     public Vector2 GetDirectionalInput() => directionalInput;
+    public float GetMinJumpVelocity() => minJumpVelocity;
     public float GetMaxJumpVelocity() => maxJumpVelocity;
     public void SetDirectionalInput(Vector2 newDirectionalInput)
     {
