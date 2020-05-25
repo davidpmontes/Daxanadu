@@ -37,20 +37,20 @@ public class NPC : MonoBehaviour
 
     [SerializeField]
     [Tooltip("Waypoints that are defined relative to the platform.")]
-    private Vector2[] localWaypoints;
+    private Vector2[] localWaypoints = default;
 
     [SerializeField]
     [Tooltip("Max speed.")]
-    private float speed;
+    private float speed = default;
 
     [SerializeField]
     [Tooltip("How long the platform stays at a waypoint before moving on.")]
-    private float waitTime;
+    private float waitTime = default;
 
     [SerializeField]
     [Tooltip("Platform speeds up and slows down upon approaching next waypoint.")]
     [Range(0, 2)]
-    private float easeAmount;
+    private float easeAmount = default;
 
     private int fromWaypointIndex;
     private float percentBetweenWaypoints;

@@ -5,69 +5,69 @@ using UnityEngine;
 public class GreenSlime : MonoBehaviour
 {
     [SerializeField]
-    private bool gravityEnabled;
+    private bool gravityEnabled = default;
 
     [SerializeField]
-    private bool flyEnabled;
+    private bool flyEnabled = default;
 
     [Header("Ground Jump Settings")]
 
     [SerializeField]
     [Tooltip("Horizontal controls enabled while airborne.")]
-    private bool AirControlEnabled;
+    private bool AirControlEnabled = default;
 
     [SerializeField]
     [Tooltip("Max height possible by holding down jump button.")]
-    private float maxJumpHeight = 4;
+    private float maxJumpHeight = default;
 
     [SerializeField]
     [Tooltip("Min height possible when tapping and releasing jump button.")]
-    private float minJumpHeight = 1;
+    private float minJumpHeight = default;
 
     [SerializeField]
     [Tooltip("Time it takes to reach jump height.")]
-    private float timeToJumpApex = 0.4f;
+    private float timeToJumpApex = default;
 
     [SerializeField]
     [Tooltip("Movement acceleration when airborne.")]
-    float accelerationTimeAirborne = .2f;
+    float accelerationTimeAirborne = default;
 
     [Header("Grounded Settings")]
     [SerializeField]
     [Tooltip("Movement acceleration when grounded.")]
-    private float accelerationTimeGrounded = .1f;
+    private float accelerationTimeGrounded = default;
 
     [SerializeField]
     [Tooltip("Maximum movement speed on the ground.")]
-    private float moveSpeed = 6;
+    private float moveSpeed = default;
 
     [Header("Wall jumps enabled.")]
     [SerializeField]
-    private bool wallJumpsEnabled;
+    private bool wallJumpsEnabled = default;
 
     [SerializeField]
     [Tooltip("Initial velocity vector when against a wall, " +
         "you are pressing toward the wall, and you jump.")]
-    private Vector2 wallJumpClimb = new Vector2(7.5f, 16f);
+    private Vector2 wallJumpClimb = default;
 
     [SerializeField]
     [Tooltip("Initial velocity vector when against a wall, " +
     "you are not pressing a direction, and you jump.")]
-    private Vector2 wallJumpOff = new Vector2(8.5f, 7f);
+    private Vector2 wallJumpOff = default;
 
     [SerializeField]
     [Tooltip("Initial velocity vector when against a wall, " +
         "you are pressing away from the wall, and you jump.")]
-    private Vector2 wallLeap = new Vector2(18, 17);
+    private Vector2 wallLeap = default;
 
     [SerializeField]
     [Tooltip("How fast you slide down a wall.")]
-    private float wallSlideSpeedMax = 3;
+    private float wallSlideSpeedMax = default;
 
     [SerializeField]
     [Tooltip("How long you remain attached to a wall when " +
         "trying to move away.")]
-    private float wallStickTime = 0.25f;
+    private float wallStickTime = default;
 
     private Controller2D controller;
     public SpriteRenderer spriteRenderer;

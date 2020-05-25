@@ -4,14 +4,14 @@ using UnityEngine.Events;
 
 public class CharacterAnimator : MonoBehaviour
 {
-    [SerializeField] private Sprite[] walking_body;
-    [SerializeField] private Sprite[] walking_weapon;
+    [SerializeField] private Sprite[] walking_body = default;
+    [SerializeField] private Sprite[] walking_weapon = default;
 
-    [SerializeField] private Sprite[] attacking_body;
-    [SerializeField] private Sprite[] attacking_weapon_knife;
+    [SerializeField] private Sprite[] attacking_body = default;
+    [SerializeField] private Sprite[] attacking_weapon_knife = default;
 
-    [SerializeField] private SpriteRenderer body;
-    [SerializeField] private SpriteRenderer weapon;
+    [SerializeField] private SpriteRenderer body = default;
+    [SerializeField] private SpriteRenderer weapon = default;
 
     private float frameRateWalking = 0.2f;
     private float frameRateAttacking = 0.1f;

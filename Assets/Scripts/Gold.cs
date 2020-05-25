@@ -5,8 +5,8 @@ public class Gold : MonoBehaviour
 {
     public static Gold Instance { get; private set; }
     // 43210
-    [SerializeField] private SpriteRenderer[] digits;
-    [SerializeField] private Sprite[] _0To9;
+    [SerializeField] private SpriteRenderer[] digits = default;
+    [SerializeField] private Sprite[] _0To9 = default;
 
     private int visibleGoldCount = 0;
     private int actualGoldCount = 0;

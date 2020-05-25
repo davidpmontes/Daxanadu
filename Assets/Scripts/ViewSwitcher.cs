@@ -4,9 +4,9 @@ using UnityEngine;
 public class ViewSwitcher : MonoBehaviour
 {
     public static ViewSwitcher Instance { get; private set; }
-    [SerializeField] private GameObject player;
+    [SerializeField] private GameObject player = default;
 
-    [SerializeField] private SpriteRenderer blackFade;
+    [SerializeField] private SpriteRenderer blackFade = default;
     private Bounds bounds;
     private string state;
     private Vector2 direction;

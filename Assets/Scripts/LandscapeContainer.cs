@@ -4,12 +4,12 @@ public class LandscapeContainer : MonoBehaviour
 {
     public static LandscapeContainer Instance { get; private set; }
 
-    [SerializeField] private GameObject frame;
-    [SerializeField] private GameObject cursorStartPosition;
-    [SerializeField] private GameObject caretNextPosition;
-    [SerializeField] private GameObject caretFinishPosition;
-    [SerializeField] private GameObject choiceAPosition;
-    [SerializeField] private GameObject choiceBPosition;
+    [SerializeField] private GameObject frame = default;
+    [SerializeField] private GameObject cursorStartPosition = default;
+    [SerializeField] private GameObject caretNextPosition = default;
+    [SerializeField] private GameObject caretFinishPosition = default;
+    [SerializeField] private GameObject choiceAPosition = default;
+    [SerializeField] private GameObject choiceBPosition = default;
 
     private void Awake()
     {

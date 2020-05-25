@@ -2,7 +2,7 @@
 
 public class Lifebar : MonoBehaviour
 {
-    [SerializeField] private GameObject greenBar;
+    [SerializeField] private GameObject greenBar = default;
 
     public void SetLifebarToPlayer()
     {

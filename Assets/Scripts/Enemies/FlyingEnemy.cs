@@ -3,8 +3,7 @@
 [RequireComponent(typeof(MovingObject))]
 public class FlyingEnemy : MonoBehaviour
 {
-    [SerializeField]
-    private MovingObjectConfig config;
+    [SerializeField] private MovingObjectConfig config = default;
 
     private float NextActionTime;
     private MovingObject movingObject;

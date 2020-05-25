@@ -4,8 +4,8 @@ public class StoreContainer : MonoBehaviour
 {
     public static StoreContainer Instance { get; private set; }
 
-    [SerializeField] private GameObject frame;
-    [SerializeField] private GameObject caretStartPosition;
+    [SerializeField] private GameObject frame = default;
+    [SerializeField] private GameObject caretStartPosition = default;
 
     public Vector2 GetCaretStartPosition() => caretStartPosition.transform.position;
 

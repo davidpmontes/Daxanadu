@@ -2,11 +2,11 @@
 
 public class ChoicePicker : MonoBehaviour
 {
-    [SerializeField] private GameObject caret;
-    [SerializeField] private GameObject choiceAPosition;
-    [SerializeField] private GameObject choiceBPosition;
+    [SerializeField] private GameObject caret = default;
+    [SerializeField] private GameObject choiceAPosition = default;
+    [SerializeField] private GameObject choiceBPosition = default;
 
-    [SerializeField] private TextUtility textUtility;
+    [SerializeField] private TextUtility textUtility = default;
 
     public delegate void ChoicePickerHandler();
     public event ChoicePickerHandler canceled;

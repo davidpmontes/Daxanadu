@@ -3,10 +3,10 @@ using UnityEngine;
 
 public class ItemLister : MonoBehaviour
 {
-    [SerializeField] private GameObject cursor;
-    [SerializeField] private GameObject cursorStart;
-    [SerializeField] private TextUtility textUtilityStore;
-    [SerializeField] private TextUtility textUtilityLandscape;
+    [SerializeField] private GameObject cursor = default;
+    [SerializeField] private GameObject cursorStart = default;
+    [SerializeField] private TextUtility textUtilityStore = default;
+    [SerializeField] private TextUtility textUtilityLandscape = default;
 
     private bool started;
 

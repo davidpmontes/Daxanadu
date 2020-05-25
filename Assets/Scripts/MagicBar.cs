@@ -2,7 +2,7 @@
 
 public class MagicBar : MonoBehaviour
 {
-    [SerializeField] private GameObject redBar;
+    [SerializeField] private GameObject redBar = default;
 
     public void SetMagicBarToPlayer()
     {

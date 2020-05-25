@@ -8,13 +8,13 @@ public class Conversation : MonoBehaviour
         NORMAL, NEXT, FINISH
     }
 
-    [SerializeField] private GameObject cursor;
-    [SerializeField] private GameObject cursorStart;
-    [SerializeField] private GameObject scrollingBackground;
-    [SerializeField] private GameObject caretFinished;
-    [SerializeField] private GameObject caretNext;
+    [SerializeField] private GameObject cursor = default;
+    [SerializeField] private GameObject cursorStart = default;
+    [SerializeField] private GameObject scrollingBackground = default;
+    [SerializeField] private GameObject caretFinished = default;
+    [SerializeField] private GameObject caretNext = default;
 
-    [SerializeField] private TextUtility textUtility;
+    [SerializeField] private TextUtility textUtility = default;
 
     private IEnumerator caretBlinkCoroutine;
     private STATES state;

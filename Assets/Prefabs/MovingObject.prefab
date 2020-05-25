@@ -15,9 +15,7 @@ GameObject:
   - component: {fileID: 2151132620803973993}
   - component: {fileID: 6823593163601537536}
   - component: {fileID: 2272202536231328088}
-  - component: {fileID: 8825325632823487234}
-  - component: {fileID: 4106315360041910447}
-  m_Layer: 11
+  m_Layer: 0
   m_Name: MovingObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -31,8 +29,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3453468776910159703}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 7.67, y: -0.71, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -74,7 +72,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -1543923851
+  m_SortingLayerID: 606350985
   m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300084, guid: 1dbca277352d7e7438b1f9ba168025cc, type: 3}
@@ -85,7 +83,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!95 &781866887042018623
@@ -187,132 +185,3 @@ MonoBehaviour:
   verticalRaySpacing: 0
   boxCollider2D: {fileID: 0}
   maxSlopeAngle: 80
---- !u!114 &8825325632823487234
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3453468776910159703}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 46a5439935a194edc8ce332e46b04f05, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  walking_body:
-  - {fileID: 5524861077063659524, guid: 021d0d0e7cc4048a495cef8d1a9b8a49, type: 3}
-  - {fileID: 5284636488813755864, guid: 021d0d0e7cc4048a495cef8d1a9b8a49, type: 3}
-  - {fileID: -5019787323766475798, guid: 021d0d0e7cc4048a495cef8d1a9b8a49, type: 3}
-  - {fileID: 7758792658266409007, guid: 021d0d0e7cc4048a495cef8d1a9b8a49, type: 3}
-  walking_weapon:
-  - {fileID: -4307771529080215864, guid: 5b41a7f138fbd4b42b35df720a91bec8, type: 3}
-  - {fileID: 313614004656477793, guid: 5b41a7f138fbd4b42b35df720a91bec8, type: 3}
-  - {fileID: -4307771529080215864, guid: 5b41a7f138fbd4b42b35df720a91bec8, type: 3}
-  - {fileID: 0}
-  attacking_body:
-  - {fileID: -3225968970738416889, guid: 9d50721b1d2d940c1962a922cc6cdf56, type: 3}
-  - {fileID: 1752581986696764647, guid: 9d50721b1d2d940c1962a922cc6cdf56, type: 3}
-  - {fileID: 5870934962871608865, guid: 9d50721b1d2d940c1962a922cc6cdf56, type: 3}
-  attacking_weapon_knife:
-  - {fileID: -7674641386107673909, guid: 0386fd54dd5d24531a65e1c706ac5013, type: 3}
-  - {fileID: 0}
-  - {fileID: 3320142419207137325, guid: 0386fd54dd5d24531a65e1c706ac5013, type: 3}
-  body: {fileID: 0}
-  weapon: {fileID: 0}
-  OnAttackStartFrame:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
-  OnAttackEndFrame:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &4106315360041910447
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3453468776910159703}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ede0b568399fc487b89cec0b3242a071, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  config: {fileID: 11400000, guid: 284010b78e30e4fe68db9bea4aa65a6b, type: 2}
-  damageSound: 
-  magicSound: 
-  Weapon: {fileID: 0}
-  OnAttackEvent:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 8825325632823487234}
-        m_MethodName: OnAttack
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  OnDamageReceiveEvent:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: SetLifebarToPlayer
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  OnMagicUsedEvent:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: SetMagicBarToPlayer
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_MethodName: OnMagicStart
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2

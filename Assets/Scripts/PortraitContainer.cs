@@ -5,7 +5,7 @@ public class PortraitContainer : MonoBehaviour
 {
     public static PortraitContainer Instance { get; private set; }
 
-    [SerializeField] private GameObject frame;
+    [SerializeField] private GameObject frame = default;
 
     private void Awake()
     {

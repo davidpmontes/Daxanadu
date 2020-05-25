@@ -39,13 +39,13 @@ public class Player : MonoBehaviour
     public static Player Instance { get; private set; }
 
     [SerializeField]
-    private MovingObjectConfig config;
+    private MovingObjectConfig config = default;
 
     [SoundGroupAttribute] public string damageSound;
     [SoundGroupAttribute] public string magicSound;
 
     [SerializeField]
-    private GameObject Weapon;
+    private GameObject Weapon = default;
 
     private MovingObject movingObject;
 

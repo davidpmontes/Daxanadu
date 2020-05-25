@@ -4,7 +4,7 @@
 public class BouncingEnemy : MonoBehaviour
 {
     [SerializeField]
-    private MovingObjectConfig config;
+    private MovingObjectConfig config = default;
 
     private float NextActionTime;
     private MovingObject movingObject;

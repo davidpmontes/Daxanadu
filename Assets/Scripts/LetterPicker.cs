@@ -2,8 +2,8 @@
 
 public class LetterPicker : MonoBehaviour
 {
-    [SerializeField] private GameObject cursor;
-    [SerializeField] private TextUtility textUtilityAlphabet;
+    [SerializeField] private GameObject cursor = default;
+    [SerializeField] private TextUtility textUtilityAlphabet = default;
 
     private bool started;
 
@@ -13,7 +13,7 @@ public class LetterPicker : MonoBehaviour
 
     private bool enforcedActionB_Released;
     private bool enforcedActionA_Released;
-    private int itemIdx;
+    private readonly int itemIdx = 0;
     public bool canReceiveInput;
 
     private void Update()

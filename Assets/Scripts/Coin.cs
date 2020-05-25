@@ -5,7 +5,7 @@ using System.Collections;
 public class Coin : MonoBehaviour
 {
     [SoundGroupAttribute] public string coinSound;
-    [SerializeField] private Animator animator;
+    [SerializeField] private Animator animator = default;
     public LayerMask collisionMask;
 
     public void Initialize(Vector3 position)

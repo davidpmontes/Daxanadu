@@ -2,14 +2,14 @@
 
 public class Skulls : MonoBehaviour
 {
-    [SerializeField] private GameObject skullA;
-    [SerializeField] private GameObject skullB;
-    [SerializeField] private GameObject skullC;
+    [SerializeField] private GameObject skullA = default;
+    [SerializeField] private GameObject skullB = default;
+    [SerializeField] private GameObject skullC = default;
 
-    [SerializeField] private GameObject rotationObj;
-    [SerializeField] private GameObject pointA;
-    [SerializeField] private GameObject pointB;
-    [SerializeField] private GameObject pointC;
+    [SerializeField] private GameObject rotationObj = default;
+    [SerializeField] private GameObject pointA = default;
+    [SerializeField] private GameObject pointB = default;
+    [SerializeField] private GameObject pointC = default;
 
     private float rotationSpeed = 120;
     private float oscillationRate = 2;

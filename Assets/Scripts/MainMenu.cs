@@ -3,7 +3,7 @@
 public class MainMenu : MonoBehaviour
 {
     private GameObject letterPickerInstance;
-    [SerializeField] private GameObject cursorStartPosition;
+    [SerializeField] private GameObject cursorStartPosition = default;
 
     void Start()
     {

@@ -91,7 +91,17 @@ PrefabInstance:
     - target: {fileID: 3453468776910159703, guid: f3be8ed7cc0e5430db6aca9a88697c35,
         type: 3}
       propertyPath: m_Name
-      value: FlyingEnemy_MovingObject Variant
+      value: BouncingEnemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 3893775758416896701, guid: f3be8ed7cc0e5430db6aca9a88697c35,
+        type: 3}
+      propertyPath: m_SortingLayerID
+      value: 606350985
+      objectReference: {fileID: 0}
+    - target: {fileID: 3893775758416896701, guid: f3be8ed7cc0e5430db6aca9a88697c35,
+        type: 3}
+      propertyPath: m_SortingLayer
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f3be8ed7cc0e5430db6aca9a88697c35, type: 3}

@@ -6,8 +6,7 @@ using UnityEngine;
 [RequireComponent(typeof(SpriteRenderer))]
 public class EnemyDamage : MonoBehaviour
 {
-    [SerializeField]
-    private EnemyDamageConfig config;
+    [SerializeField] private EnemyDamageConfig config = default;
     private SpriteRenderer spriteRenderer;
 
     private Shader shaderGUItext;
